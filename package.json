@@ -9,10 +9,13 @@
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
     "axios": "^0.19.2",
+    "booklet-react-component": "^0.1.1",
     "jquery": "1.12.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-flip-page": "^1.6.0",
+    "react-images-upload": "^1.2.8",
+    "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
     "react-slick": "^0.25.2",
     "slick-carousel": "^1.8.1",
@@ -39,5 +42,5 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "https://europe-west1-socialapp-26d79.cloudfunctions.net/api"
+  "proxy": "https://us-central1-editor-c70eb.cloudfunctions.net/api"
 }

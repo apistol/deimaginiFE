@@ -1,9 +1,31 @@
-.actionButton {background-color:#e14013;}
+@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+
+* {
+  font-family: "Roboto", sans-serif;
+}
+p {
+  margin-bottom: 0px;
+}
+
+.actionButton {
+  background-color: #e14013;
+}
 /* style={{backgroundColor:"#e14013" , color:"#FFF"}} */
 
 .MuiStepIcon-root.MuiStepIcon-completed,
-.MuiStepIcon-root.MuiStepIcon-active{color:#e14013!important;}
+.MuiStepIcon-root.MuiStepIcon-active {
+  color: #e14013 !important;
+}
 
-
-#transparentBackground{background:#f9c9bb!important;}
-
+#transparentBackground {
+  background: #f9c9bb !important;
+}
+.menuCard {
+  transition: all 0.5s;
+}
+.menuCard:hover {
+  background: rgba(225, 64, 19, 0.1);
+  -webkit-box-shadow: 0px 0px 12px 0px rgba(225, 64, 19, 1);
+  -moz-box-shadow: 0px 0px 12px 0px rgba(225, 64, 19, 1);
+  box-shadow: 0px 0px 12px 0px rgba(225, 64, 19, 1);
+}

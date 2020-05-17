@@ -1,49 +1,58 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Stepper from '@material-ui/core/Stepper';
-import Step from '@material-ui/core/Step';
-import StepLabel from '@material-ui/core/StepLabel';
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
-import Container from '@material-ui/core/Container';
-
+import React from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import Stepper from "@material-ui/core/Stepper";
+import Step from "@material-ui/core/Step";
+import StepLabel from "@material-ui/core/StepLabel";
+import Button from "@material-ui/core/Button";
+import Typography from "@material-ui/core/Typography";
+import Container from "@material-ui/core/Container";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    width: '100%',
+    width: "100%",
   },
   button: {
     marginRight: theme.spacing(1),
-    backgroundColor:"#e14013",
-    color:"#FFFFFF"
+    backgroundColor: "#e14013",
+    color: "#FFFFFF",
   },
   instructions: {
     marginTop: theme.spacing(1),
     marginBottom: theme.spacing(1),
-    
   },
 }));
 
 function getSteps() {
-  return ['Update sau creare produs', 'Alege modelul', 'Alege tematica', 'Export'];
+  return [
+    "Update sau creare produs",
+    "Alege modelul",
+    "Alege tematica",
+    "Export",
+  ];
 }
 
 function getStepContent(step) {
   switch (step) {
     case 0:
-      return 'Selecteaza obiectul de imprimare sau creeaza unul nou';
+      return "Selecteaza obiectul de imprimare sau creeaza unul nou";
     case 1:
-      return 'Alege modelul';
+      return "Alege modelul";
     case 2:
-      return 'Alege tematica';
+      return "Alege tematica";
     case 3:
-      return 'Export';
+      return "Export";
     default:
-      return 'Pas necunoscut';
+      return "Pas necunoscut";
   }
 }
 
-export default function HorizontalLinearStepper({selectedItem , handleStepperDecrement , handleStepperIncrement , stepperStep , stepperProgress}) {
+export default function HorizontalLinearStepper({
+  selectedItem,
+  handleStepperDecrement,
+  handleStepperIncrement,
+  stepperStep,
+  stepperProgress,
+}) {
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped] = React.useState(new Set());
@@ -94,66 +103,73 @@ export default function HorizontalLinearStepper({selectedItem , handleStepperDec
   };
 
   return (
-    <Container>
-    <div className={classes.root}>
-      <Stepper activeStep={activeStep}>
-        {steps.map((label, index) => {
-          const stepProps = {};
-          const labelProps = {};
-          if (isStepOptional(index)) {
-            labelProps.optional = <Typography variant="caption">Optional</Typography>;
-          }
-          if (isStepSkipped(index)) {
-            stepProps.completed = false;
-          }
-          return (
-            <Step key={label} {...stepProps}>
-              <StepLabel {...labelProps}>{label}</StepLabel>
-            </Step>
-          );
-        })}
-      </Stepper>
-      <div>
-        {activeStep === steps.length ? (
-          <div>
-            <Typography className={classes.instructions}>
-              Te poti bucura de obiectul tau personalizat dupa ce il vom livra
-            </Typography>
-            <Button onClick={handleReset} className={classes.button}>
-              Reset
-            </Button>
-          </div>
-        ) : (
-          <div>
-            <Typography className={classes.instructions}>{getStepContent(activeStep)}</Typography>
+    <Container style={{ marginBottom: "10px" }}>
+      <div className={classes.root}>
+        <Stepper activeStep={activeStep}>
+          {steps.map((label, index) => {
+            const stepProps = {};
+            const labelProps = {};
+            if (isStepOptional(index)) {
+              labelProps.optional = (
+                <Typography variant="caption">Optional</Typography>
+              );
+            }
+            if (isStepSkipped(index)) {
+              stepProps.completed = false;
+            }
+            return (
+              <Step key={label} {...stepProps}>
+                <StepLabel {...labelProps}>{label}</StepLabel>
+              </Step>
+            );
+          })}
+        </Stepper>
+        <div>
+          {activeStep === steps.length ? (
             <div>
-              <Button disabled={activeStep === 0} onClick={handleBack} className={classes.button}>
-                Anterior
-              </Button>
-              {isStepOptional(activeStep) && (
-                <Button
-                  variant="contained"
-                  onClick={handleSkip}
-                  className={classes.button}
-                >
-                  Skip
-                </Button>
-              )}
-
-              <Button
-                variant="contained"
-                onClick={handleNext}
-                className={classes.button}
-                disabled={ (stepperStep === stepperProgress) ? true : false  }
-              >
-
-                {activeStep === steps.length - 1 ? 'Final' : 'Urmatorul'}
+              <Typography className={classes.instructions}>
+                Te poti bucura de obiectul tau personalizat dupa ce il vom livra
+              </Typography>
+              <Button onClick={handleReset} className={classes.button}>
+                Reset
               </Button>
             </div>
-          </div>
-        )}
+          ) : (
+            <div>
+              <Typography className={classes.instructions}>
+                {getStepContent(activeStep)}
+              </Typography>
+              <div>
+                <Button
+                  disabled={activeStep === 0}
+                  onClick={handleBack}
+                  className={classes.button}
+                >
+                  Anterior
+                </Button>
+                {isStepOptional(activeStep) && (
+                  <Button
+                    variant="contained"
+                    onClick={handleSkip}
+                    className={classes.button}
+                  >
+                    Skip
+                  </Button>
+                )}
+
+                <Button
+                  variant="contained"
+                  onClick={handleNext}
+                  className={classes.button}
+                  disabled={stepperStep === stepperProgress ? true : false}
+                >
+                  {activeStep === steps.length - 1 ? "Final" : "Urmatorul"}
+                </Button>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
-    </div>
     </Container>
   );
 }
