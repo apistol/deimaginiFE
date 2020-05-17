@@ -8,8 +8,6 @@ import Paper from "@material-ui/core/Paper";
 import Container from "@material-ui/core/Container";
 import {
   BrowserRouter as Router,
-  Switch,
-  Route,
   Link
 } from "react-router-dom";
 
@@ -34,32 +32,32 @@ class CardMenu extends Component {
         <Grid container className="cardMenu" spacing={2}>
           <Grid item xs={12} md={3}>
             <Link to="/">
-              <Paper style={card} class="menuCard">
-                <img src={m1} style={image} alt="Menu image" />
+              <Paper style={card} className="menuCard">
+                <img src={m1} style={image} alt="creeaza proiect" />
                 <h3 style={textCenter}>Creeaza proiect</h3>
               </Paper>
             </Link>
           </Grid>
           <Grid item xs={12} md={3}>
             <Link to="/creeazaLayout">
-              <Paper style={card} class="menuCard">
-                <img src={m2} style={image} alt="Menu image" />
+              <Paper style={card} className="menuCard">
+                <img src={m2} style={image} alt="creeaza layout" />
                 <h3 style={textCenter}>Creeaza layout</h3>
               </Paper>
             </Link>
           </Grid>
           <Grid item xs={12} md={3}>
             <Link to="/creeazaTematica">
-              <Paper style={card} class="menuCard">
-                <img src={m3} style={image} alt="Menu image" />
+              <Paper style={card} className="menuCard">
+                <img src={m3} style={image} alt="creeaza tematica" />
                 <h3 style={textCenter}>Creeaza tematica</h3>
               </Paper>
             </Link>
           </Grid>
           <Grid item xs={12} md={3}>
             <Link to="/creeazaProdusComplet">
-              <Paper style={card} class="menuCard">
-                <img src={m4} style={image} alt="Menu image" />
+              <Paper style={card} className="menuCard">
+                <img src={m4} style={image} alt="creeaza produs" />
                 <h3 style={textCenter}>Produs complet</h3>
               </Paper >
             </Link>

@@ -4,13 +4,9 @@ import TextField from "@material-ui/core/TextField";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import FormControl from "@material-ui/core/FormControl";
-import ImageUploader from 'react-images-upload';
 import Switch from "@material-ui/core/Switch";
-
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-
 import DropDown from "./lowLeveComponents/DropDown";
 
 class NewLayout extends React.Component {

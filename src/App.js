@@ -2,8 +2,7 @@ import React, { Component } from "react";
 import {
   BrowserRouter as Router,
   Switch,
-  Route,
-  Link
+  Route
 } from "react-router-dom";
 import axios from "axios";
 import "./App.css";
@@ -22,69 +21,68 @@ import LayoutCreator from "./components/LayoutCreator";
 import ThemeCreator from "./components/ThemeCreator";
 import ProjectSelector from "./components/ProjectSelector";
 
-
-
-
 class App extends Component {
   state = {
     models: [],
     selectedModel: "",
     newProject: "",
+    returnedProject: ""
   };
-  getModels = () => {
+  getProjects = () => {
     axios
-      .get("/model")
+      .get("/project")
       .then((res) => {
-        console.log(res.data);
         this.setState({
           models: res.data,
         });
       })
       .catch((err) => console.log(err));
   };
-  postModel = (newProject) => {
-    console.log(newProject);
+  postProject = async (newProject) => {
     axios
-      .post("/model", newProject)
+      .post("/project", newProject)
       .then((res) => {
-        this.setState({ newProject });
+        this.setState({ returnedProject: res.data }, this.addImageToProject, this.state.returnedProject, this.state.newProject);
       })
       .catch((err) => console.log(err));
+
+    newProject.picture !== null && this.addImageToProject()
+    this.getProjects();
   };
-  componentDidMount() {
-    this.getModels();
+  addImageToProject = () => {
+    if (this.state.returnedProject.id !== "") {
+      const fd = new FormData();
+      fd.append('image', this.state.newProject.picture, this.state.newProject.picture.name);
+      const url = `/project/${this.state.returnedProject.id}/image`
+      axios.post(url, fd)
+        .then(res => {
+          console.log("Upload succes for image")
+        })
+        .catch((err) => console.log(err))
+    }
   }
+
+  componentDidMount() {
+    this.getProjects();
+  }
+
   productChecked = (checkedModelId) => {
     this.state.models.map((model) => {
       if (model.modelId === checkedModelId)
-        this.setState({ selectedModel: model, stepperStep: 1 });
+        this.setState({ selectedModel: model });
     });
   };
-  modelChecked = (value) => {
-    this.setState({
-      stepperStep: 2,
-    });
-  };
-  handleStepperIncrement = () => {
-    this.setState((prevState) => {
-      return { stepperProgress: prevState.stepperProgress + 1 };
-    });
-  };
-  handleStepperDecrement = () => {
-    this.setState((prevState) => {
-      return { stepperProgress: prevState.stepperProgress - 1 };
-    });
-  };
+
+
   handleCreateNewProject = (newProject) => {
     this.setState({
       ...this.state,
-      newProject,
-      stepperStep: 1,
+      newProject
     });
   };
   updateProject = () => {
-    this.postModel(this.state.newProject);
-    this.getModels();
+    this.postProject(this.state.newProject);
+    this.getProjects();
   };
 
   render() {

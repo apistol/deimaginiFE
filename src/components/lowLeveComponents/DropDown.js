@@ -15,20 +15,22 @@ const useStyles = makeStyles((theme) => ({
 export default function SimpleSelect({
   label,
   value,
+  name,
   options,
   handleChangeDropdown,
 }) {
   const classes = useStyles();
 
   return (
-    <div>
+    < div >
       <FormControl className={classes.formControl}>
-        <InputLabel id="tipHartie">{label}</InputLabel>
+        <InputLabel id={value}>{label}</InputLabel>
         <Select
-          labelId="tipHartie"
-          id="tipHartie"
+          labelId={name}
+          id={name}
+          name={name}
           value={value}
-          onClick={(event) => handleChangeDropdown(event.target.value)}
+          onClick={(event) => handleChangeDropdown(event)}
         >
           {options.map((option) => {
             return (
@@ -39,6 +41,6 @@ export default function SimpleSelect({
           })}
         </Select>
       </FormControl>
-    </div>
+    </div >
   );
 }

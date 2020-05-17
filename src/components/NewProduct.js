@@ -1,11 +1,7 @@
 import React from "react";
 import Button from "@material-ui/core/Button";
-import TextField from "@material-ui/core/TextField";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
-import FormControl from "@material-ui/core/FormControl";
-import ImageUploader from 'react-images-upload';
-import Switch from "@material-ui/core/Switch";
 
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -16,8 +12,6 @@ import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-
-import DropDown from "./lowLeveComponents/DropDown";
 
 
 import cover1 from "../assets/covers/Cover (1).png";
@@ -202,8 +196,7 @@ class NewTheme extends React.Component {
                 >
                     Salveaza produs
                 </Button>
-                <br />
-                <br />
+
                 <Grid container spacing={3}>
                     <Grid item xs={12}>
 

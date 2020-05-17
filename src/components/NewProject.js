@@ -13,6 +13,7 @@ import DropDown from "./lowLeveComponents/DropDown";
 
 class NewProject extends React.Component {
   state = {
+    id: "",
     name: "",
     pages: 0,
     checkedHasCover: false,
@@ -26,25 +27,31 @@ class NewProject extends React.Component {
     pretEuro: "",
     discount: "",
     tipProiect: "",
-    imagePath: ""
+    picture: null
   };
 
   componentDidMount() {
-    console.log("stepper");
-    console.log(this.props.stepperProgress);
+
   }
 
   handleTextUpdate = (event) => {
     this.setState({ ...this.state, [event.target.name]: event.target.value });
   };
 
-  handleChangeHasCover = (event) => {
+  handleChangeCheck = (event) => {
     this.setState({ ...this.state, [event.target.name]: event.target.checked });
   };
 
-  handleChangeDropdown = (event) => {
-    this.setState({ tipHartie: event });
+  handleChangeDropdown = (value) => {
+    this.setState({ ...this.state, [value.target.name]: value.target.value });
   };
+
+  onDrop = (event) => {
+    this.setState({
+      picture: event[0]
+    });
+  }
+
   render() {
     return (
       <Container
@@ -101,9 +108,9 @@ class NewProject extends React.Component {
 
             <DropDown
               options={["Album", "Calendar", "Carte", "Cadou", "Wall art", "Decor"]}
-              value={this.state.layoutC1C4}
+              value={this.state.tipProiect}
               label="Tip proiect"
-              name="layoutC1C4"
+              name="tipProiect"
               handleChangeDropdown={this.handleChangeDropdown}
             />
 
@@ -134,7 +141,7 @@ class NewProject extends React.Component {
                   control={
                     <Switch
                       checked={this.state.checkedHasCover}
-                      onChange={this.handleChangeHasCover}
+                      onChange={this.handleChangeCheck}
                       name="checkedHasCover"
                       color="primary"
                     />

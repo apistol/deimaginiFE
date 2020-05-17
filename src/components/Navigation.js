@@ -1,10 +1,8 @@
 import React from "react";
 import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
 import Container from "@material-ui/core/Container";
 import logo from "../assets/logo.svg";
-import OpenMenu from "./navigationComponents/OpenMenu";
 
 class Navigation extends React.Component {
   render() {
@@ -20,7 +18,7 @@ class Navigation extends React.Component {
             justify="center"
             alignItems="center"
           >
-            <img src={logo} />
+            <img src={logo} alt="Logo editor deImagini" />
             <Divider />
             <p>
               {this.props.projectName !== ""
@@ -29,7 +27,7 @@ class Navigation extends React.Component {
             </p>
           </Grid>
           <Grid item xs={4} container justify="flex-end" alignItems="center">
-            {/* <OpenMenu /> */}
+
           </Grid>
         </Grid>
       </Container>
