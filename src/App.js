@@ -17,7 +17,6 @@ import NewProject from "./components/NewProject";
 import NewTheme from "./components/NewTheme";
 import NewLayout from "./components/NewLayout";
 import NewProduct from "./components/NewProduct";
-import LayoutCreator from "./components/LayoutCreator";
 import ThemeCreator from "./components/ThemeCreator";
 import ProjectSelector from "./components/ProjectSelector";
 
@@ -26,7 +25,27 @@ class App extends Component {
     models: [],
     selectedModel: "",
     newProject: "",
-    returnedProject: ""
+    returnedProject: "",
+    newLayout: ""
+
+  };
+
+
+  componentDidMount() {
+    this.getProjects();
+  }
+
+  //////////////////////  GET  ////////////////////////////
+
+  getProjects = () => {
+    axios
+      .get("/project")
+      .then((res) => {
+        this.setState({
+          models: res.data,
+        });
+      })
+      .catch((err) => console.log(err));
   };
   getProjects = () => {
     axios
@@ -38,6 +57,15 @@ class App extends Component {
       })
       .catch((err) => console.log(err));
   };
+
+
+
+
+
+
+
+  //////////////////////  POST  ////////////////////////////
+
   postProject = async (newProject) => {
     axios
       .post("/project", newProject)
@@ -62,17 +90,10 @@ class App extends Component {
     }
   }
 
-  componentDidMount() {
-    this.getProjects();
-  }
 
-  productChecked = (checkedModelId) => {
-    this.state.models.map((model) => {
-      if (model.modelId === checkedModelId)
-        this.setState({ selectedModel: model });
-    });
-  };
 
+
+  //////////////////////  HANDLERS  ////////////////////////////
 
   handleCreateNewProject = (newProject) => {
     this.setState({
@@ -80,10 +101,26 @@ class App extends Component {
       newProject
     });
   };
+  handleCreateNewLayout = (newLayout) => {
+    this.setState({
+      ...this.state,
+      newLayout
+    });
+  };
+
+
+
   updateProject = () => {
     this.postProject(this.state.newProject);
     this.getProjects();
   };
+  updateLayout = () => {
+    this.postLayout(this.state.newLayout);
+    this.getLayouts();
+  };
+
+
+
 
   render() {
     return (
@@ -96,24 +133,30 @@ class App extends Component {
 
           <Switch>
 
+
+
+
             <Route exact path="/">
               <NewProject
                 handleCreateNewProject={this.handleCreateNewProject}
-                updateProject={this.updateProject}
-                projectName={this.state.projectName}
-                selectedModel={this.state.selectedModel} />
+                updateProject={this.updateProject} />
               <ProjectSelector
-                stepperProgress={this.state.stepperProgress}
-                productChecked={this.productChecked}
-                selectedModel={this.state.selectedModel}
                 models={this.state.models} />
             </Route>
 
+
+
+
+
             <Route exact path="/creeazaLayout">
-              <NewLayout />
-              <LayoutCreator
-                selectedModel={this.state.selectedModel} />
+              <NewLayout
+                handleCreateNewLayout={this.handleCreateNewLayout}
+                updateLayout={this.updateLayout} />
             </Route>
+
+
+
+
 
             <Route exact path="/creeazaTematica">
               <NewTheme />

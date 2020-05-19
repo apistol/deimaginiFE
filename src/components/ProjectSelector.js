@@ -62,8 +62,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function SimpleTabs({
-  productChecked,
-  selectedModel,
   models
 }) {
   const classes = useStyles();
@@ -113,15 +111,6 @@ export default function SimpleTabs({
                     item
                     key={Math.round(Math.random() * 1000)}
                     className={classes.cardShadow}
-                    onClick={() => productChecked(model.modelId)}
-                    style={{
-                      background:
-                        selectedModel !== ""
-                          ? selectedModel.modelId === model.modelId
-                            ? "#ff896e"
-                            : "inherit"
-                          : "inherit",
-                    }}
                   >
                     <Grid item xs={4}>
                       <img
