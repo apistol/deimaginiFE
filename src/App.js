@@ -26,13 +26,14 @@ class App extends Component {
     selectedModel: "",
     newProject: "",
     returnedProject: "",
-    newLayout: ""
-
+    newLayout: "",
+    layouts: []
   };
 
 
   componentDidMount() {
     this.getProjects();
+    this.getLayouts();
   }
 
   //////////////////////  GET  ////////////////////////////
@@ -47,12 +48,12 @@ class App extends Component {
       })
       .catch((err) => console.log(err));
   };
-  getProjects = () => {
+  getLayouts = () => {
     axios
-      .get("/project")
+      .get("/layout")
       .then((res) => {
         this.setState({
-          models: res.data,
+          layouts: res.data,
         });
       })
       .catch((err) => console.log(err));
@@ -91,6 +92,16 @@ class App extends Component {
   }
 
 
+  postLayout = async (newLayout) => {
+    axios
+      .post("/layout", newLayout)
+      .then((res) => {
+        console.log(res.data)
+      })
+      .catch((err) => console.log(err));
+
+    this.getLayouts();
+  };
 
 
   //////////////////////  HANDLERS  ////////////////////////////
@@ -151,7 +162,8 @@ class App extends Component {
             <Route exact path="/creeazaLayout">
               <NewLayout
                 handleCreateNewLayout={this.handleCreateNewLayout}
-                updateLayout={this.updateLayout} />
+                updateLayout={this.updateLayout}
+                layouts={this.state.layouts} />
             </Route>
 
 

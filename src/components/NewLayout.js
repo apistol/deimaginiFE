@@ -8,8 +8,7 @@ import Switch from "@material-ui/core/Switch";
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import DropDown from "./lowLeveComponents/DropDown";
-import DropDownWithKeys from "./lowLeveComponents/DropDownWithKeys";
-import { makeStyles } from '@material-ui/core/styles';
+
 
 
 class NewLayout extends React.Component {
@@ -17,9 +16,9 @@ class NewLayout extends React.Component {
     name: "",
 
     rendererWidth: 500,
-    rendererHeight: 700,
+    rendererHeight: 600,
 
-    tipLayout: "Pagina",
+    tipLayout: "",
     categLayout: "",
 
     layoutWidth: "",
@@ -69,6 +68,8 @@ class NewLayout extends React.Component {
 
   }
 
+
+
   handleTextUpdate = (event) => {
     this.setState({ ...this.state, [event.target.name]: event.target.value });
   };
@@ -96,6 +97,7 @@ class NewLayout extends React.Component {
     }
 
     const layoutStyle = {
+      display: `${this.state.tipLayout == "Pagina" ? "inherit" : "none"}`,
       boxShadow: "0px 0px 5px 0px rgba(0,0,0,0.75)",
       width: `${this.state.layoutWidth}px`,
       height: `${this.state.layoutHeight}px`,
@@ -121,7 +123,6 @@ class NewLayout extends React.Component {
 
       <Container
         direction="column"
-        justify="flex-start"
         style={{
           marginBottom: "60px",
         }}
@@ -144,13 +145,15 @@ class NewLayout extends React.Component {
           variant="contained"
           style={{ backgroundColor: "#e14013", color: "#FFF" }}
           onClick={() => {
-            this.props.updateProject();
+            this.props.updateLayout();
           }}
         >
           Salveaza
         </Button>
 
         <Grid container spacing={3}>
+
+
           <Grid item xs={4}>
             <TextField
               id="standard-basic"
@@ -251,7 +254,6 @@ class NewLayout extends React.Component {
 
             {(this.state.tipLayout == "Pagina") &&
               <div>
-                <p>A se lua ca unitate de masura mm pentru toate campurile, conversia previewului se va face raportata la px.</p>
 
                 <TextField
                   id="standard-basic"
@@ -587,7 +589,10 @@ class NewLayout extends React.Component {
           </Grid>
 
 
-          <Grid xs={4}>
+
+
+
+          <Grid xs={5}>
 
             <div id="renderer" style={renderer}>
               <div id="layoutStyle" style={layoutStyle}>
@@ -636,22 +641,22 @@ class NewLayout extends React.Component {
                     style={fixWrapping}>
 
                     {(this.state.row2 >= 1) &&
-                      <Grid item xs={this.state.row3Col1} style={column}>
+                      <Grid item xs={this.state.row2Col1} style={column}>
                         row2col1
                     </Grid>}
 
                     {(this.state.row2 >= 2) &&
-                      <Grid item xs={this.state.row3Col1} style={column}>
+                      <Grid item xs={this.state.row2Col2} style={column}>
                         row2col2
                     </Grid>}
 
                     {(this.state.row2 >= 3) &&
-                      <Grid item xs={this.state.row3Col1} style={column}>
+                      <Grid item xs={this.state.row2Col3} style={column}>
                         row2col3
                     </Grid>}
 
                     {(this.state.row2 >= 4) &&
-                      <Grid item xs={this.state.row3Col1} style={column}>
+                      <Grid item xs={this.state.row2Col4} style={column}>
                         row2col4
                     </Grid>}
                   </Grid>}
@@ -673,17 +678,17 @@ class NewLayout extends React.Component {
                     </Grid>}
 
                     {(this.state.row3 >= 2) &&
-                      <Grid item xs={this.state.row3Col1} style={column}>
+                      <Grid item xs={this.state.row3Col2} style={column}>
                         row3col2
                     </Grid>}
 
                     {(this.state.row3 >= 3) &&
-                      <Grid item xs={this.state.row3Col1} style={column}>
+                      <Grid item xs={this.state.row3Col3} style={column}>
                         row3col3
                     </Grid>}
 
                     {(this.state.row3 >= 4) &&
-                      <Grid item xs={this.state.row3Col1} style={column}>
+                      <Grid item xs={this.state.row3Col4} style={column}>
                         row3col4
                     </Grid>}
                   </Grid>}
@@ -700,22 +705,22 @@ class NewLayout extends React.Component {
 
 
                     {(this.state.row4 >= 1) &&
-                      <Grid item xs={this.state.row1Col1} style={column}>
+                      <Grid item xs={this.state.row4Col1} style={column}>
                         row4col1
                     </Grid>}
 
                     {(this.state.row4 >= 2) &&
-                      <Grid item xs={this.state.row1Col1} style={column}>
+                      <Grid item xs={this.state.row4Col2} style={column}>
                         row4col2
                     </Grid>}
 
                     {(this.state.row4 >= 3) &&
-                      <Grid item xs={this.state.row1Col1} style={column}>
+                      <Grid item xs={this.state.row4Col3} style={column}>
                         row4col3
                     </Grid>}
 
                     {(this.state.row4 >= 4) &&
-                      <Grid item xs={this.state.row1Col1} style={column}>
+                      <Grid item xs={this.state.row4Col4} style={column}>
                         row4col4
                     </Grid>}
                   </Grid>}
@@ -724,6 +729,51 @@ class NewLayout extends React.Component {
               </div>
             </div>
           </Grid>
+
+
+
+          <Grid xs={3}>
+            {this.props.layouts.map(l => <div style={{ boxShadow: "0px 0px 5px 0px rgba(0,0,0,0.75)", padding: "10px", marginBottom: "20px" }}>
+              <h2>{l.name}</h2>
+              <p>{l.tipLayout}</p>
+              <p>{l.categLayout}</p>
+
+              <Button
+                variant="contained"
+                style={{ backgroundColor: "#e14013", color: "#FFF" }}
+                onClick={() => {
+                  this.props.updateProject();
+                }}
+              >
+                Editeaza album
+                      </Button>
+              <br /> <br />
+              <Button
+                variant="contained"
+                style={{ backgroundColor: "#e14013", color: "#FFF" }}
+                onClick={() => {
+                  this.props.updateProject();
+                }}
+              >
+                Sterge album
+                      </Button>
+              <br /> <br />
+              <Button
+                variant="contained"
+                style={{ backgroundColor: "#e14013", color: "#FFF" }}
+                onClick={() => {
+                  this.props.updateProject();
+                }}
+              >
+                Duplica album
+                      </Button>
+
+            </div>)}
+          </Grid>
+
+
+
+
         </Grid>
 
 
