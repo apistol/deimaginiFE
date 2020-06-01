@@ -20,14 +20,20 @@ import NewProduct from "./components/NewProduct";
 import ThemeCreator from "./components/ThemeCreator";
 import ProjectSelector from "./components/ProjectSelector";
 
+// axios.defaults.baseURL = "https://us-central1-editor-c70eb.cloudfunctions.net/api"
+axios.defaults.baseURL = "http://localhost:5000/editor-c70eb/us-central1/api"
+
 class App extends Component {
   state = {
-    models: [],
+    projects: [],
+    layouts: [],
+
+    returnedLayout: "",
+
     selectedModel: "",
     newProject: "",
     returnedProject: "",
     newLayout: "",
-    layouts: []
   };
 
 
@@ -36,18 +42,84 @@ class App extends Component {
     this.getLayouts();
   }
 
-  //////////////////////  GET  ////////////////////////////
+
+
+  //////////////////////  PROJECTS  ////////////////////////////
+
+  handleCreateNewProject = (newProject) => {
+    this.setState({
+      ...this.state,
+      newProject
+    });
+    this.postProject(newProject);
+    this.getProjects();
+  };
+
 
   getProjects = () => {
     axios
       .get("/project")
       .then((res) => {
         this.setState({
-          models: res.data,
+          projects: res.data,
         });
       })
       .catch((err) => console.log(err));
   };
+
+
+  postProject = async (newProject) => {
+    const newPrj = this.postProjectSpecs(newProject);
+    await newPrj;
+    const imgToPrj = this.addImageToProject(newProject.picture)
+    await imgToPrj;
+    this.getProjects();
+  };
+
+
+  postProjectSpecs = async (newProject) => {
+    await axios
+      .post("/project", newProject)
+      .then((res) => {
+        this.setState({ returnedProject: res.data });
+      })
+      .catch((err) => console.log(err));
+  }
+
+  addImageToProject = async (picture) => {
+    console.log(this.state)
+    if (this.state.returnedProject.id !== "") {
+      const fd = new FormData();
+      fd.append('image', picture, picture.name);
+      const url = `/project/${this.state.returnedProject.id}/image`
+
+      axios.defaults.headers.common['Content-Type'] = 'multipart/form-data';
+      axios.post(url, fd)
+
+        .then(res => {
+          console.log("Upload succes for image")
+        })
+        .catch((err) => console.log(err))
+    }
+  }
+
+
+
+  //////////////////////  LAYOUTS  ////////////////////////////
+
+
+  handleCreateNewLayout = (newLayout) => {
+    this.setState({
+      ...this.state,
+      newLayout
+    });
+    this.postLayout(newLayout);
+    this.getLayouts();
+  };
+
+
+
+
   getLayouts = () => {
     axios
       .get("/layout")
@@ -62,36 +134,6 @@ class App extends Component {
 
 
 
-
-
-
-  //////////////////////  POST  ////////////////////////////
-
-  postProject = async (newProject) => {
-    axios
-      .post("/project", newProject)
-      .then((res) => {
-        this.setState({ returnedProject: res.data }, this.addImageToProject, this.state.returnedProject, this.state.newProject);
-      })
-      .catch((err) => console.log(err));
-
-    newProject.picture !== null && this.addImageToProject()
-    this.getProjects();
-  };
-  addImageToProject = () => {
-    if (this.state.returnedProject.id !== "") {
-      const fd = new FormData();
-      fd.append('image', this.state.newProject.picture, this.state.newProject.picture.name);
-      const url = `/project/${this.state.returnedProject.id}/image`
-      axios.post(url, fd)
-        .then(res => {
-          console.log("Upload succes for image")
-        })
-        .catch((err) => console.log(err))
-    }
-  }
-
-
   postLayout = async (newLayout) => {
     axios
       .post("/layout", newLayout)
@@ -104,30 +146,36 @@ class App extends Component {
   };
 
 
-  //////////////////////  HANDLERS  ////////////////////////////
-
-  handleCreateNewProject = (newProject) => {
-    this.setState({
-      ...this.state,
-      newProject
-    });
-  };
-  handleCreateNewLayout = (newLayout) => {
-    this.setState({
-      ...this.state,
-      newLayout
-    });
+  getLayoutsForId = (layoutId) => {
+    axios
+      .get(`/layout/${layoutId}`)
+      .then((res) => {
+        this.setState({
+          returnedLayout: { ...res.data },
+        });
+      })
+      .catch((err) => console.log(err));
   };
 
 
 
-  updateProject = () => {
-    this.postProject(this.state.newProject);
-    this.getProjects();
+  deleteLayoutsForId = (layoutId) => {
+    axios
+      .get(`/layout/${layoutId}/delete`)
+      .then((res) => {
+        console.log(res)
+      })
+      .catch((err) => console.log(err));
   };
-  updateLayout = () => {
-    this.postLayout(this.state.newLayout);
-    this.getLayouts();
+
+
+  duplicateLayoutsForId = (layoutId) => {
+    axios
+      .get(`/layout/${layoutId}/duplicate`)
+      .then((res) => {
+        console.log(res)
+      })
+      .catch((err) => console.log(err));
   };
 
 
@@ -149,10 +197,9 @@ class App extends Component {
 
             <Route exact path="/">
               <NewProject
-                handleCreateNewProject={this.handleCreateNewProject}
-                updateProject={this.updateProject} />
+                handleCreateNewProject={this.handleCreateNewProject} />
               <ProjectSelector
-                models={this.state.models} />
+                projects={this.state.projects} />
             </Route>
 
 
@@ -162,7 +209,9 @@ class App extends Component {
             <Route exact path="/creeazaLayout">
               <NewLayout
                 handleCreateNewLayout={this.handleCreateNewLayout}
-                updateLayout={this.updateLayout}
+                getLayoutsForId={this.getLayoutsForId}
+                deleteLayoutsForId={this.deleteLayoutsForId}
+                duplicateLayoutsForId={this.duplicateLayoutsForId}
                 layouts={this.state.layouts} />
             </Route>
 
@@ -171,7 +220,13 @@ class App extends Component {
 
 
             <Route exact path="/creeazaTematica">
-              <NewTheme />
+              <NewTheme
+                getLayouts={this.getLayouts}
+                getLayoutsForId={this.getLayoutsForId}
+                deleteLayoutsForId={this.deleteLayoutsForId}
+                duplicateLayoutsForId={this.duplicateLayoutsForId}
+                layouts={this.state.layouts}
+                returnedLayout={this.state.returnedLayout} />
 
             </Route>
 

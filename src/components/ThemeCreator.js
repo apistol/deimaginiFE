@@ -1,5 +1,5 @@
 import React from "react";
-import Slider from "react-slick";
+// import Slider from "reactslick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Grid from "@material-ui/core/Grid";
@@ -41,31 +41,10 @@ class LayoutCreator extends React.Component {
     };
 
     render() {
-        const root = {
-            width: "100%",
-        };
-        const heading = {
-            fontSize: 20,
-            fontWeight: 100,
-        };
-        const papers = {
-            display: "flex",
-            flexWrap: "wrap",
-            "& > *": {
-                margin: 1,
-                width: "150px!important",
-                height: "150px!important",
-            },
-        };
-        const buttonColor = {
-            backgroundColor: "#e14013!important",
-            color: "#FFFFFF",
-            marginTop: "30px",
-        };
-        const images = {
-            width: "100%",
-            height: "100%",
-        };
+
+
+
+
         const cover = {
             padding: "20px",
         };
@@ -83,14 +62,7 @@ class LayoutCreator extends React.Component {
             textAlign: "center",
         };
 
-        const imagesContainer = {
-            padding: "10px",
-        };
 
-        const checked = {
-            padding: "10px",
-            boxShadow: "0px 0px 17px 0px rgba(225,64,19,1)",
-        };
 
 
         let coperta =
@@ -116,7 +88,7 @@ class LayoutCreator extends React.Component {
                 <Grid container>
                     <Grid item xs={12} style={{ padding: "0px 30px" }}>
                         <div>
-                            <Slider {...settings}>
+                            {/* <Slider {...settings}>
                                 {coperta}
 
                                 <div>
@@ -136,7 +108,7 @@ class LayoutCreator extends React.Component {
                                     <p style={text}>Pagina</p>
                                 </div>
                                 {coperta}
-                            </Slider>
+                            </Slider> */}
                         </div>
                     </Grid>
 

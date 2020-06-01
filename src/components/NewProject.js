@@ -75,15 +75,7 @@ class NewProject extends React.Component {
           {this.props.name !== "" ? "Creeaza" : "Update"}
         </Button>
 
-        <Button
-          variant="contained"
-          style={{ backgroundColor: "#e14013", color: "#FFF" }}
-          onClick={() => {
-            this.props.updateProject();
-          }}
-        >
-          Salveaza
-        </Button>
+
 
         <Grid container spacing={3}>
           <Grid item xs={4}>

@@ -124,32 +124,10 @@ class NewTheme extends React.Component {
                 height: "150px!important",
             },
         };
-        const buttonColor = {
-            backgroundColor: "#e14013!important",
-            color: "#FFFFFF",
-            marginTop: "30px",
-        };
         const images = {
             width: "100%",
             height: "100%",
         };
-        const cover = {
-            padding: "20px",
-        };
-        const coverLayout = {
-            border: "1px solid #000000",
-            height: "150px",
-            padding: "110px",
-        };
-        const imagePlaceHolder = {
-            border: "1px solid #000000",
-            background: "red",
-            height: "100%",
-        };
-        const text = {
-            textAlign: "center",
-        };
-
         const imagesContainer = {
             padding: "10px",
         };
@@ -158,21 +136,6 @@ class NewTheme extends React.Component {
             padding: "10px",
             boxShadow: "0px 0px 17px 0px rgba(225,64,19,1)",
         };
-
-
-        let coperta =
-            this.state.checkedHasCover === true ? (
-                <div>
-                    <div style={cover}>
-                        <div style={coverLayout}>
-                            <div style={imagePlaceHolder}>1</div>
-                        </div>
-                    </div>
-                    <p style={text}>Coperta</p>
-                </div>
-            ) : (
-                    ""
-                );
 
 
         return (

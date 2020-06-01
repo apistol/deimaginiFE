@@ -51,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
     textAlign: "center",
     color: theme.palette.text.secondary,
   },
-  modelProperty: {
+  projectProperty: {
     margin: "0px",
     textAlign: "left",
   },
@@ -62,7 +62,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function SimpleTabs({
-  models
+  projects
 }) {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
@@ -100,65 +100,65 @@ export default function SimpleTabs({
             spacing={1}
           >
             <React.Fragment>
-              {models.map((model) => {
+              {(projects !== null) ? (projects.map((project) => {
                 return (
                   <Grid
+                    key={project.modelId}
                     container
                     spacing={3}
                     direction="row"
                     justify="flex-start"
                     alignItems="flex-start"
                     item
-                    key={Math.round(Math.random() * 1000)}
                     className={classes.cardShadow}
                   >
                     <Grid item xs={4}>
                       <img
-                        src={model.imageUrl}
+                        src={project.imageUrl}
                         alt="testImage"
                         style={{ width: "100%", height: "auto" }}
                       />
                     </Grid>
                     <Grid item xs={4}>
-                      <p className={classes.modelProperty}>
-                        Denumire album: {model.name}
+                      <p className={classes.projectProperty}>
+                        Denumire album: {project.name}
                       </p>
-                      <p className={classes.modelProperty}>
+                      <p className={classes.projectProperty}>
                         Are coperta:
-                        {model.checkedHasCover === true ? "Da" : "Nu"}
+                        {project.checkedHasCover === true ? "Da" : "Nu"}
                       </p>
-                      <p className={classes.modelProperty}>
-                        Latime coperta: {model.coverWidth}
+                      <p className={classes.projectProperty}>
+                        Latime coperta: {project.coverWidth}
                       </p>
-                      <p className={classes.modelProperty}>
-                        Inaltime coperta: {model.coverHeight}
+                      <p className={classes.projectProperty}>
+                        Inaltime coperta: {project.coverHeight}
                       </p>
-                      <p className={classes.modelProperty}>
-                        Latime pagina: {model.pageWidth}
+                      <p className={classes.projectProperty}>
+                        Latime pagina: {project.pageWidth}
                       </p>
-                      <p className={classes.modelProperty}>
-                        Inaltime pagina: {model.pageHeight}
+                      <p className={classes.projectProperty}>
+                        Inaltime pagina: {project.pageHeight}
                       </p>
-                      <p className={classes.modelProperty}>
-                        Tip hartie: {model.tipHartie}
+                      <p className={classes.projectProperty}>
+                        Tip hartie: {project.tipHartie}
                       </p>
-                      <p className={classes.modelProperty}>
-                        Pret ron: {model.pretRon}
+                      <p className={classes.projectProperty}>
+                        Pret ron: {project.pretRon}
                       </p>
-                      <p className={classes.modelProperty}>
+                      <p className={classes.projectProperty}>
                         {" "}
-                        {model.pretDolari !== ""
-                          ? `Pret dolari: ${model.pretDolari}`
+                        {project.pretDolari !== ""
+                          ? `Pret dolari: ${project.pretDolari}`
                           : ""}
                       </p>
-                      <p className={classes.modelProperty}>
-                        {model.pretEuro !== ""
-                          ? `Pret euro: ${model.pretEuro}`
+                      <p className={classes.projectProperty}>
+                        {project.pretEuro !== ""
+                          ? `Pret euro: ${project.pretEuro}`
                           : ""}
                       </p>
-                      <p className={classes.modelProperty}>
-                        {model.discount !== ""
-                          ? `Discount: ${model.discount}`
+                      <p className={classes.projectProperty}>
+                        {project.discount !== ""
+                          ? `Discount: ${project.discount}`
                           : ""}
                       </p>
                     </Grid>
@@ -195,7 +195,7 @@ export default function SimpleTabs({
                     </Grid>
                   </Grid>
                 );
-              })}
+              })) : ""}
             </React.Fragment>
           </Grid>
         </TabPanel>
