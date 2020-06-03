@@ -10,10 +10,17 @@ const RenderedCover = ({
     coverImageHeight,
     coverImageTopPosition,
     coverImageLeftPosition,
-    zoom }) => {
+    zoom,
+    themeImage,
+    coverThemeImage
+}) => {
 
 
     const layoutStyle = {
+        backgroundImage: `url(${themeImage})`,
+        backgroundSize: "100%",
+        backgroundRepeat: "no-repeat",
+        backgroundPosition: "center",
         display: `${tipLayout === "" ? "none" : "inherit"}`,
         boxShadow: "0px 0px 5px 0px rgba(0,0,0,0.75)",
         width: `${layoutWidth}px`,
@@ -25,6 +32,10 @@ const RenderedCover = ({
     }
 
     const imagePlaceHolder = {
+        backgroundImage: `url(${coverThemeImage})`,
+        backgroundSize: "100%",
+        backgroundRepeat: "no-repeat",
+        backgroundPosition: "center",
         display: `${coverHasImage === true ? "inherit" : "none"}`,
         border: "1px solid #000",
         width: `${coverImageWidth}px`,

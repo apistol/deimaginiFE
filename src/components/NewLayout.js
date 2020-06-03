@@ -16,65 +16,66 @@ import ViewerComponent from "../layoutComponents/ViewerComponent";
 import axios from "axios";
 
 
-
-
-
 class NewLayout extends React.Component {
 
-
-  state = {
-    name: "",
-    rendererWidth: 500,
-    rendererHeight: 600,
-    tipLayout: "",
-    categLayout: "",
-    layoutWidth: "",
-    layoutHeight: "",
-
-
-    coverHasImage: false,
-    coverImageWidth: "",
-    coverImageHeight: "",
-    coverImageTopPosition: "",
-    coverImageLeftPosition: "",
+  constructor(props) {
+    super(props);
+    this.state = {
+      name: "",
+      rendererWidth: 500,
+      rendererHeight: 600,
+      tipLayout: "",
+      categLayout: "",
+      layoutWidth: "",
+      layoutHeight: "",
 
 
-    rowsLayout: 0,
-    layoutPadding: "",
-    row1: "",
-    row1Col1: "",
-    row1Col2: "",
-    row1Col3: "",
-    row1Col4: "",
-    row2: "",
-    row2Col1: "",
-    row2Col2: "",
-    row2Col3: "",
-    row2Col4: "",
-    row3: "",
-    row3Col1: "",
-    row3Col2: "",
-    row3Col3: "",
-    row3Col4: "",
-    row4: "",
-    row4Col1: "",
-    row4Col2: "",
-    row4Col3: "",
-    row4Col4: "",
+      coverHasImage: false,
+      coverImageWidth: "",
+      coverImageHeight: "",
+      coverImageTopPosition: "",
+      coverImageLeftPosition: "",
 
 
-    hasText: false,
-    editableText: false,
-    editableBackground: false,
+      rowsLayout: 0,
+      layoutPadding: "",
+      row1: "",
+      row1Col1: "",
+      row1Col2: "",
+      row1Col3: "",
+      row1Col4: "",
+      row2: "",
+      row2Col1: "",
+      row2Col2: "",
+      row2Col3: "",
+      row2Col4: "",
+      row3: "",
+      row3Col1: "",
+      row3Col2: "",
+      row3Col3: "",
+      row3Col4: "",
+      row4: "",
+      row4Col1: "",
+      row4Col2: "",
+      row4Col3: "",
+      row4Col4: "",
 
 
-    zoom: 1
-  };
+      hasText: false,
+      editableText: false,
+      editableBackground: false,
+
+
+      zoom: 1,
+      returnedLayout: props.returnedLayout
+
+
+    }
+  }
 
 
 
   componentDidMount() {
-
   }
 
 
@@ -116,6 +117,18 @@ class NewLayout extends React.Component {
   }
 
 
+  getLayoutsForId = (layoutId) => {
+    console.log(layoutId)
+    axios
+      .get(`/layout/${layoutId}`)
+      .then((res) => {
+        console.log({ ...res.data })
+        this.setState({ ...res.data });
+      })
+      .catch((err) => console.log(err));
+    this.props.getLayouts();
+  };
+
 
 
 
@@ -131,10 +144,6 @@ class NewLayout extends React.Component {
       paddingTop: "100px",
       overflow: "hidden"
     }
-
-
-
-
 
     return (
 
@@ -379,7 +388,7 @@ class NewLayout extends React.Component {
                 name={l.name}
                 tipLayout={l.tipLayout}
                 categLayout={l.categLayout}
-                getLayoutsForId={this.props.getLayoutsForId}
+                getLayoutsForId={this.getLayoutsForId}
                 deleteLayoutsForId={this.props.deleteLayoutsForId}
                 duplicateLayoutsForId={this.props.duplicateLayoutsForId}
 

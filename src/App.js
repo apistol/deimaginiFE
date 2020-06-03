@@ -27,34 +27,29 @@ class App extends Component {
   state = {
     projects: [],
     layouts: [],
+    themes: [],
 
-    returnedLayout: "",
+    returnedLayout: null,
+    returnedTheme: null,
+    returnedProject: null,
 
-    selectedModel: "",
     newProject: "",
-    returnedProject: "",
     newLayout: "",
+
+    themeImage: "",
+    coverThemeImage: "",
   };
 
 
   componentDidMount() {
     this.getProjects();
     this.getLayouts();
+    this.getThemes();
   }
 
 
 
   //////////////////////  PROJECTS  ////////////////////////////
-
-  handleCreateNewProject = (newProject) => {
-    this.setState({
-      ...this.state,
-      newProject
-    });
-    this.postProject(newProject);
-    this.getProjects();
-  };
-
 
   getProjects = () => {
     axios
@@ -87,7 +82,6 @@ class App extends Component {
   }
 
   addImageToProject = async (picture) => {
-    console.log(this.state)
     if (this.state.returnedProject.id !== "") {
       const fd = new FormData();
       fd.append('image', picture, picture.name);
@@ -106,18 +100,6 @@ class App extends Component {
 
 
   //////////////////////  LAYOUTS  ////////////////////////////
-
-
-  handleCreateNewLayout = (newLayout) => {
-    this.setState({
-      ...this.state,
-      newLayout
-    });
-    this.postLayout(newLayout);
-    this.getLayouts();
-  };
-
-
 
 
   getLayouts = () => {
@@ -147,14 +129,14 @@ class App extends Component {
 
 
   getLayoutsForId = (layoutId) => {
+    if (layoutId === null) { return console.error("Missing layout id") }
     axios
       .get(`/layout/${layoutId}`)
       .then((res) => {
-        this.setState({
-          returnedLayout: { ...res.data },
-        });
+        this.setState({ returnedLayout: res.data })
       })
       .catch((err) => console.log(err));
+    this.getLayouts();
   };
 
 
@@ -166,6 +148,7 @@ class App extends Component {
         console.log(res)
       })
       .catch((err) => console.log(err));
+    this.getLayouts();
   };
 
 
@@ -176,6 +159,91 @@ class App extends Component {
         console.log(res)
       })
       .catch((err) => console.log(err));
+    this.getLayouts();
+  };
+
+
+
+  //////////////////////  THEMES  ////////////////////////////
+
+  postImageForTheme = async (picture) => {
+    const fd = new FormData();
+    fd.append('image', picture, picture.name);
+
+    axios.defaults.headers.common['Content-Type'] = 'multipart/form-data';
+    axios.post("/theme/image", fd)
+
+      .then(res => {
+        this.setState({ themeImage: res.data.imageUrl })
+      })
+      .catch((err) => console.log(err))
+  };
+
+  postCoverImageForTheme = async (picture) => {
+    const fd = new FormData();
+    fd.append('image', picture, picture.name);
+
+    axios.defaults.headers.common['Content-Type'] = 'multipart/form-data';
+    axios.post("/theme/image", fd)
+
+      .then(res => {
+        this.setState({ coverThemeImage: res.data.imageUrl })
+      })
+      .catch((err) => console.log(err))
+  };
+
+
+
+  handleCreateNewTheme = async (theme) => {
+    theme.themeImage = this.state.themeImage;
+    theme.coverThemeImage = this.state.coverThemeImage;
+    axios
+      .post("/theme", theme)
+      .then((res) => {
+        console.log(res.data)
+      })
+      .catch((err) => console.log(err));
+
+    this.getThemes();
+
+  }
+
+  getThemes = () => {
+    axios
+      .get("/theme")
+      .then((res) => {
+        this.setState({
+          themes: res.data,
+        });
+      })
+      .catch((err) => console.log(err));
+  };
+
+
+  getThemesForId = async (themeId) => {
+    let layoutId;
+    await axios
+      .get(`/theme/${themeId}`)
+      .then((res) => {
+        layoutId = res.data.layoutUsed;
+        this.setState(
+          {
+            returnedTheme: { ...res.data }
+          }
+        )
+      })
+      .catch((err) => console.log(err));
+    this.getLayoutsForId(layoutId);
+  };
+
+  deleteThemeForId = (themeId) => {
+    axios
+      .get(`/theme/${themeId}/delete`)
+      .then((res) => {
+        console.log(res)
+      })
+      .catch((err) => console.log(err));
+    this.getThemes();
   };
 
 
@@ -203,7 +271,7 @@ class App extends Component {
             </Route>
 
 
-
+            {console.log("this.state.layouts " + this.state.layouts)}
 
 
             <Route exact path="/creeazaLayout">
@@ -211,7 +279,9 @@ class App extends Component {
                 handleCreateNewLayout={this.handleCreateNewLayout}
                 getLayoutsForId={this.getLayoutsForId}
                 deleteLayoutsForId={this.deleteLayoutsForId}
+                getLayouts={this.getLayouts}
                 duplicateLayoutsForId={this.duplicateLayoutsForId}
+                returnedLayout={this.state.returnedLayout}
                 layouts={this.state.layouts} />
             </Route>
 
@@ -222,11 +292,21 @@ class App extends Component {
             <Route exact path="/creeazaTematica">
               <NewTheme
                 getLayouts={this.getLayouts}
+                getThemes={this.getThemes}
                 getLayoutsForId={this.getLayoutsForId}
+                getThemesForId={this.getThemesForId}
                 deleteLayoutsForId={this.deleteLayoutsForId}
+                deleteThemeForId={this.deleteThemeForId}
                 duplicateLayoutsForId={this.duplicateLayoutsForId}
+                postImageForTheme={this.postImageForTheme}
+                postCoverImageForTheme={this.postCoverImageForTheme}
+                handleCreateNewTheme={this.handleCreateNewTheme}
+                themeImage={this.state.themeImage}
+                coverThemeImage={this.state.coverThemeImage}
                 layouts={this.state.layouts}
-                returnedLayout={this.state.returnedLayout} />
+                themes={this.state.themes}
+                returnedLayout={this.state.returnedLayout}
+                returnedTheme={this.state.returnedTheme} />
 
             </Route>
 

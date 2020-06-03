@@ -112,7 +112,7 @@ class NewProject extends React.Component {
               buttonText='Alege imagine proiect'
               onChange={this.onDrop}
               imgExtension={['.jpg', '.png']}
-              maxFileSize={5242880}
+              maxFileSize={50000000}
               withPreview={true}
               withLabel={false}
               fileContainerStyle={{

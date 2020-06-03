@@ -29,10 +29,16 @@ const RenderedPage = ({
     row4Col2,
     row4Col3,
     row4Col4,
-    picture
+    themeImage
 }) => {
 
+    { console.log(themeImage) }
+
     const layoutStyle = {
+        backgroundImage: `url(${themeImage})`,
+        backgroundSize: "100%",
+        backgroundRepeat: "no-repeat",
+        backgroundPosition: "center",
         display: `${tipLayout === "" ? "none" : "inherit"}`,
         boxShadow: "0px 0px 5px 0px rgba(0,0,0,0.75)",
         width: `${layoutWidth}px`,
@@ -57,8 +63,6 @@ const RenderedPage = ({
 
     return (
         <div>
-            {console.log(picture)}
-            <img src={picture} />
             <div id="layoutStyle" style={layoutStyle}>
                 {/* row 1 */}
                 {(rowsLayout >= 1) &&

@@ -2,29 +2,36 @@ import React from 'react'
 import Button from "@material-ui/core/Button";
 
 
-const ViewerComponent = ({ id, name, tipLayout, categLayout, getLayoutsForId, deleteLayoutsForId, duplicateLayoutsForId }) => {
+const ViewerComponent = ({ id, name, themeImage, deleteThemeForId, getThemesForId }) => {
     return (
-        <div key={id} style={{ boxShadow: "0px 0px 5px 0px rgba(0,0,0,0.75)", padding: "10px", marginBottom: "20px" }}>
+        <div key={id} style={{
+            boxShadow: "0px 0px 5px 0px rgba(0,0,0,0.75)",
+            padding: "10px",
+            marginBottom: "20px",
+            backgroundImage: `url(${themeImage})`,
+            backgroundSize: "cover",
+            backgroundRepeat: "no-repeat",
+            backgroundPosition: "center"
+        }}>
+
             <h2>{name}</h2>
             <p>ID : {id}</p>
-            <p>{tipLayout}</p>
-            <p>{categLayout}</p>
-
+            <br />
             <Button
                 variant="contained"
                 style={{ backgroundColor: "#e14013", color: "#FFF" }}
-                onClick={(event) => getLayoutsForId(id)}
+                onClick={(event) => getThemesForId(id)}
             >
-                Editeaza layout
+                Editeaza tema
                       </Button>
             <br /> <br />
             <Button
                 variant="contained"
                 style={{ backgroundColor: "#e14013", color: "#FFF" }}
-                onClick={(event) => deleteLayoutsForId(id)}
+                onClick={(event) => deleteThemeForId(id)}
 
             >
-                Sterge layout
+                Sterge tema
                       </Button>
             <br /> <br />
             {/* <Button

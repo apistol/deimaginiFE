@@ -15,6 +15,8 @@ import RenderedPage from "../layoutComponents/RenderedPage";
 import RenderedCover from "../layoutComponents/RenderedCover";
 import Draggable from 'react-draggable';
 
+import ViwerComponent from '../themeComponents/ThemeViewerComponent';
+
 
 class NewTheme extends React.Component {
 
@@ -24,44 +26,30 @@ class NewTheme extends React.Component {
     const pageLayoutsList = this.props.layouts.filter(l => l.tipLayout === "Pagina");
     const coverLayoutsList = this.props.layouts.filter(l => l.tipLayout !== "Pagina");
 
+
     this.state = {
-      name: "",
-      checkedIsCover: false,
-      layoutUsed: "",
+      name: (this.props.returnedTheme !== null) ? this.props.returnedTheme.name : "",
+      checkedIsCover: (this.props.returnedTheme !== null) ? this.props.returnedTheme.checkedIsCover : false,
+      layoutUsed: (this.props.returnedTheme !== null) ? this.props.returnedTheme.layoutUsed : "",
+      textEdit: false,
+      layoutEdit: false,
+      backgroundEdit: false,
 
-
-
-      photoOnC1: false,
-      emptyWindowOnC1: true,
-      layoutEditC1: false,
-      layoutEditC2: false,
-      layoutEditC3: false,
-      layoutEditC4: false,
-      textEditC1: false,
-      textEditC2: false,
-      textEditC3: false,
-      textEditC4: false,
-      backgroundEditC1C4: false,
-      backgroundEditC2: false,
-      backgroundEditC3: false,
-      backgroundImageC1C4: "",
-      backgroundImageC2: "",
-      backgroundImageC3: "",
-      layoutC1C4: "",
-      layoutC2: "",
-      layoutC3: "",
       pageLayouts: pageLayoutsList,
       coverLayouts: coverLayoutsList,
-
-      pictures: [],
-
+      themeImage: props.themeImage,
+      coverThemeImage: props.coverThemeImage,
       zoom: 1
-    };
+    }
+
   }
 
   componentDidMount() {
-
   }
+
+  handleTextUpdate = (event) => {
+    this.setState({ ...this.state, [event.target.name]: event.target.value });
+  };
 
   handleChange = (event) => {
     this.setState({ ...this.state, [event.target.name]: event });
@@ -78,6 +66,8 @@ class NewTheme extends React.Component {
   };
 
   showOnlyForCategory = (category) => {
+
+    if (this.props.returnedLayout == null) return;
     const categs = [...category];
     let conditionEval = categs.includes(this.props.returnedLayout.tipLayout);
     return (
@@ -95,17 +85,24 @@ class NewTheme extends React.Component {
     }))
   }
 
-  onDrop(pictureFiles, pictureDataURLs) {
+  onDrop = (event) => {
+    this.props.postImageForTheme(event[0]);
     this.setState({
-      pictures: this.state.pictures.concat(pictureFiles)
+      picture: event[0]
+    });
+  }
+  onDropCoverImage = (event) => {
+    this.props.postCoverImageForTheme(event[0]);
+    this.setState({
+      coverPicture: event[0]
     });
   }
 
   render() {
 
     const renderer = {
-      width: `${this.props.returnedLayout.rendererWidth}px`,
-      height: `${this.props.returnedLayout.rendererHeight}px`,
+      width: `500px`,
+      height: `600px`,
       background: "#f0f0f0",
       paddingTop: "100px",
       overflow: "hidden"
@@ -128,21 +125,13 @@ class NewTheme extends React.Component {
             marginRight: "8px",
           }}
           onClick={() => {
-            this.props.handleCreateNewProject(this.state);
+            this.props.handleCreateNewTheme(this.state);
           }}
         >
           {this.props.name !== "" ? "Creeaza" : "Update"}
         </Button>
 
-        <Button
-          variant="contained"
-          style={{ backgroundColor: "#e14013", color: "#FFF" }}
-          onClick={() => {
-            this.props.updateProject();
-          }}
-        >
-          Salveaza
-        </Button>
+
 
         <Grid container spacing={3}>
           <Grid item xs={4}>
@@ -176,7 +165,6 @@ class NewTheme extends React.Component {
             <br />
 
 
-
             <DropDownLayouts
               pageLayouts={this.state.checkedIsCover !== true ? this.state.pageLayouts : this.state.coverLayouts}
               value={this.state.layoutUsed}
@@ -206,10 +194,27 @@ class NewTheme extends React.Component {
             />
 
 
+            {this.state.checkedIsCover && <ImageUploader
+              label="Marime imagine max: 4MB se accepta doar .jpg, .png"
+              withIcon={false}
+              buttonText='Imagine coperta'
+              onChange={this.onDropCoverImage}
+              imgExtension={['.jpg', '.png']}
+              maxFileSize={5242880}
+              withPreview={true}
+              withLabel={false}
+              fileContainerStyle={{
+                padding: "0px",
+                alignItems: "flex-start",
+                margin: "10px auto"
+              }}
+            />}
+
+
           </Grid>
 
           <br />
-          <Grid item xs={6}>
+          <Grid item xs={5}>
 
             <Button
               variant="contained"
@@ -232,7 +237,6 @@ class NewTheme extends React.Component {
 
             <div id="renderer" style={renderer}>
 
-
               <Draggable
                 axis="both"
                 handle=".handle"
@@ -245,14 +249,13 @@ class NewTheme extends React.Component {
                 onStop={this.handleStop}>
                 <div>
                   <div className="handle">
-                    {console.log(this.state.picture)}
 
-
-                    <img style={{ width: "100%" }} src={this.state.picture} />
                     {this.showOnlyForCategory(["Pagina"]) &&
 
                       <div>
+                        {console.log(this.props.returnedTheme)}
                         <RenderedPage
+
                           tipLayout={this.props.returnedLayout.tipLayout}
                           rowsLayout={this.props.returnedLayout.rowsLayout}
                           layoutPadding={this.props.returnedLayout.layoutPadding}
@@ -278,7 +281,7 @@ class NewTheme extends React.Component {
                           row4Col2={this.props.returnedLayout.row4Col2}
                           row4Col3={this.props.returnedLayout.row4Col3}
                           row4Col4={this.props.returnedLayout.row4Col4}
-                          backgroundPicture={this.state.picture}
+                          themeImage={this.props.returnedTheme.themeImage}
                           zoom={this.state.zoom} />
                       </div>}
 
@@ -293,6 +296,8 @@ class NewTheme extends React.Component {
                         coverImageHeight={this.props.returnedLayout.coverImageHeight}
                         coverImageTopPosition={this.props.returnedLayout.coverImageTopPosition}
                         coverImageLeftPosition={this.props.returnedLayout.coverImageLeftPosition}
+                        themeImage={this.props.themeImage}
+                        coverThemeImage={this.props.coverThemeImage}
                         zoom={this.state.zoom} />}
 
                   </div>
@@ -303,10 +308,18 @@ class NewTheme extends React.Component {
             </div>
 
           </Grid>
-          <Grid item xs={2}>
+          <Grid item xs={3}>
 
+            {this.props.themes.map(theme => <ViwerComponent
+              key={theme.id}
+              id={theme.id}
+              name={theme.name}
+              themeImage={theme.themeImage}
+              getThemesForId={this.props.getThemesForId}
+              deleteThemeForId={this.props.deleteThemeForId}
+            />
+            )}
 
-            scrollable themes
 
           </Grid>
         </Grid>
