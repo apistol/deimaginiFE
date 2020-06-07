@@ -20,6 +20,11 @@ p {
 #transparentBackground {
   background: #f9c9bb !important;
 }
+
+.hoveredComponent:hover {
+  background: #f9c9bb !important;
+}
+
 .menuCard {
   transition: all 0.5s;
 }

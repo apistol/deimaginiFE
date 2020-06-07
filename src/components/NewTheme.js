@@ -253,7 +253,6 @@ class NewTheme extends React.Component {
                     {this.showOnlyForCategory(["Pagina"]) &&
 
                       <div>
-                        {console.log(this.props.returnedTheme)}
                         <RenderedPage
 
                           tipLayout={this.props.returnedLayout.tipLayout}
@@ -281,7 +280,7 @@ class NewTheme extends React.Component {
                           row4Col2={this.props.returnedLayout.row4Col2}
                           row4Col3={this.props.returnedLayout.row4Col3}
                           row4Col4={this.props.returnedLayout.row4Col4}
-                          themeImage={this.props.returnedTheme.themeImage}
+                          themeImage={this.props.returnedTheme !== null ? this.props.returnedTheme.themeImage : ""}
                           zoom={this.state.zoom} />
                       </div>}
 

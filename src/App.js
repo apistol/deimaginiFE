@@ -7,9 +7,6 @@ import {
 import axios from "axios";
 import "./App.css";
 
-import Container from "@material-ui/core/Container";
-import Grid from "@material-ui/core/Grid";
-
 import Navigation from "./components/Navigation";
 import CardMenu from "./components/CardMenu";
 
@@ -17,21 +14,22 @@ import NewProject from "./components/NewProject";
 import NewTheme from "./components/NewTheme";
 import NewLayout from "./components/NewLayout";
 import NewProduct from "./components/NewProduct";
-import ThemeCreator from "./components/ThemeCreator";
 import ProjectSelector from "./components/ProjectSelector";
 
-// axios.defaults.baseURL = "https://us-central1-editor-c70eb.cloudfunctions.net/api"
-axios.defaults.baseURL = "http://localhost:5000/editor-c70eb/us-central1/api"
+axios.defaults.baseURL = "https://us-central1-editor-c70eb.cloudfunctions.net/api"
+//axios.defaults.baseURL = "http://localhost:5000/editor-c70eb/us-central1/api"
 
 class App extends Component {
   state = {
     projects: [],
     layouts: [],
     themes: [],
+    products: [],
 
     returnedLayout: null,
     returnedTheme: null,
     returnedProject: null,
+    returnedProduct: null,
 
     newProject: "",
     newLayout: "",
@@ -50,6 +48,16 @@ class App extends Component {
 
 
   //////////////////////  PROJECTS  ////////////////////////////
+
+  handleCreateNewProject = (newProject) => {
+    this.setState({
+      ...this.state,
+      newProject
+    });
+    this.postProject(newProject);
+    this.getProjects();
+  };
+
 
   getProjects = () => {
     axios
@@ -102,6 +110,17 @@ class App extends Component {
   //////////////////////  LAYOUTS  ////////////////////////////
 
 
+  handleCreateNewLayout = (newLayout) => {
+    this.setState({
+      ...this.state,
+      newLayout
+    });
+    this.postLayout(newLayout);
+    this.getLayouts();
+  };
+
+
+
   getLayouts = () => {
     axios
       .get("/layout")
@@ -129,6 +148,7 @@ class App extends Component {
 
 
   getLayoutsForId = (layoutId) => {
+    console.log("Am ajuns aici")
     if (layoutId === null) { return console.error("Missing layout id") }
     axios
       .get(`/layout/${layoutId}`)
@@ -311,22 +331,14 @@ class App extends Component {
             </Route>
 
             <Route exact path="/creeazaProdusComplet">
-              <Container
-                direction="column"
-                justify="flex-start"
-                style={{
-                  marginBottom: "60px",
-                }}
-              >
-                <Grid container spacing={3}>
-                  <Grid item xs={4}>
-                    <NewProduct />
-                  </Grid>
-                  <Grid item xs={8}>
-                    <ThemeCreator />
-                  </Grid>
-                </Grid>
-              </Container>
+              <NewProduct
+                projects={this.state.projects}
+                layouts={this.state.layouts}
+                themes={this.state.themes}
+                projects={this.state.projects}
+                getLayoutsForId={this.getLayoutsForId}
+                getThemesForId={this.getThemesForId}
+              />
             </Route>
 
           </Switch>

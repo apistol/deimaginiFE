@@ -32,7 +32,6 @@ const RenderedPage = ({
     themeImage
 }) => {
 
-    { console.log(themeImage) }
 
     const layoutStyle = {
         backgroundImage: `url(${themeImage})`,
