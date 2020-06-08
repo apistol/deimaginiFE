@@ -11,27 +11,36 @@ import ImageUploader from 'react-images-upload';
 
 import DropDown from "./lowLeveComponents/DropDown";
 
+
+
+
 class NewProject extends React.Component {
-  state = {
-    id: "",
-    name: "",
-    pages: 0,
-    checkedHasCover: false,
-    coverWidth: "",
-    coverHeight: "",
-    pageWidth: "",
-    pageHeight: "",
-    tipHartie: "",
-    pretRon: "",
-    pretDolari: "",
-    pretEuro: "",
-    discount: "",
-    tipProiect: "",
-    picture: null
-  };
+  constructor(props) {
+    super(props)
+    this.state = {
+      id: "",
+      name: "",
+      pages: 0,
+      checkedHasCover: false,
+      coverWidth: "",
+      coverHeight: "",
+      pageWidth: "",
+      pageHeight: "",
+      tipHartie: "",
+      pretRon: "",
+      pretDolari: "",
+      pretEuro: "",
+      discount: "",
+      tipProiect: "",
+      picture: null,
+      data: this.props.data
+
+    }
+  }
 
   componentDidMount() {
-
+    console.log(this.props.data)
+    console.log("this.props  aici")
   }
 
   handleTextUpdate = (event) => {

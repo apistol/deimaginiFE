@@ -18,64 +18,68 @@ import axios from "axios";
 
 class NewLayout extends React.Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      name: "",
-      rendererWidth: 500,
-      rendererHeight: 600,
-      tipLayout: "",
-      categLayout: "",
-      layoutWidth: "",
-      layoutHeight: "",
+
+  state = {
+
+    layouts: [],
+
+    name: "",
+    rendererWidth: 500,
+    rendererHeight: 600,
+    tipLayout: "",
+    categLayout: "",
+    layoutWidth: "",
+    layoutHeight: "",
 
 
-      coverHasImage: false,
-      coverImageWidth: "",
-      coverImageHeight: "",
-      coverImageTopPosition: "",
-      coverImageLeftPosition: "",
+    coverHasImage: false,
+    coverImageWidth: "",
+    coverImageHeight: "",
+    coverImageTopPosition: "",
+    coverImageLeftPosition: "",
 
 
-      rowsLayout: 0,
-      layoutPadding: "",
-      row1: "",
-      row1Col1: "",
-      row1Col2: "",
-      row1Col3: "",
-      row1Col4: "",
-      row2: "",
-      row2Col1: "",
-      row2Col2: "",
-      row2Col3: "",
-      row2Col4: "",
-      row3: "",
-      row3Col1: "",
-      row3Col2: "",
-      row3Col3: "",
-      row3Col4: "",
-      row4: "",
-      row4Col1: "",
-      row4Col2: "",
-      row4Col3: "",
-      row4Col4: "",
+    rowsLayout: 0,
+    layoutPadding: "",
+    row1: "",
+    row1Col1: "",
+    row1Col2: "",
+    row1Col3: "",
+    row1Col4: "",
+    row2: "",
+    row2Col1: "",
+    row2Col2: "",
+    row2Col3: "",
+    row2Col4: "",
+    row3: "",
+    row3Col1: "",
+    row3Col2: "",
+    row3Col3: "",
+    row3Col4: "",
+    row4: "",
+    row4Col1: "",
+    row4Col2: "",
+    row4Col3: "",
+    row4Col4: "",
 
 
-      hasText: false,
-      editableText: false,
-      editableBackground: false,
+    hasText: false,
+    editableText: false,
+    editableBackground: false,
 
 
-      zoom: 1,
-      returnedLayout: props.returnedLayout
+    zoom: 1,
+    returnedLayout: this.props.returnedLayout,
 
 
-    }
   }
 
 
 
   componentDidMount() {
+    this.setState(() => ({
+      layouts: this.props.layoutList
+    }))
   }
 
 
@@ -118,11 +122,9 @@ class NewLayout extends React.Component {
 
 
   getLayoutsForId = (layoutId) => {
-    console.log(layoutId)
     axios
       .get(`/layout/${layoutId}`)
       .then((res) => {
-        console.log({ ...res.data })
         this.setState({ ...res.data });
       })
       .catch((err) => console.log(err));
@@ -144,6 +146,10 @@ class NewLayout extends React.Component {
       paddingTop: "100px",
       overflow: "hidden"
     }
+
+    { console.log(this.state.layouts) }
+    { console.log(this.props.layoutList) }
+
 
     return (
 
@@ -379,9 +385,9 @@ class NewLayout extends React.Component {
           </Grid>
 
 
-
           <Grid item xs={3}>
-            {this.props.layouts.map(l =>
+
+            {/* {this.state.layouts !== null ? this.state.layouts.forEach(l =>
               <ViewerComponent
                 key={l.id}
                 id={l.id}
@@ -392,7 +398,7 @@ class NewLayout extends React.Component {
                 deleteLayoutsForId={this.props.deleteLayoutsForId}
                 duplicateLayoutsForId={this.props.duplicateLayoutsForId}
 
-              />)}
+              />) : ""} */}
           </Grid>
 
 
