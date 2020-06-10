@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useContext } from "react";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
@@ -9,10 +9,13 @@ import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import Container from "@material-ui/core/Container";
 import Button from "@material-ui/core/Button";
+import ImageUploader from 'react-images-upload';
 import "../App.css";
+import ProjectsContext from "../context/projectsContext/projectContext"
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
+
 
   return (
     <Typography
@@ -66,6 +69,14 @@ export default function SimpleTabs({
 }) {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
+  const [picture, setPicture] = React.useState(null);
+
+  const projectsContext = useContext(ProjectsContext)
+
+  const onDrop = (event, id) => {
+    projectsContext.addImageToProject(event[0], id);
+  }
+
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -99,103 +110,123 @@ export default function SimpleTabs({
             alignItems="center"
             spacing={1}
           >
+
             <React.Fragment>
-              {(projects !== null) ? (projects.map((project) => {
-                return (
-                  <Grid
-                    key={project.modelId}
-                    container
-                    spacing={3}
-                    direction="row"
-                    justify="flex-start"
-                    alignItems="flex-start"
-                    item
-                    className={classes.cardShadow}
-                  >
-                    <Grid item xs={4}>
-                      <img
-                        src={project.imageUrl}
-                        alt="testImage"
-                        style={{ width: "100%", height: "auto" }}
-                      />
-                    </Grid>
-                    <Grid item xs={4}>
-                      <p className={classes.projectProperty}>
-                        Denumire album: {project.name}
-                      </p>
-                      <p className={classes.projectProperty}>
-                        Are coperta:
+              {(projectsContext.projects.projectsList !== null &&
+                projectsContext.projects.projectsList !== undefined) ? (projectsContext.projects.projectsList.map((project) => {
+                  return (
+                    <Grid
+                      key={project.modelId}
+                      container
+                      spacing={3}
+                      direction="row"
+                      justify="flex-start"
+                      alignItems="flex-start"
+                      item
+                      className={classes.cardShadow}
+                    >
+                      <Grid item xs={4}>
+                        <img
+                          src={project.imageUrl}
+                          alt="testImage"
+                          style={{ width: "100%", height: "auto" }}
+                        />
+                      </Grid>
+                      <Grid item xs={4}>
+                        <p className={classes.projectProperty}>
+                          Denumire album: {project.name}
+                        </p>
+                        <p className={classes.projectProperty}>
+                          Are coperta:
                         {project.checkedHasCover === true ? "Da" : "Nu"}
-                      </p>
-                      <p className={classes.projectProperty}>
-                        Latime coperta: {project.coverWidth}
-                      </p>
-                      <p className={classes.projectProperty}>
-                        Inaltime coperta: {project.coverHeight}
-                      </p>
-                      <p className={classes.projectProperty}>
-                        Latime pagina: {project.pageWidth}
-                      </p>
-                      <p className={classes.projectProperty}>
-                        Inaltime pagina: {project.pageHeight}
-                      </p>
-                      <p className={classes.projectProperty}>
-                        Tip hartie: {project.tipHartie}
-                      </p>
-                      <p className={classes.projectProperty}>
-                        Pret ron: {project.pretRon}
-                      </p>
-                      <p className={classes.projectProperty}>
-                        {" "}
-                        {project.pretDolari !== ""
-                          ? `Pret dolari: ${project.pretDolari}`
-                          : ""}
-                      </p>
-                      <p className={classes.projectProperty}>
-                        {project.pretEuro !== ""
-                          ? `Pret euro: ${project.pretEuro}`
-                          : ""}
-                      </p>
-                      <p className={classes.projectProperty}>
-                        {project.discount !== ""
-                          ? `Discount: ${project.discount}`
-                          : ""}
-                      </p>
+                        </p>
+                        <p className={classes.projectProperty}>
+                          Latime coperta: {project.coverWidth}
+                        </p>
+                        <p className={classes.projectProperty}>
+                          Inaltime coperta: {project.coverHeight}
+                        </p>
+                        <p className={classes.projectProperty}>
+                          Latime pagina: {project.pageWidth}
+                        </p>
+                        <p className={classes.projectProperty}>
+                          Inaltime pagina: {project.pageHeight}
+                        </p>
+                        <p className={classes.projectProperty}>
+                          Tip hartie: {project.tipHartie}
+                        </p>
+                        <p className={classes.projectProperty}>
+                          Pret ron: {project.pretRon}
+                        </p>
+                        <p className={classes.projectProperty}>
+                          {" "}
+                          {project.pretDolari !== ""
+                            ? `Pret dolari: ${project.pretDolari}`
+                            : ""}
+                        </p>
+                        <p className={classes.projectProperty}>
+                          {project.pretEuro !== ""
+                            ? `Pret euro: ${project.pretEuro}`
+                            : ""}
+                        </p>
+                        <p className={classes.projectProperty}>
+                          {project.discount !== ""
+                            ? `Discount: ${project.discount}`
+                            : ""}
+                        </p>
+                      </Grid>
+                      <Grid item xs={4}>
+
+                        <ImageUploader
+                          label="Marime imagine max: 4MB se accepta doar .jpg, .png"
+                          withIcon={false}
+                          buttonText='Alege imagine proiect'
+                          onChange={(event) => onDrop(event, project.modelId)}
+                          imgExtension={['.jpg', '.png']}
+                          maxFileSize={50000000}
+                          withPreview={true}
+                          withLabel={false}
+                          fileContainerStyle={{
+                            padding: "0px",
+                            alignItems: "flex-start",
+                            margin: "10px auto"
+                          }}
+                        />
+
+                        <br /> <br />
+                        <Button
+                          variant="contained"
+                          style={{ backgroundColor: "#e14013", color: "#FFF" }}
+                          onClick={() => {
+                            projectsContext.getProjectForId(project.modelId);
+                          }}
+                        >
+                          Editeaza album
+                      </Button>
+                        <br /> <br />
+                        <Button
+                          variant="contained"
+                          style={{ backgroundColor: "#e14013", color: "#FFF" }}
+                          onClick={() => {
+                            projectsContext.deleteProjectForId(project.modelId);
+                          }}
+                        >
+                          Sterge album
+                      </Button>
+                        <br /> <br />
+                        <Button
+                          variant="contained"
+                          style={{ backgroundColor: "#e14013", color: "#FFF" }}
+                          onClick={() => {
+                            projectsContext.duplicateProjectForId(project.modelId);
+                          }}
+                        >
+                          Duplica album
+                      </Button>
+                      </Grid>
                     </Grid>
-                    <Grid item xs={4}>
-                      <Button
-                        variant="contained"
-                        style={{ backgroundColor: "#e14013", color: "#FFF" }}
-                        onClick={() => {
-                          this.props.updateProject();
-                        }}
-                      >
-                        Editeaza album
-                      </Button>
-                      <br /> <br />
-                      <Button
-                        variant="contained"
-                        style={{ backgroundColor: "#e14013", color: "#FFF" }}
-                        onClick={() => {
-                          this.props.updateProject();
-                        }}
-                      >
-                        Sterge album
-                      </Button>
-                      <br /> <br />
-                      <Button
-                        variant="contained"
-                        style={{ backgroundColor: "#e14013", color: "#FFF" }}
-                        onClick={() => {
-                          this.props.updateProject();
-                        }}
-                      >
-                        Duplica album
-                      </Button>
-                    </Grid>
-                  </Grid>
-                );
-              })) : ""}
+                  );
+                })) : ""}
             </React.Fragment>
           </Grid>
         </TabPanel>

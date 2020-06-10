@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SimpleSelect({
+export default function DropDownLayouts({
   label,
   value,
   name,
@@ -34,13 +34,13 @@ export default function SimpleSelect({
           value={value}
           onClick={(event) => handleChangeDropdown(event)}
         >
-          {pageLayouts.map((pl) => {
+          {/* {pageLayouts !== undefined && pageLayouts.map((pl) => {
             return (
               <MenuItem key={Math.round(Math.random() * 1000)} value={pl.id} >
                 {pl.name}
               </MenuItem>
             );
-          })}
+          })} */}
         </Select>
       </FormControl>
     </div >

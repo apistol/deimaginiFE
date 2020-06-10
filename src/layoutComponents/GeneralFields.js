@@ -1,10 +1,13 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import TextField from "@material-ui/core/TextField";
 import DropDown from "../components/lowLeveComponents/DropDown";
 
 
 
 const GeneralFields = ({ handleTextUpdate, handleChangeDropdown, name, categLayout, tipLayout, layoutWidth, layoutHeight }) => {
+
+    useEffect(() => { }, [])
+
     return (
         <div>
 

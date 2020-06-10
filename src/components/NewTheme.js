@@ -16,35 +16,45 @@ import RenderedCover from "../layoutComponents/RenderedCover";
 import Draggable from 'react-draggable';
 
 import ViwerComponent from '../themeComponents/ThemeViewerComponent';
-
+import ThemeContext from "../context/themesContext/themeContext"
 
 class NewTheme extends React.Component {
+
+  static contextType = ThemeContext;
 
   constructor(props) {
     super(props);
 
-    const pageLayoutsList = this.props.layouts.filter(l => l.tipLayout === "Pagina");
-    const coverLayoutsList = this.props.layouts.filter(l => l.tipLayout !== "Pagina");
-
-
     this.state = {
-      name: (this.props.returnedTheme !== null) ? this.props.returnedTheme.name : "",
-      checkedIsCover: (this.props.returnedTheme !== null) ? this.props.returnedTheme.checkedIsCover : false,
-      layoutUsed: (this.props.returnedTheme !== null) ? this.props.returnedTheme.layoutUsed : "",
+      name: null,
+      checkedIsCover: null,
+      layoutUsed: null,
       textEdit: false,
       layoutEdit: false,
       backgroundEdit: false,
 
-      pageLayouts: pageLayoutsList,
-      coverLayouts: coverLayoutsList,
       themeImage: props.themeImage,
       coverThemeImage: props.coverThemeImage,
-      zoom: 1
+      zoom: 1,
+
+      themesList: [],
+      pageLayoutsList: [],
+      coverLayoutsList: [],
+      layouts: [],
     }
 
   }
 
+
+
   componentDidMount() {
+    this.setState(prevState => ({
+      themesList: (this.context !== undefined) ? this.context.themesList : [],
+      pageLayoutsList: (this.context !== undefined) && this.context.layouts.filter(l => l.tipLayout === "Pagina"),
+      coverLayoutsList: (this.contex !== undefined) && this.context.layouts.filter(l => l.tipLayout !== "Pagina"),
+      layouts: (this.context !== undefined) ? this.context.layouts : [],
+
+    }))
   }
 
   handleTextUpdate = (event) => {
@@ -166,7 +176,7 @@ class NewTheme extends React.Component {
 
 
             <DropDownLayouts
-              pageLayouts={this.state.checkedIsCover !== true ? this.state.pageLayouts : this.state.coverLayouts}
+              pageLayouts={(this.state.checkedIsCover !== true) ? this.state.pageLayoutsList : this.state.coverLayoutsList}
               value={this.state.layoutUsed}
               label="Alege layout pentru tematica"
               name="layoutUsed"
@@ -309,7 +319,7 @@ class NewTheme extends React.Component {
           </Grid>
           <Grid item xs={3}>
 
-            {this.props.themes.map(theme => <ViwerComponent
+            {/* {this.state.themesList !== undefined && this.state.themesList.map(theme => <ViwerComponent
               key={theme.id}
               id={theme.id}
               name={theme.name}
@@ -317,7 +327,7 @@ class NewTheme extends React.Component {
               getThemesForId={this.props.getThemesForId}
               deleteThemeForId={this.props.deleteThemeForId}
             />
-            )}
+            )} */}
 
 
           </Grid>

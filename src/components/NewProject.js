@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useContext, useEffect } from "react";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Container from "@material-ui/core/Container";
@@ -7,236 +7,214 @@ import FormControl from "@material-ui/core/FormControl";
 import FormGroup from "@material-ui/core/FormGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Switch from "@material-ui/core/Switch";
-import ImageUploader from 'react-images-upload';
+
 
 import DropDown from "./lowLeveComponents/DropDown";
+import ProjectsContext from "../context/projectsContext/projectContext"
 
 
 
+const NewProject = (props) => {
 
-class NewProject extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      id: "",
-      name: "",
-      pages: 0,
-      checkedHasCover: false,
-      coverWidth: "",
-      coverHeight: "",
-      pageWidth: "",
-      pageHeight: "",
-      tipHartie: "",
-      pretRon: "",
-      pretDolari: "",
-      pretEuro: "",
-      discount: "",
-      tipProiect: "",
-      picture: null,
-      data: this.props.data
+  const contextType = useContext(ProjectsContext);
 
-    }
-  }
+  const [project, setProject] = useState({
+    id: "",
+    name: "",
+    pages: 0,
+    checkedHasCover: false,
+    coverWidth: "",
+    coverHeight: "",
+    pageWidth: "",
+    pageHeight: "",
+    tipHartie: "",
+    pretRon: "",
+    pretDolari: "",
+    pretEuro: "",
+    discount: "",
+    tipProiect: "",
+    picture: null,
+    returnedProject: null
+  })
 
-  componentDidMount() {
-    console.log(this.props.data)
-    console.log("this.props  aici")
-  }
 
-  handleTextUpdate = (event) => {
-    this.setState({ ...this.state, [event.target.name]: event.target.value });
+
+  useEffect(() => {
+    console.log(contextType.projects.returnedProject);
+    (contextType.projects.returnedProject !== undefined) && setProject(prevState => ({ ...contextType.projects.returnedProject }))
+  }, [contextType.projects.returnedProject])
+
+  const handleTextUpdate = (event) => {
+    this.setState({ ...project, [event.target.name]: event.target.value });
   };
 
-  handleChangeCheck = (event) => {
-    this.setState({ ...this.state, [event.target.name]: event.target.checked });
+  const handleChangeCheck = (event) => {
+    this.setState({ ...project, [event.target.name]: event.target.checked });
   };
 
-  handleChangeDropdown = (value) => {
-    this.setState({ ...this.state, [value.target.name]: value.target.value });
+  const handleChangeDropdown = (value) => {
+    this.setState({ ...project, [value.target.name]: value.target.value });
   };
 
-  onDrop = (event) => {
-    this.setState({
-      picture: event[0]
-    });
-  }
 
-  render() {
-    return (
-      <Container
-        direction="column"
-        justify="flex-start"
+
+  return (
+    <Container
+      direction="column"
+      justify="flex-start"
+      style={{
+        marginBottom: "60px",
+      }}
+    >
+      <Button
+        variant="contained"
         style={{
-          marginBottom: "60px",
+          backgroundColor: "#e14013",
+          color: "#FFF",
+          marginRight: "8px",
+        }}
+        onClick={() => {
+          this.context.createNewProject(project);
         }}
       >
-        <Button
-          variant="contained"
-          style={{
-            backgroundColor: "#e14013",
-            color: "#FFF",
-            marginRight: "8px",
-          }}
-          onClick={() => {
-            this.props.handleCreateNewProject(this.state);
-          }}
-        >
-          {this.props.name !== "" ? "Creeaza" : "Update"}
-        </Button>
+        {project.name !== "" ? "Creeaza" : "Update"}
+      </Button>
 
 
 
-        <Grid container spacing={3}>
-          <Grid item xs={4}>
-            <TextField
-              id="standard-basic"
-              label="Denumeste proiectul"
-              type="text"
-              onChange={this.handleTextUpdate}
-              name="name"
-              value={this.state.name}
-            />
-            <br />
-            <br />
-            <TextField
-              id="standard-basic"
-              label="Numar pagini"
-              type="text"
-              onChange={this.handleTextUpdate}
-              name="pages"
-              value={this.state.pages}
-            />
+      <Grid container spacing={3}>
+        <Grid item xs={4}>
+          <TextField
+            id="standard-basic"
+            label="Denumeste proiectul"
+            type="text"
+            onChange={() => handleTextUpdate}
+            name="name"
+            value={project.name}
+          />
+          <br />
+          <br />
+          <TextField
+            id="standard-basic"
+            label="Numar pagini"
+            type="text"
+            onChange={() => handleTextUpdate}
+            name="pages"
+            value={project.pages}
+          />
 
-            <DropDown
-              options={["Album", "Calendar", "Carte", "Cadou", "Wall art", "Decor"]}
-              value={this.state.tipProiect}
-              label="Tip proiect"
-              name="tipProiect"
-              handleChangeDropdown={this.handleChangeDropdown}
-            />
+          <DropDown
+            options={["Album", "Calendar", "Carte", "Cadou", "Wall art", "Decor"]}
+            value={project.tipProiect}
+            label="Tip proiect"
+            name="tipProiect"
+            handleChangeDropdown={() => handleChangeDropdown}
+          />
 
-            <ImageUploader
-              label="Marime imagine max: 4MB se accepta doar .jpg, .png"
-              withIcon={false}
-              buttonText='Alege imagine proiect'
-              onChange={this.onDrop}
-              imgExtension={['.jpg', '.png']}
-              maxFileSize={50000000}
-              withPreview={true}
-              withLabel={false}
-              fileContainerStyle={{
-                padding: "0px",
-                alignItems: "flex-start",
-                margin: "10px auto"
-              }}
-            />
-
-
-            <br />
-            <br />
-          </Grid>
-          <Grid item xs={4}>
-            <FormControl component="fieldset">
-              <FormGroup>
-                <FormControlLabel
-                  control={
-                    <Switch
-                      checked={this.state.checkedHasCover}
-                      onChange={this.handleChangeCheck}
-                      name="checkedHasCover"
-                      color="primary"
-                    />
-                  }
-                  label="Are coperta"
-                />
-              </FormGroup>
-            </FormControl>
-            <br />
-            <TextField
-              id="standard-basic1"
-              label="Latime coperta"
-              type="text"
-              onChange={this.handleTextUpdate}
-              name="coverWidth"
-              value={this.state.coverWidth}
-            />
-            <br />
-            <TextField
-              id="standard-basic2"
-              label="Inaltime coperta"
-              type="text"
-              onChange={this.handleTextUpdate}
-              name="coverHeight"
-              value={this.state.coverHeight}
-            />
-            <br />
-            <TextField
-              id="standard-basic3"
-              label="Latime pagina"
-              type="text"
-              onChange={this.handleTextUpdate}
-              name="pageWidth"
-              value={this.state.pageWidth}
-            />
-            <br />
-            <TextField
-              id="standard-basic4"
-              label="Inaltime pagina"
-              type="text"
-              onChange={this.handleTextUpdate}
-              name="pageHeight"
-              value={this.state.pageHeight}
-            />
-          </Grid>
-          <Grid item xs={4}>
-            <DropDown
-              options={["hartie creponata", "hartie laminata", "carton"]}
-              value={this.state.tipHartie}
-              label="Tip hartie"
-              name="tipHartie"
-              handleChangeDropdown={this.handleChangeDropdown}
-            />
-
-            <TextField
-              id="standard-basic5"
-              label="Pret Ron"
-              type="text"
-              onChange={this.handleTextUpdate}
-              name="pretRon"
-              value={this.state.pretRon}
-            />
-            <br />
-            <TextField
-              id="standard-basic6"
-              label="Pret Dolari"
-              type="text"
-              onChange={this.handleTextUpdate}
-              name="pretDolari"
-              value={this.state.pretDolari}
-            />
-            <br />
-            <TextField
-              id="standard-basic7"
-              label="Pret Euro"
-              type="text"
-              onChange={this.handleTextUpdate}
-              name="pretEuro"
-              value={this.state.pretEuro}
-            />
-            <br />
-            <TextField
-              id="standard-basic8"
-              label="Discount"
-              type="text"
-              onChange={this.handleTextUpdate}
-              name="discount"
-              value={this.state.discount}
-            />
-          </Grid>
+          <br />
+          <br />
         </Grid>
-      </Container>
-    );
-  }
+        <Grid item xs={4}>
+          <FormControl component="fieldset">
+            <FormGroup>
+              <FormControlLabel
+                control={
+                  <Switch
+                    checked={project.checkedHasCover}
+                    onChange={() => handleChangeCheck}
+                    name="checkedHasCover"
+                    color="primary"
+                  />
+                }
+                label="Are coperta"
+              />
+            </FormGroup>
+          </FormControl>
+          <br />
+          <TextField
+            id="standard-basic1"
+            label="Latime coperta"
+            type="text"
+            onChange={() => handleTextUpdate}
+            name="coverWidth"
+            value={project.coverWidth}
+          />
+          <br />
+          <TextField
+            id="standard-basic2"
+            label="Inaltime coperta"
+            type="text"
+            onChange={() => handleTextUpdate}
+            name="coverHeight"
+            value={project.coverHeight}
+          />
+          <br />
+          <TextField
+            id="standard-basic3"
+            label="Latime pagina"
+            type="text"
+            onChange={() => handleTextUpdate}
+            name="pageWidth"
+            value={project.pageWidth}
+          />
+          <br />
+          <TextField
+            id="standard-basic4"
+            label="Inaltime pagina"
+            type="text"
+            onChange={() => handleTextUpdate}
+            name="pageHeight"
+            value={project.pageHeight}
+          />
+        </Grid>
+        <Grid item xs={4}>
+          <DropDown
+            options={["hartie creponata", "hartie laminata", "carton"]}
+            value={project.tipHartie}
+            label="Tip hartie"
+            name="tipHartie"
+            handleChangeDropdown={() => handleChangeDropdown}
+          />
+
+          <TextField
+            id="standard-basic5"
+            label="Pret Ron"
+            type="text"
+            onChange={() => handleTextUpdate}
+            name="pretRon"
+            value={project.pretRon}
+          />
+          <br />
+          <TextField
+            id="standard-basic6"
+            label="Pret Dolari"
+            type="text"
+            onChange={() => handleTextUpdate}
+            name="pretDolari"
+            value={project.pretDolari}
+          />
+          <br />
+          <TextField
+            id="standard-basic7"
+            label="Pret Euro"
+            type="text"
+            onChange={() => handleTextUpdate}
+            name="pretEuro"
+            value={project.pretEuro}
+          />
+          <br />
+          <TextField
+            id="standard-basic8"
+            label="Discount"
+            type="text"
+            onChange={() => handleTextUpdate}
+            name="discount"
+            value={project.discount}
+          />
+        </Grid>
+      </Grid>
+    </Container>
+  );
 }
 
 export default NewProject;
