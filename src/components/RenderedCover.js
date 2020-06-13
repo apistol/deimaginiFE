@@ -1,19 +1,23 @@
 import React from 'react'
 import Grid from "@material-ui/core/Grid";
 
-const RenderedCover = ({
-    tipLayout,
-    layoutWidth,
-    layoutHeight,
-    coverHasImage,
-    coverImageWidth,
-    coverImageHeight,
-    coverImageTopPosition,
-    coverImageLeftPosition,
-    zoom,
-    themeImage,
-    coverThemeImage
-}) => {
+const RenderedCover = ({ layoutSpecs }) => {
+
+
+
+    const {
+        tipLayout,
+        layoutWidth,
+        layoutHeight,
+        coverHasImage,
+        coverImageWidth,
+        coverImageHeight,
+        coverImageTopPosition,
+        coverImageLeftPosition,
+        zoom,
+        themeImage,
+        coverThemeImage
+    } = layoutSpecs;
 
 
     const layoutStyle = {

@@ -107,10 +107,14 @@ const ProjectState = props => {
         getProjects();
     };
 
+
+    const { projectsList, returnedProject } = projects;
     return (
         <ProjectContext.Provider
             value={{
                 projects,
+                projectsList,
+                returnedProject,
                 createNewProject,
                 addImageToProject,
                 getProjectForId,

@@ -1,40 +1,56 @@
-import React from "react";
+import React, { useEffect, useState, useContext } from "react";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 
 import ProductFields from "../productComponents/ProductFields";
 import ProductViewer from "../productComponents/ProductViewer";
 
+import ProductContext from "../context/productContext/productContext"
+import ProductState from "../context/productContext/ProductState"
 
-class NewProduct extends React.Component {
-    state = {
-        layoutsAndThemesForProduct: [],
-        propsForLayoutsAndThemesForProduct: []
-    };
+const NewProduct = (props) => {
 
-    // componentDidMount() {
-    //     this.state.layoutsAndThemesForProduct.forEach( lt => this.setState( prevState => ({
-    //         propsForLayoutsAndThemesForProduct: [...prevState.propsForLayoutsAndThemesForProduct, this.props.getLayoutsForId(lt.id)]
-    //     }))
-    // }
+    const [products, setProducts] = useState({
+        productsList: [],
+        returnedProduct: "",
 
-    handleComponentPush = (id, type) => {
-        const product = { id, type }
-        this.setState(prevState => ({ layoutsAndThemesForProduct: [...prevState.layoutsAndThemesForProduct, product] }))
+        layoutsList: [],
+        themesList: [],
+        projectsList: [],
+
+        activeSlider: [],
+    })
+
+    const productsContext = useContext(ProductContext);
+
+    const { layoutsList, themesList, projectsList } = { ...productsContext };
+
+
+    useEffect(() => {
+        setProducts({
+            ...activeSlider,
+            layoutsList: layoutsList,
+            themesList: themesList,
+            projectsList: projectsList,
+        })
+    }, [])
+
+
+    const handleAlbumElementPush = (id, type) => {
+        const newSlide = { id, type }
+        setProducts({ activeSlider: [...activeSlider, newSlide] })
     }
 
 
-    render() {
+    const {
+        layouts,
+        themes,
+        projects,
+        activeSlider
+    } = products;
 
-
-        // display array in slider
-
-        // delete from array
-        // save product
-
-
-
-        return (
+    return (
+        <ProductState>
             <Container
                 direction="column"
                 justify="flex-start"
@@ -45,24 +61,20 @@ class NewProduct extends React.Component {
                 <Grid container spacing={3}>
                     <Grid item xs={4}>
                         <ProductFields
-                            projects={this.props.projects}
-                            layouts={this.props.layouts}
-                            themes={this.props.themes}
-                            projects={this.props.projects}
-                            handleComponentPush={this.handleComponentPush}
+                            handleAlbumElementPush={handleAlbumElementPush}
                         />
                     </Grid>
                     <Grid item xs={8}>
                         <ProductViewer
-                            layoutsAndThemesForProduct={this.state.layoutsAndThemesForProduct}
-                            getLayoutsForId={this.props.getLayoutsForId}
-                            getThemesForId={this.props.getThemesForId}
+                            layoutsAndThemesForProduct={activeSlider}
+                        // getLayoutsForId={productsContext.getLayoutsForId}
+                        // getThemesForId={productsContext.getThemesForId}
                         />
                     </Grid>
                 </Grid>
             </Container>
-        );
-    }
+        </ProductState>
+    );
 }
 
 export default NewProduct;

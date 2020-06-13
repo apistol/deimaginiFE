@@ -15,17 +15,34 @@ import {
 const ThemeState = props => {
 
 
-    const [themes, setThemes] = useState({})
+    const [themes, setThemes] = useState({
+        themesList: [],
+        returnedTheme: "",
+        themeImage: "",
+        coverThemeImage: "",
+    })
+    const { themesList, returnedTheme, themeImage, coverThemeImage } = themes;
+
+
+    const [layoutslist, setLayoutslist] = useState({})
+    const { layouts } = layoutslist;
+
+    // For reducers
+    const [state, dispatch] = useReducer(themeReducer, themes)
+
+    // TO DO get returnedTheme by into a single state
+    const [returnedThemePrinAltState, setReturnedThemePrinAltState] = useState({
+        returnedThemePrinAltTp: "",
+        returnedLayoutThemePrinAltTp: ""
+    })
+    const { returnedThemePrinAltTp, returnedLayoutThemePrinAltTp } = returnedThemePrinAltState;
+
 
     useEffect(() => {
         getThemes();
         getLayouts();
-    })
+    }, [])
 
-
-    const [state, dispatch] = useReducer(themeReducer, themes)
-
-    // metode 
 
 
 
@@ -82,17 +99,35 @@ const ThemeState = props => {
     };
 
 
-    const getThemesForId = async (themeId) => {
+    let layoutSpecs;
+    const getThemesForId = (themeId) => {
         let layoutId;
-        await axios
+
+        axios
             .get(`/theme/${themeId}`)
             .then((res) => {
                 layoutId = res.data.layoutUsed;
-                setThemes({ returnedTheme: res.data })
+                setReturnedThemePrinAltState({ ...returnedThemePrinAltState, returnedThemePrinAltTp: { ...res.data } })
+                const layoutIdFromTheme = layouts.filter(l => l.id === layoutId)
+                fetchLayoutsForId(layoutIdFromTheme[0].id)
+            })
+            .then(res => {
+                console.log("Fetch de tema facut cu succes")
             })
             .catch((err) => console.log(err));
-        //getLayoutsForId(layoutId);
     };
+
+
+    const fetchLayoutsForId = async (layoutId) => {
+        if (layoutId === null) { return console.error("Missing layout id") }
+        axios
+            .get(`/layout/${layoutId}`)
+            .then((res) => {
+                setReturnedThemePrinAltState({ ...returnedThemePrinAltState, returnedLayoutThemePrinAltTp: { ...res.data } })
+            })
+            .catch((err) => console.log(err))
+    };
+
 
     const deleteThemeForId = (themeId) => {
         axios
@@ -109,12 +144,10 @@ const ThemeState = props => {
         axios
             .get("/layout")
             .then((res) => {
-                setThemes({ ...themes, layouts: res.data })
+                setLayoutslist({ ...layoutslist, layouts: res.data })
             })
             .catch((err) => console.log(err));
     };
-
-    const { themesList, returnedTheme, layouts } = themes;
 
 
     return (
@@ -123,10 +156,11 @@ const ThemeState = props => {
                 themesList,
                 returnedTheme,
                 layouts,
+                returnedThemePrinAltTp,
+                returnedLayoutThemePrinAltTp,
                 createNewTheme,
                 postImageForTheme,
                 postCoverImageForTheme,
-                getThemes,
                 getThemesForId,
                 deleteThemeForId,
                 getLayouts,

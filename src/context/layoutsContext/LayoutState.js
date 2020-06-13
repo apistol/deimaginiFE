@@ -16,8 +16,11 @@ const LayoutState = props => {
 
     const [layouts, setLayouts] = useState({
         layoutsList: [],
-        returnedLayout: null,
+        returnedLayout: null
     })
+
+    const { layoutsList, returnedLayout, currentLayout } = layouts;
+
 
     const [state, dispatch] = useReducer(layoutReducer, layouts)
 
@@ -81,7 +84,6 @@ const LayoutState = props => {
 
 
 
-    const { layoutsList, returnedLayout } = layouts;
 
     return (
         <LayoutContext.Provider
@@ -91,7 +93,7 @@ const LayoutState = props => {
                 createNewLayout,
                 getLayoutsForId,
                 deleteLayoutsForId,
-                duplicateLayoutsForId
+                duplicateLayoutsForId,
             }}>
             {props.children}
         </LayoutContext.Provider>

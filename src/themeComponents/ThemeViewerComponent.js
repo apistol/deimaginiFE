@@ -1,50 +1,56 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import Button from "@material-ui/core/Button";
 
+import ThemesContext from "../context/themesContext/themeContext"
 
-const ViewerComponent = ({ id, name, themeImage, deleteThemeForId, getThemesForId }) => {
-    return (
-        <div key={id} style={{
-            boxShadow: "0px 0px 5px 0px rgba(0,0,0,0.75)",
-            padding: "10px",
-            marginBottom: "20px",
-            backgroundImage: `url(${themeImage})`,
-            backgroundSize: "cover",
-            backgroundRepeat: "no-repeat",
-            backgroundPosition: "center"
-        }}>
 
-            <h2>{name}</h2>
-            <p>ID : {id}</p>
-            <br />
-            <Button
-                variant="contained"
-                style={{ backgroundColor: "#e14013", color: "#FFF" }}
-                onClick={(event) => getThemesForId(id)}
-            >
-                Editeaza tema
+const ThemeViewer = () => {
+
+    const themesContext = useContext(ThemesContext);
+
+    const { } = themesContext;
+
+    const generatedList = themesContext.themesList ? themesContext.themesList.map(g => {
+        return (
+            <div key={g.id} style={{
+                boxShadow: "0px 0px 5px 0px rgba(0,0,0,0.75)",
+                padding: "10px",
+                marginBottom: "20px",
+                //  backgroundImage: `url(${themeImage})`,
+                backgroundSize: "cover",
+                backgroundRepeat: "no-repeat",
+                backgroundPosition: "center"
+            }}>
+
+                <h2>{g.name}</h2>
+                <p>ID : {g.id}</p>
+                <br />
+                <Button
+                    variant="contained"
+                    style={{ backgroundColor: "#e14013", color: "#FFF" }}
+                    onClick={(event) => themesContext.getThemesForId(g.id)}
+                >
+                    Editeaza tema
                       </Button>
-            <br /> <br />
-            <Button
-                variant="contained"
-                style={{ backgroundColor: "#e14013", color: "#FFF" }}
-                onClick={(event) => deleteThemeForId(id)}
+                <br /> <br />
+                <Button
+                    variant="contained"
+                    style={{ backgroundColor: "#e14013", color: "#FFF" }}
+                    onClick={(event) => themesContext.deleteThemeForId(g.id)}
 
-            >
-                Sterge tema
+                >
+                    Sterge tema
                       </Button>
-            <br /> <br />
-            {/* <Button
-                variant="contained"
-                style={{ backgroundColor: "#e14013", color: "#FFF" }}
-                onClick={(event) => duplicateLayoutsForId(id)}
+                <br /> <br />
 
-            >
-                Duplica album
-                      </Button> */}
 
-        </div>
-    )
+            </div>
+        )
+    }) : [];
+
+
+
+    return generatedList
 }
 
-export default ViewerComponent
+export default ThemeViewer

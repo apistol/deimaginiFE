@@ -2,22 +2,18 @@ import React, { useEffect, useState } from 'react'
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
-import RenderedPage from "../layoutComponents/RenderedPage";
-import RenderedCover from "../layoutComponents/RenderedCover";
+import RenderedPage from "../components/RenderedPage";
+import RenderedCover from "../components/RenderedCover";
 import { render } from '@testing-library/react';
 
 class ProductViewer extends React.Component {
 
 
-    // props.getLayoutsForId
-    // props.getThemesForId 
-    // listOfPropsForComponents
 
     constructor(props) {
         super(props);
         this.state = {
             layoutsAndThemesForProduct: [this.props.layoutsAndThemesForProduct],
-            listOfPropsForComponents: []
         };
     }
 

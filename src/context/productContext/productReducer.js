@@ -13,11 +13,6 @@ export default (state, action) => {
                 ...state,
                 layouts: [...state.layouts, action.payload]
             }
-        case CREATE_LAYOUT:
-            return {
-                ...state,
-                currentLayout: { ...action.payload }
-            }
         default:
             return state
     }
