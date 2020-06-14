@@ -2,6 +2,9 @@ import React, { useState, useEffect, useContext } from "react";
 import Button from "@material-ui/core/Button";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
+import Paper from "@material-ui/core/Paper";
+
+import defaultImage from "../assets/logo.svg";
 
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -12,17 +15,13 @@ import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import ProductContext from "../context/productContext/productContext"
+import productContext from "../context/productContext/productContext";
 
 
 const ProductFields = props => {
 
 
     const [productFields, setProductFields] = useState({
-        pages: [],
-        covers: [],
-        themes: [],
-        projects: [],
-
         name: "",
         photoOnC1: false,
         emptyWindowOnC1: true,
@@ -43,17 +42,16 @@ const ProductFields = props => {
         layoutC1C4: "",
         layoutC2: "",
         layoutC3: "",
-    }
-    )
+    })
 
-    const productsContextType = useContext(ProductContext);
+    const productsContext = useContext(ProductContext);
 
 
     const handleChange = (event) => {
         setProductFields({ [event.target.name]: event });
     };
-    const handleChangeDropdown = (event) => {
-        setProductFields({ layoutC1C4: event });
+    const handleChangeDropdown = (item) => {
+        productsContext.addSlide(item)
     };
 
 
@@ -115,7 +113,7 @@ const ProductFields = props => {
                     marginRight: "8px",
                 }}
                 onClick={() => {
-                    //projectContextType.handleCreateNewProject(productFields);
+                    productsContext.postProduct(productContext.slider);
                 }}
             >
                 Salveaza produs
@@ -127,18 +125,17 @@ const ProductFields = props => {
 
 
                     <div style={root}>
-                        <ExpansionPanel
-                        >
+                    <ExpansionPanel>
                             <ExpansionPanelSummary
                                 expandIcon={<ExpandMoreIcon />}
                                 aria-controls="panel1a-content"
                                 id="panel1a-header"
                             >
-                                <Typography style={heading}>Layout-uri de pagina</Typography>
+                                <Typography style={heading}>Albume complete</Typography>
                             </ExpansionPanelSummary>
                             <ExpansionPanelDetails>
                                 <div style={papers}>
-                                    {/* {layoutsContextType.layoutsList.filter(l => l.tipLayout === "Pagina").map((page) => {
+                                    {productsContext.productsList.map((page) => {
                                         return (
                                             <Grid
                                                 item
@@ -148,19 +145,54 @@ const ProductFields = props => {
 
                                             >
                                                 <Paper elevation={4} style={paper} className="hoveredComponent"
-                                                    onClick={() => props.handleAlbumElementPush(page.id, "Pages")}
+                                                    onClick={() => productsContext.addSlide({ id: page.id, type:"Pages"})}
                                                 >
                                                     <img
                                                         src={defaultImage}
                                                         style={images}
                                                         alt="media"
                                                     />
-                                                    <p>Name: {page.name}</p>
+                                                    <p>Nume: {page.name}</p>
+                                                </Paper>
+                                            </Grid>
+                                        );
+                                    })}
+                                </div>
+                            </ExpansionPanelDetails>
+                        </ExpansionPanel>
+                        <ExpansionPanel>
+                            <ExpansionPanelSummary
+                                expandIcon={<ExpandMoreIcon />}
+                                aria-controls="panel1a-content"
+                                id="panel1a-header"
+                            >
+                                <Typography style={heading}>Layout-uri de pagina</Typography>
+                            </ExpansionPanelSummary>
+                            <ExpansionPanelDetails>
+                                <div style={papers}>
+                                    {productsContext.layoutsList.filter(l => l.tipLayout === "Pagina").map((page) => {
+                                        return (
+                                            <Grid
+                                                item
+                                                xs={6}
+
+                                                key={page.id}
+
+                                            >
+                                                <Paper elevation={4} style={paper} className="hoveredComponent"
+                                                    onClick={() => productsContext.addSlide({ id: page.id, type:"Pages"})}
+                                                >
+                                                    <img
+                                                        src={defaultImage}
+                                                        style={images}
+                                                        alt="media"
+                                                    />
+                                                    <p>Nume: {page.name}</p>
                                                     <p>Tip layout: {page.tipLayout}</p>
                                                 </Paper>
                                             </Grid>
                                         );
-                                    })} */}
+                                    })}
                                 </div>
                             </ExpansionPanelDetails>
                         </ExpansionPanel>
@@ -175,7 +207,7 @@ const ProductFields = props => {
                             </ExpansionPanelSummary>
                             <ExpansionPanelDetails>
                                 <div style={papers}>
-                                    {/* {layoutsContextType.layoutsList.map((cover) => {
+                                    {productsContext.layoutsList.filter(l => l.tipLayout !== "Pagina").map((cover) => {
                                         return (
                                             <Grid
                                                 item
@@ -184,18 +216,18 @@ const ProductFields = props => {
                                                 key={cover.id}
 
                                             >
-                                                <Paper elevation={4} style={paper} className="hoveredComponent" onClick={() => props.handleComponentPush(cover.id, "Cover")}>
+                                                <Paper elevation={4} style={paper} className="hoveredComponent" onClick={() => productsContext.addSlide({ id: cover.id, type:"Cover"})}>
                                                     <img
                                                         src={defaultImage}
                                                         style={images}
                                                         alt="media"
                                                     />
                                                     <p>Name: {cover.name}</p>
-                                                    <p>Tip layout: {cover.tipLayout}</p>
+                                                    <p>Tip layout coperta: {cover.tipLayout}</p>
                                                 </Paper>
                                             </Grid>
                                         );
-                                    })} */}
+                                    })}
                                 </div>
                             </ExpansionPanelDetails>
                         </ExpansionPanel>
@@ -210,7 +242,7 @@ const ProductFields = props => {
                             </ExpansionPanelSummary>
                             <ExpansionPanelDetails>
                                 <div style={papers}>
-                                    {/* {themesContextType.themes ? themesContextType.themes.map((theme) => {
+                                    {productsContext.themesList.map((theme) => {
                                         return (
                                             <Grid
                                                 item
@@ -219,18 +251,18 @@ const ProductFields = props => {
                                                 key={theme.id}
 
                                             >
-                                                <Paper elevation={4} style={paper} className="hoveredComponent" onClick={() => props.handleComponentPush(theme.id, "Theme")}>
+                                                <Paper elevation={4} style={paper} className="hoveredComponent" onClick={() => productsContext.addSlide({id: theme.id, type:"Theme"})}>
                                                     <img
                                                         src={theme.themeImage}
                                                         style={images}
                                                         alt="media"
                                                     />
-                                                    <p>Name: {theme.name}</p>
-                                                    <p>Layout folosit: {theme.layoutUsed}</p>
+                                                    <p>Nume: {theme.name}</p>
+                                                    <p>Tematica folosita: {theme.layoutUsed}</p>
                                                 </Paper>
                                             </Grid>
                                         );
-                                    }) : ""} */}
+                                    })}
                                 </div>
                             </ExpansionPanelDetails>
                         </ExpansionPanel>
@@ -245,7 +277,7 @@ const ProductFields = props => {
                             </ExpansionPanelSummary>
                             <ExpansionPanelDetails>
                                 <div style={papers}>
-                                    {/* {projectsContextType.projectsList ? projectsContextType.projectsList.map((project) => {
+                                    {productsContext.projectsList.map((project) => {
                                         return (
                                             <Grid
                                                 item
@@ -254,18 +286,17 @@ const ProductFields = props => {
                                                 key={project.modelId}
 
                                             >
-                                                <Paper elevation={4} style={paper} className="hoveredComponent">
+                                                <Paper elevation={4} style={paper} className="hoveredComponent" onClick={() => productsContext.addSlide({id:project.modelId, type:"Project"})}>
                                                     <img
                                                         src={project.imageUrl}
                                                         style={images}
                                                         alt="media"
                                                     />
-                                                    <p>Name: {project.name}</p>
-                                                    <p>Layout folosit: {project.layoutUsed}</p>
+                                                    <p>Nume: {project.name}</p>
                                                 </Paper>
                                             </Grid>
                                         );
-                                    }) : ""} */}
+                                    })}
                                 </div>
                             </ExpansionPanelDetails>
                         </ExpansionPanel>

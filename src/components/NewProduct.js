@@ -10,45 +10,6 @@ import ProductState from "../context/productContext/ProductState"
 
 const NewProduct = (props) => {
 
-    const [products, setProducts] = useState({
-        productsList: [],
-        returnedProduct: "",
-
-        layoutsList: [],
-        themesList: [],
-        projectsList: [],
-
-        activeSlider: [],
-    })
-
-    const productsContext = useContext(ProductContext);
-
-    const { layoutsList, themesList, projectsList } = { ...productsContext };
-
-
-    useEffect(() => {
-        setProducts({
-            ...activeSlider,
-            layoutsList: layoutsList,
-            themesList: themesList,
-            projectsList: projectsList,
-        })
-    }, [])
-
-
-    const handleAlbumElementPush = (id, type) => {
-        const newSlide = { id, type }
-        setProducts({ activeSlider: [...activeSlider, newSlide] })
-    }
-
-
-    const {
-        layouts,
-        themes,
-        projects,
-        activeSlider
-    } = products;
-
     return (
         <ProductState>
             <Container
@@ -60,16 +21,10 @@ const NewProduct = (props) => {
             >
                 <Grid container spacing={3}>
                     <Grid item xs={4}>
-                        <ProductFields
-                            handleAlbumElementPush={handleAlbumElementPush}
-                        />
+                        <ProductFields/>
                     </Grid>
                     <Grid item xs={8}>
-                        <ProductViewer
-                            layoutsAndThemesForProduct={activeSlider}
-                        // getLayoutsForId={productsContext.getLayoutsForId}
-                        // getThemesForId={productsContext.getThemesForId}
-                        />
+                        <ProductViewer />
                     </Grid>
                 </Grid>
             </Container>

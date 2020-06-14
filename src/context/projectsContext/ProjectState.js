@@ -15,18 +15,16 @@ import {
 const ProjectState = props => {
 
 
-    const [projects, setProjects] = useState({
+    const projectInitalState = {
         projectsList: [],
         returnedProject: null
-    })
+    }
+
+    const [state, dispatch] = useReducer(projectReducer, projectInitalState)
 
     useEffect(() => {
         getProjects();
     }, [])
-
-
-    const [state, dispatch] = useReducer(projectReducer, projects)
-
 
 
     const createNewProject = (newProject) => {
@@ -36,7 +34,6 @@ const ProjectState = props => {
         } catch{
             dispatch({ type: CREATE_PROJECT_ERROR, payload: "Error in creating the project" })
         }
-        getProjects();
     };
 
 

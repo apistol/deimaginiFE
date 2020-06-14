@@ -1,102 +1,153 @@
-import React, { useReducer, useEffect, useState } from 'react'
-import ProductContext from "./productContext"
-import productReducer from "./productReducer"
-import axios from "axios"
+import React, { useReducer, useEffect, useState } from "react";
+import ProductContext from "./productContext";
+import productReducer from "./productReducer";
+import axios from "axios";
 
 import {
-    GET_PRODUCTS,
-    CREATE_PRODUCT,
-    GET_PRODUCT_BY_ID,
-    DELETE_PRODUCT_BY_ID,
-    DUPLICATE_PRODUCT_BY_ID,
-    CREATE_PRODUCT_ERROR,
-} from '../types'
+  GET_PRODUCTS,
+  CREATE_PRODUCT,
+  GET_PRODUCT_BY_ID,
+  DELETE_PRODUCT_BY_ID,
+  DUPLICATE_PRODUCT_BY_ID,
+  GET_LAYOUTS_FOR_PRODUCTS,
+  GET_THEMES_FOR_PRODUCTS,
+  GET_PROJECTS_FOR_PRODUCTS,
+  MSG_PRODUCTS,
+  ADD_SLIDE_FOR_PRODUCT,
+  REMOVE_SLIDE_FOR_PRODUCT,
+} from "../types";
 
 const ProductState = props => {
+  const productsInitialState = {
+    productsList: [],
+    returnedProduct: null,
 
-    const [products, setProducts] = useState({
-        productList: [],
-        returnedProduct: null,
-    })
+    layoutsList: [],
+    projectsList: [],
+    themesList: [],
 
+    slider:[],
 
-    const { productList, returnedProduct } = products;
+    message:""
+  };
+  const [state, dispatch] = useReducer(productReducer, productsInitialState);
 
+  const  { productsList, returnedProduct, layoutsList, projectsList, themesList, slider, message} = state;
 
-    const [state, dispatch] = useReducer(productReducer, products)
+  useEffect( ()=>{
+      getProducts();
+      getLayouts();
+      getProjects();
+      getThemes();
+  } , [])
 
-    useEffect(() => {
-        getProducts()
-    }, [productList])
+  const getProducts = () => {
+    axios
+      .get("/product")
+      .then((res) => dispatch({ type: GET_PRODUCTS, payload: res.data }))
+      .catch((err) => dispatch({ type: MSG_PRODUCTS, payload: err }));
+    //console.log("getProducts a fost apelata din ProductState")
+  };
 
+  const postProduct = async (newProduct) => {
+    axios
+      .post("/product", newProduct)
+      .then((res) =>  dispatch({ type: CREATE_PRODUCT, payload: res.data }))
+      .catch((err) => dispatch({ type: MSG_PRODUCTS, payload: err }));
+    //console.log("getProducts a fost apelata din ProductState")
+  };
 
-    const getProducts = () => {
-        axios
-            .get("/product")
-            .then((res) => {
-                console.log(res.data)
-            })
-            .catch((err) => console.log(err));
-    };
+  const getProductsForId = (productId) => {
+    if (productId === null) {return console.error("Missing layout id");}
+    axios
+      .get(`/product/${productId}`)
+      .then((res) => dispatch({ type: GET_PRODUCT_BY_ID, payload: res.data }))
+      .catch((err) => dispatch({ type: MSG_PRODUCTS, payload: err }));
+  };
 
-    const postProduct = async (newProduct) => {
-        axios
-            .post("/product", newProduct)
-            .then((res) => {
-                console.log(res.data)
-            })
-            .catch((err) => console.log(err));
-    };
+  const deleteProductForId = (layoutId) => {
+    axios
+      .get(`/product/${layoutId}/delete`)
+      .then((res) =>dispatch({ type: DELETE_PRODUCT_BY_ID, payload: res.data }))
+      .catch((err) => dispatch({ type: MSG_PRODUCTS, payload: err }));
+  };
 
-    const getProductsForId = (productId) => {
-        if (productId === null) { return console.error("Missing layout id") }
-        axios
-            .get(`/product/${productId}`)
-            .then((res) => {
-                setProducts({ ...products, returnedProduct: res.data })
-            })
-            .catch((err) => console.log(err));
-    };
+  const duplicateProductForId = (layoutId) => {
+    axios
+      .get(`/product/${layoutId}/duplicate`)
+      .then((res) =>
+        dispatch({ type: DUPLICATE_PRODUCT_BY_ID, payload: res.data })
+      )
+      .catch((err) => dispatch({ type: MSG_PRODUCTS, payload: err }));
+  };
 
-    const deleteProductForId = (layoutId) => {
-        axios
-            .get(`/product/${layoutId}/delete`)
-            .then((res) => {
-                console.log(res);
-                getProducts();
-            })
-            .catch((err) => console.log(err));
+  const getLayouts = () => {
+    axios
+      .get("/layout")
+      .then((res) =>
+        dispatch({ type: GET_LAYOUTS_FOR_PRODUCTS, payload: res.data })
+      )
+      .catch((err) => dispatch({ type: MSG_PRODUCTS, payload: err }));
+    // console.log("getLayouts a fost apelata din ProductState");
+  };
 
-    };
+  const getThemes = () => {
+    axios
+      .get("/theme")
+      .then((res) =>
+        dispatch({ type: GET_THEMES_FOR_PRODUCTS, payload: res.data })
+      )
+      .catch((err) => dispatch({ type: MSG_PRODUCTS, payload: err }));
+    // console.log("getThemes a fost apelata din ProductState");
+  };
 
-    const duplicateProductForId = (layoutId) => {
-        axios
-            .get(`/product/${layoutId}/duplicate`)
-            .then((res) => {
-                console.log(res)
-            })
-            .catch((err) => console.log(err));
-        getProducts();
-    };
+  const getProjects = () => {
+    axios
+      .get("/project")
+      .then((res) =>
+        dispatch({ type: GET_PROJECTS_FOR_PRODUCTS, payload: res.data })
+      )
+      .catch((err) => dispatch({ type: MSG_PRODUCTS, payload: err }));
+    // console.log("getProjects a fost apelata din ProductState");
+  };
 
-
-
-
-    return (
-        <ProductContext.Provider
-            value={{
-                getProducts,
-                postProduct,
-                getProductsForId,
-                deleteProductForId,
-                duplicateProductForId,
-
-                productList,
-                returnedProduct,
-            }}>
-            {props.children}
-        </ProductContext.Provider>
+  const addSlide = (item) => {
+    const { id, type} = item;
+    axios
+    .get(`/layout/${id}`)
+    .then((res) =>
+      dispatch({ type: ADD_SLIDE_FOR_PRODUCT, payload: res.data })
     )
-}
+    .catch((err) => dispatch({ type: MSG_PRODUCTS, payload: err }));
+  };
 
-export default ProductState
+  const removeSlide = (item) => {
+    dispatch({ type: REMOVE_SLIDE_FOR_PRODUCT, payload: item })
+  };
+  
+
+  return (
+    <ProductContext.Provider
+      value={{
+        productsList, 
+        returnedProduct, 
+        
+        layoutsList, 
+        projectsList, 
+        themesList, 
+        message,
+        slider,
+
+        postProduct,
+        getProductsForId,
+        deleteProductForId,
+        duplicateProductForId,
+        addSlide,
+      }}
+    >
+      {props.children}
+    </ProductContext.Provider>
+  );
+};
+
+export default ProductState;
