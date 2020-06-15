@@ -1,38 +1,44 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Grid from "@material-ui/core/Grid";
 
 
-const RenderedPage = ({  rowsLayout,
-    layoutPadding,
-    tipLayout,
-    layoutWidth,
-    layoutHeight,
-    zoom,
-    row1,
-    row1Col1,
-    row1Col2,
-    row1Col3,
-    row1Col4,
-    row2,
-    row2Col1,
-    row2Col2,
-    row2Col3,
-    row2Col4,
-    row3,
-    row3Col1,
-    row3Col2,
-    row3Col3,
-    row3Col4,
-    row4,
-    row4Col1,
-    row4Col2,
-    row4Col3,
-    row4Col4,
-    themeImage }) => {
+const RenderedPage = ({ layoutSpecs }) => {
+
+    console.log(layoutSpecs)
+    const {
+        rowsLayout,
+        layoutPadding,
+        tipLayout,
+        layoutWidth,
+        layoutHeight,
+        zoom,
+        row1,
+        row1Col1,
+        row1Col2,
+        row1Col3,
+        row1Col4,
+        row2,
+        row2Col1,
+        row2Col2,
+        row2Col3,
+        row2Col4,
+        row3,
+        row3Col1,
+        row3Col2,
+        row3Col3,
+        row3Col4,
+        row4,
+        row4Col1,
+        row4Col2,
+        row4Col3,
+        row4Col4,
+        themeImage,
+        coverThemeImage
+    } = layoutSpecs;
 
 
     const layoutStyle = {
-        backgroundImage: `url(${themeImage})`,
+        backgroundImage: `url(${coverThemeImage})`,
         backgroundSize: "100%",
         backgroundRepeat: "no-repeat",
         backgroundPosition: "center",
@@ -56,6 +62,11 @@ const RenderedPage = ({  rowsLayout,
         width: "100%",
         height: "100%"
     }
+
+
+    useEffect(() => {
+
+    }, [themeImage])
 
 
     return (

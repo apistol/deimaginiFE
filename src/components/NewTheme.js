@@ -24,26 +24,6 @@ import GeneralThemeFields from "../themeComponents/GeneralThemeFields"
 const NewTheme = props => {
 
 
-  const [theme, setTheme] = useState({
-    name: "",
-    checkedIsCover: "",
-    layoutUsed: "",
-    textEdit: false,
-    layoutEdit: false,
-    backgroundEdit: false,
-
-    themeImage: props.themeImage,
-    coverThemeImage: props.coverThemeImage,
-    zoom: 1,
-
-    // themesList: contextType.themesList,
-    // layouts: contextType.layouts,
-  })
-
-
-
-
-
   return (
     <ThemeState>
       <Container

@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
+import ThemeContext from "../../context/themesContext/themeContext"
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -18,10 +19,10 @@ export default function DropDownLayouts({
   name,
   pageLayouts,
   handleChangeDropdown,
-  getLayoutsForId,
 }) {
   const classes = useStyles();
 
+  const themeContext = useContext(ThemeContext);
 
   return (
     < div >
@@ -34,13 +35,13 @@ export default function DropDownLayouts({
           value={value}
           onClick={(event) => handleChangeDropdown(event)}
         >
-          {/* {pageLayouts !== undefined && pageLayouts.map((pl) => {
+          {pageLayouts !== undefined && pageLayouts.map((pl) => {
             return (
-              <MenuItem key={Math.round(Math.random() * 1000)} value={pl.id} >
+              <MenuItem key={Math.round(Math.random() * 1000)} value={pl.id}>
                 {pl.name}
               </MenuItem>
             );
-          })} */}
+          })}
         </Select>
       </FormControl>
     </div >

@@ -9,33 +9,49 @@ import {
     GET_THEME_BY_ID,
     DELETE_THEME_BY_ID,
     DUPLICATE_THEME_BY_ID,
-    CREATE_THEME_ERROR,
+
+    GET_LAYOUTS,
+    LAYOUT_ID_FOR_THEME,
+    LAYOUT_FOR_THEME,
+
+    MSG_THEMES,
+
+    ADD_COVER_BACKGROUND,
+    ADD_IMAGE_COVER,
 } from '../types'
 
 const ThemeState = props => {
 
 
-    const [themes, setThemes] = useState({
+    const initialState = {
         themesList: [],
-        returnedTheme: "",
+        layouts: [],
+
         themeImage: "",
         coverThemeImage: "",
-    })
-    const { themesList, returnedTheme, themeImage, coverThemeImage } = themes;
 
+        layoutIdForTheme: null,
+        layoutForTheme: null,
 
-    const [layoutslist, setLayoutslist] = useState({})
-    const { layouts } = layoutslist;
+        msgThemes: "",
+    }
 
-    // For reducers
-    const [state, dispatch] = useReducer(themeReducer, themes)
+    const [state, dispatch] = useReducer(themeReducer, initialState)
 
-    // TO DO get returnedTheme by into a single state
-    const [returnedThemePrinAltState, setReturnedThemePrinAltState] = useState({
-        returnedThemePrinAltTp: "",
-        returnedLayoutThemePrinAltTp: ""
-    })
-    const { returnedThemePrinAltTp, returnedLayoutThemePrinAltTp } = returnedThemePrinAltState;
+    const {
+        themesList,
+        layouts,
+
+        themeImage,
+        coverThemeImage,
+
+        layoutIdForTheme,
+        layoutForTheme,
+
+        msgThemes
+
+    } = state;
+
 
 
     useEffect(() => {
@@ -44,77 +60,59 @@ const ThemeState = props => {
     }, [])
 
 
+    const getThemes = () => {
+        axios
+            .get("/theme")
+            .then((res) => (dispatch({ type: GET_THEMES, payload: res.data })))
+            .catch((err) => dispatch({ type: MSG_THEMES, payload: err }));
+    };
 
-
-    const createNewTheme = async (theme) => {
+    const createNewTheme = (theme) => {
         axios
             .post("/theme", theme)
-            .then((res) => {
-                console.log(res.data)
-            })
-            .catch((err) => console.log(err));
-
-        getThemes();
-
+            .then((res) => (dispatch({ type: CREATE_THEME, payload: res.data })))
+            .catch((err) => dispatch({ type: MSG_THEMES, payload: err }));
     }
+
+    const postBackgroundImageForTheme = async (picture) => {
+        const fd = new FormData();
+        fd.append('image', picture, picture.name);
+
+        axios.defaults.headers.common['Content-Type'] = 'multipart/form-data';
+
+        axios.post("/theme/image", fd)
+            .then((res) => (dispatch({ type: ADD_IMAGE_COVER, payload: res.data })))
+            .catch((err) => dispatch({ type: MSG_THEMES, payload: err }));
+    };
 
 
     const postImageForTheme = async (picture) => {
         const fd = new FormData();
         fd.append('image', picture, picture.name);
-
         axios.defaults.headers.common['Content-Type'] = 'multipart/form-data';
+
         axios.post("/theme/image", fd)
-
-            .then(res => {
-                this.setState({ themeImage: res.data.imageUrl })
-            })
-            .catch((err) => console.log(err))
-    };
-
-    const postCoverImageForTheme = async (picture) => {
-        const fd = new FormData();
-        fd.append('image', picture, picture.name);
-
-        axios.defaults.headers.common['Content-Type'] = 'multipart/form-data';
-        axios.post("/theme/image", fd)
-
-            .then(res => {
-                this.setState({ coverThemeImage: res.data.imageUrl })
-            })
-            .catch((err) => console.log(err))
+            .then((res) => (dispatch({ type: ADD_COVER_BACKGROUND, payload: res.data })))
+            .catch((err) => dispatch({ type: MSG_THEMES, payload: err }))
     };
 
 
 
 
 
-    const getThemes = () => {
-        axios
-            .get("/theme")
-            .then((res) => {
-                setThemes({ themesList: res.data })
-            })
-            .catch((err) => console.log(err));
-    };
 
 
-    let layoutSpecs;
-    const getThemesForId = (themeId) => {
+
+    const getThemeForId = (themeId) => {
         let layoutId;
 
         axios
             .get(`/theme/${themeId}`)
             .then((res) => {
-                layoutId = res.data.layoutUsed;
-                setReturnedThemePrinAltState({ ...returnedThemePrinAltState, returnedThemePrinAltTp: { ...res.data } })
-                const layoutIdFromTheme = layouts.filter(l => l.id === layoutId)
-                fetchLayoutsForId(layoutIdFromTheme[0].id)
+                dispatch({ type: LAYOUT_ID_FOR_THEME, payload: res.data })
+                fetchLayoutsForId(res.data.layoutUsed)
             })
-            .then(res => {
-                console.log("Fetch de tema facut cu succes")
-            })
-            .catch((err) => console.log(err));
+            .catch((err) => dispatch({ type: MSG_THEMES, payload: err }));
     };
 
 
@@ -122,31 +120,24 @@ const ThemeState = props => {
         if (layoutId === null) { return console.error("Missing layout id") }
         axios
             .get(`/layout/${layoutId}`)
-            .then((res) => {
-                setReturnedThemePrinAltState({ ...returnedThemePrinAltState, returnedLayoutThemePrinAltTp: { ...res.data } })
-            })
-            .catch((err) => console.log(err))
+            .then((res) => dispatch({ type: LAYOUT_FOR_THEME, payload: res.data }))
+            .catch((err) => dispatch({ type: MSG_THEMES, payload: err }));
     };
 
 
     const deleteThemeForId = (themeId) => {
         axios
             .get(`/theme/${themeId}/delete`)
-            .then((res) => {
-                console.log(res)
-            })
-            .catch((err) => console.log(err));
-        getThemes();
+            .then((res) => dispatch({ type: DELETE_THEME_BY_ID, payload: res.data }))
+            .catch((err) => dispatch({ type: MSG_THEMES, payload: err }));
     };
 
 
     const getLayouts = () => {
         axios
             .get("/layout")
-            .then((res) => {
-                setLayoutslist({ ...layoutslist, layouts: res.data })
-            })
-            .catch((err) => console.log(err));
+            .then((res) => dispatch({ type: GET_LAYOUTS, payload: res.data }))
+            .catch((err) => dispatch({ type: MSG_THEMES, payload: err }));
     };
 
 
@@ -154,16 +145,20 @@ const ThemeState = props => {
         <ThemeContext.Provider
             value={{
                 themesList,
-                returnedTheme,
+                layoutForTheme,
                 layouts,
-                returnedThemePrinAltTp,
-                returnedLayoutThemePrinAltTp,
+
+                themeImage,
+                coverThemeImage,
+
+                fetchLayoutsForId,
+                getThemeForId,
                 createNewTheme,
-                postImageForTheme,
-                postCoverImageForTheme,
-                getThemesForId,
                 deleteThemeForId,
-                getLayouts,
+
+                postImageForTheme,
+                postBackgroundImageForTheme,
+
             }}>
             {props.children}
         </ThemeContext.Provider>

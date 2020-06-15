@@ -24,6 +24,15 @@ const ViewerComponent = ({ id, name, tipLayout, categLayout, }) => {
                     style={{ backgroundColor: "#e14013", color: "#FFF" }}
                     onClick={(event) => getLayoutsForId(l.id)}
                 >
+                    Vezi layout
+                  </Button>
+                <br /> <br />
+                <Button
+                    disabled
+                    variant="contained"
+                    style={{ backgroundColor: "#7f7f7f", color: "#FFF" }}
+                    onClick={(event) => getLayoutsForId(l.id)}
+                >
                     Editeaza layout
                   </Button>
                 <br /> <br />

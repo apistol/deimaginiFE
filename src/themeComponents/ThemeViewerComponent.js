@@ -28,9 +28,18 @@ const ThemeViewer = () => {
                 <Button
                     variant="contained"
                     style={{ backgroundColor: "#e14013", color: "#FFF" }}
-                    onClick={(event) => themesContext.getThemesForId(g.id)}
+                    onClick={(event) => themesContext.getThemeForId(g.id)}
                 >
-                    Editeaza tema
+                    Vezi tema
+                      </Button>
+                <br /> <br />
+                <Button
+                    disabled
+                    variant="contained"
+                    style={{ backgroundColor: "#7f7f7f", color: "#FFF" }}
+                    onClick={(event) => themesContext.getThemeForId(g.id)}
+                >
+                    Duplica tema
                       </Button>
                 <br /> <br />
                 <Button

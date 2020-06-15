@@ -17,6 +17,8 @@ import Draggable from 'react-draggable';
 
 import ThemesContext from "../context/themesContext/themeContext"
 
+import Renderer from "../components/Renderer"
+
 
 const GeneralThemeFields = () => {
 
@@ -35,21 +37,10 @@ const GeneralThemeFields = () => {
         themesList: "",
         pageLayoutsList: "",
         coverLayoutsList: "",
-        layouts: "",
-        returnedThemePrinAltTp: "",
-        returnedLayoutThemePrinAltTp: "",
+        layoutForTheme: "",
+        deltaPosition: 1
 
     })
-
-
-    // TODO does not make update on useEffect
-    useEffect(() => {
-        const rt = themeContext.returnedLayoutThemePrinAltTp
-            ? themeContext.returnedLayoutThemePrinAltTp : "";
-        setTheme({
-            ...theme, returnedLayoutThemePrinAltTp: { ...rt }
-        })
-    }, [themeContext])
 
     const { name,
         checkedIsCover,
@@ -63,11 +54,52 @@ const GeneralThemeFields = () => {
         themesList,
         pageLayoutsList,
         coverLayoutsList,
-        layouts,
-        returnedThemePrinAltTp,
-        returnedLayoutThemePrinAltTp, } = themeContext.returnedThemePrinAltTp ? { ...themeContext.returnedThemePrinAltTp } : theme
+        layoutForTheme,
+        deltaPosition } = theme
 
 
+
+    const {
+        categLayout,
+        tipLayout,
+        layoutWidth,
+        layoutHeight,
+        hasText,
+        editableText,
+        editableBackground,
+        returnedLayout,
+        coverHasImage,
+        coverImageWidth,
+        coverImageHeight,
+        coverImageTopPosition,
+        coverImageLeftPosition,
+        rowsLayout,
+        layoutPadding,
+        row1,
+        row1Col1,
+        row1Col2,
+        row1Col3,
+        row1Col4,
+        row2,
+        row2Col1,
+        row2Col2,
+        row2Col3,
+        row2Col4,
+        row3,
+        row3Col1,
+        row3Col2,
+        row3Col3,
+        row3Col4,
+        row4,
+        row4Col1,
+        row4Col2,
+        row4Col3,
+        row4Col4,
+    } = themeContext.layoutForTheme ? themeContext.layoutForTheme : ""
+
+
+    const cov = themeContext.layouts.filter(l => l.tipLayout !== "Pagina")
+    const pgs = themeContext.layouts.filter(l => l.tipLayout === "Pagina")
 
     const handleTextUpdate = (event) => {
         setTheme({ ...theme, [event.target.name]: event.target.value });
@@ -79,6 +111,7 @@ const GeneralThemeFields = () => {
             ...theme,
             [event.target.name]: event.target.value,
         });
+        themeContext.fetchLayoutsForId(event.target.value)
     };
     const handleChangeCheck = (event) => {
         setTheme({ ...theme, [event.target.name]: event.target.checked });
@@ -87,23 +120,21 @@ const GeneralThemeFields = () => {
     const showOnlyForCategory = (category) => {
         let conditionEval;
 
-        console.log((themeContext.returnedLayoutThemePrinAltTp.tipLayout !== "" &&
-            conditionEval === true) ? "este pagina" : "nu e pagina")
-
-        if (themeContext.returnedLayoutThemePrinAltTp === null &&
-            themeContext.returnedLayoutThemePrinAltTp === undefined &&
-            themeContext.returnedLayoutThemePrinAltTp === "") return;
+        if (themeContext.layoutForTheme === null &&
+            themeContext.layoutForTheme === undefined &&
+            themeContext.layoutForTheme === "") return;
 
         const categs = [...category];
-
-        conditionEval = categs.includes(themeContext.returnedLayoutThemePrinAltTp.tipLayout);
+        // conditionEval = categs.includes(themeContext.layoutForTheme.tipLayout);
         return conditionEval
     }
+
     const zoomOut = () => {
         setTheme({
             zoom: zoom + 0.1
         })
     }
+
     const zoomIn = () => {
         setTheme({
             zoom: zoom - 0.1
@@ -112,19 +143,14 @@ const GeneralThemeFields = () => {
 
     const onDrop = (event) => {
         themeContext.postImageForTheme(event[0]);
-        setTheme({
-            picture: event[0]
-        });
     }
     const onDropCoverImage = (event) => {
-        themeContext.postCoverImageForTheme(event[0]);
-        setTheme({
-            coverPicture: event[0]
-        });
+        themeContext.postBackgroundImageForTheme(event[0]);
+
     }
 
     const handleDrag = (e, ui) => {
-        const { x, y } = this.state.deltaPosition;
+        const { x, y } = deltaPosition;
         this.setState({
             deltaPosition: {
                 x: x + ui.deltaX,
@@ -132,6 +158,11 @@ const GeneralThemeFields = () => {
             }
         });
     };
+
+    const createNewThemeWithImage = (theme) => {
+        theme.coverThemeImage = themeContext.coverThemeImage;
+        themeContext.createNewTheme(theme);
+    }
 
 
     const renderer = {
@@ -143,7 +174,6 @@ const GeneralThemeFields = () => {
     }
 
 
-    console.log(returnedLayoutThemePrinAltTp)
     return (
         <Container
             direction="row"
@@ -161,7 +191,7 @@ const GeneralThemeFields = () => {
                     marginRight: "8px",
                 }}
                 onClick={() => {
-                    themeContext.createNewTheme(theme);
+                    createNewThemeWithImage(theme)
                 }}
             >
                 Creeaza
@@ -176,7 +206,7 @@ const GeneralThemeFields = () => {
                         id="standard-basic"
                         label="Denumeste tematica"
                         type="text"
-                        onChange={() => handleTextUpdate}
+                        onChange={(event) => handleTextUpdate(event)}
                         name="name"
                         value={name}
                     />
@@ -190,7 +220,7 @@ const GeneralThemeFields = () => {
                                 control={
                                     <Switch
                                         checked={checkedIsCover}
-                                        onChange={() => handleChangeCheck}
+                                        onChange={(event) => handleChangeCheck(event)}
                                         name="checkedIsCover"
                                         color="primary"
                                     />
@@ -201,14 +231,12 @@ const GeneralThemeFields = () => {
                     </FormControl>
                     <br />
 
-
                     <DropDownLayouts
-                        pageLayouts={(checkedIsCover !== true) ? pageLayoutsList : coverLayoutsList}
+                        pageLayouts={(checkedIsCover === true) ? cov : pgs}
                         value={layoutUsed}
                         label="Alege layout pentru tematica"
                         name="layoutUsed"
-                        handleChangeDropdown={() => handleChangeDropdown}
-                        getLayoutsForId={themeContext.getLayoutsForId}
+                        handleChangeDropdown={(event) => handleChangeDropdown(event)}
                     />
 
 
@@ -218,7 +246,7 @@ const GeneralThemeFields = () => {
                         label="Marime imagine max: 4MB se accepta doar .jpg, .png"
                         withIcon={false}
                         buttonText='Imagine background'
-                        onChange={() => onDrop}
+                        onChange={(event) => onDrop(event)}
                         imgExtension={['.jpg', '.png']}
                         maxFileSize={5242880}
                         withPreview={true}
@@ -235,7 +263,7 @@ const GeneralThemeFields = () => {
                         label="Marime imagine max: 4MB se accepta doar .jpg, .png"
                         withIcon={false}
                         buttonText='Imagine coperta'
-                        onChange={() => onDropCoverImage}
+                        onChange={(event) => onDropCoverImage(event)}
                         imgExtension={['.jpg', '.png']}
                         maxFileSize={5242880}
                         withPreview={true}
@@ -251,111 +279,53 @@ const GeneralThemeFields = () => {
                 </Grid>
 
                 <Grid item xs={8}>
+                    <Renderer
+                        rendererWidth={500}
+                        rendererHeight={600}
+                        name={name}
+                        categLayout={categLayout}
+                        tipLayout={tipLayout}
+                        layoutWidth={layoutWidth}
+                        layoutHeight={layoutHeight}
 
-                    <Button
-                        variant="contained"
-                        style={{ backgroundColor: "#e14013", color: "#FFF", margin: "0px 20px 20px 0px" }}
-                        onClick={() => {
-                            zoomOut();
-                        }}
-                    >
-                        Zoom in
-                </Button>
-                    <Button
-                        variant="contained"
-                        style={{ backgroundColor: "#e14013", color: "#FFF", margin: "0px 20px 20px 0px" }}
-                        onClick={() => {
-                            zoomIn();
-                        }}
-                    >
-                        Zoom out
-                </Button>
+                        hasText={hasText}
+                        editableText={editableText}
+                        editableBackground={editableBackground}
 
-                    <div id="renderer" style={renderer}>
+                        returnedLayout={returnedLayout}
+                        coverHasImage={coverHasImage}
+                        coverImageWidth={coverImageWidth}
+                        coverImageHeight={coverImageHeight}
+                        coverImageTopPosition={coverImageTopPosition}
+                        coverImageLeftPosition={coverImageLeftPosition}
 
-                        <Draggable
-                            axis="both"
-                            handle=".handle"
-                            defaultPosition={{ x: 0, y: 0 }}
-                            position={null}
-                            grid={[1, 1]}
-                            scale={1}
-                            // onStart={handleStart}
-                            onDrag={handleDrag}
-                        // onStop={handleStop}
-                        >
-                            <div>
-
-                                <div className="handle">
-                                    {showOnlyForCategory(["Pagina"]) &&
-
-                                        <div>
-
-                                            {!returnedLayoutThemePrinAltTp &&
-
-
-                                                <RenderedPage
-                                                    tipLayout={returnedLayoutThemePrinAltTp.tipLayout}
-                                                    rowsLayout={returnedLayoutThemePrinAltTp.rowsLayout}
-                                                    layoutPadding={returnedLayoutThemePrinAltTp.layoutPadding}
-                                                    layoutWidth={returnedLayoutThemePrinAltTp.layoutWidth}
-                                                    layoutHeight={returnedLayoutThemePrinAltTp.layoutHeight}
-                                                    row1={returnedLayoutThemePrinAltTp.row1}
-                                                    row1Col1={returnedLayoutThemePrinAltTp.row1Col1}
-                                                    row1Col2={returnedLayoutThemePrinAltTp.row1Col2}
-                                                    row1Col3={returnedLayoutThemePrinAltTp.row1Col3}
-                                                    row1Col4={returnedLayoutThemePrinAltTp.row1Col4}
-                                                    row2={returnedLayoutThemePrinAltTp.row2}
-                                                    row2Col1={returnedLayoutThemePrinAltTp.row2Col1}
-                                                    row2Col2={returnedLayoutThemePrinAltTp.row2Col2}
-                                                    row2Col3={returnedLayoutThemePrinAltTp.row2Col3}
-                                                    row2Col4={returnedLayoutThemePrinAltTp.row2Col4}
-                                                    row3={returnedLayoutThemePrinAltTp.row3}
-                                                    row3Col1={returnedLayoutThemePrinAltTp.row3Col1}
-                                                    row3Col2={returnedLayoutThemePrinAltTp.row3Col2}
-                                                    row3Col3={returnedLayoutThemePrinAltTp.row3Col3}
-                                                    row3Col4={returnedLayoutThemePrinAltTp.row3Col4}
-                                                    row4={returnedLayoutThemePrinAltTp.row4}
-                                                    row4Col1={returnedLayoutThemePrinAltTp.row4Col1}
-                                                    row4Col2={returnedLayoutThemePrinAltTp.row4Col2}
-                                                    row4Col3={returnedLayoutThemePrinAltTp.row4Col3}
-                                                    row4Col4={returnedLayoutThemePrinAltTp.row4Col4}
-                                                    themeImage={themeContext.returnedTheme !== null ? themeContext.returnedthemeImage : ""}
-                                                // zoom={zoom} 
-                                                />}
-                                            {
-                                                returnedLayoutThemePrinAltTp &&
-                                                <RenderedPage layoutSpecs={returnedLayoutThemePrinAltTp} />
-                                            }
-                                        </div>}
-
-
-                                    {showOnlyForCategory(["CopertaC1C4", "CopertaC2", "CopertaC3"]) &&
-
-                                        <div>
-
-                                            {(returnedLayoutThemePrinAltTp === "") ?
-                                                <RenderedCover
-                                                    tipLayout={returnedLayoutThemePrinAltTp.tipLayout}
-                                                    layoutWidth={returnedLayoutThemePrinAltTp.layoutWidth}
-                                                    layoutHeight={returnedLayoutThemePrinAltTp.layoutHeight}
-                                                    coverHasImage={returnedLayoutThemePrinAltTp.coverHasImage}
-                                                    coverImageWidth={returnedLayoutThemePrinAltTp.coverImageWidth}
-                                                    coverImageHeight={returnedLayoutThemePrinAltTp.coverImageHeight}
-                                                    coverImageTopPosition={returnedLayoutThemePrinAltTp.coverImageTopPosition}
-                                                    coverImageLeftPosition={returnedThemePrinAltTp.coverImageLeftPosition}
-                                                    themeImage={themeContext.themeImage}
-                                                    coverThemeImage={themeContext.coverThemeImage}
-                                                // zoom={zoom} 
-                                                /> : <RenderedCover pagesSpecs={{ ...returnedThemePrinAltTp }} />}
-                                        </div>
-                                    }
-                                </div>
-                            </div>
-                        </Draggable>
-
-
-                    </div>
+                        rowsLayout={rowsLayout}
+                        layoutPadding={layoutPadding}
+                        row1={row1}
+                        row1Col1={row1Col1}
+                        row1Col2={row1Col2}
+                        row1Col3={row1Col3}
+                        row1Col4={row1Col4}
+                        row2={row2}
+                        row2Col1={row2Col1}
+                        row2Col2={row2Col2}
+                        row2Col3={row2Col3}
+                        row2Col4={row2Col4}
+                        row3={row3}
+                        row3Col1={row3Col1}
+                        row3Col2={row3Col2}
+                        row3Col3={row3Col3}
+                        row3Col4={row3Col4}
+                        row4={row4}
+                        row4Col1={row4Col1}
+                        row4Col2={row4Col2}
+                        row4Col3={row4Col3}
+                        row4Col4={row4Col4}
+                        zoom={1}
+                        themeImage={themeContext.themeImage}
+                        coverThemeImage={themeContext.coverThemeImage}
+                        zoomOut={zoomOut}
+                        zoomIn={zoomIn} />
 
                 </Grid>
             </Grid>

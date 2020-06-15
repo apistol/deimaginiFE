@@ -9,77 +9,61 @@ import {
     GET_LAYOUT_BY_ID,
     DELETE_LAYOUT_BY_ID,
     DUPLICATE_LAYOUT_BY_ID,
-    CREATE_LAYOUT_ERROR,
+    MSG_LAYOUT,
 } from '../types'
 
 const LayoutState = props => {
 
-    const [layouts, setLayouts] = useState({
+    const intialState = {
         layoutsList: [],
-        returnedLayout: null
-    })
+        returnedLayout: null,
+        msgLayout: ""
+    }
 
-    const { layoutsList, returnedLayout, currentLayout } = layouts;
+    const [state, dispatch] = useReducer(layoutReducer, intialState)
 
-
-    const [state, dispatch] = useReducer(layoutReducer, layouts)
+    const { layoutsList, returnedLayout, msgLayout, currentLayout } = state;
 
     useEffect(() => {
         getLayouts();
     }, [])
 
     const createNewLayout = (newLayout) => {
-        postLayout(newLayout);
-        getLayouts();
+        axios
+            .post("/layout", newLayout)
+            .then((res) => (dispatch({ type: CREATE_LAYOUT, payload: res.data })))
+            .catch((err) => dispatch({ type: MSG_LAYOUT, payload: err }));
     };
 
     const getLayouts = () => {
         axios
             .get("/layout")
-            .then((res) => {
-                setLayouts({ ...layouts, layoutsList: res.data })
-            })
-            .catch((err) => console.log(err));
-    };
-
-    const postLayout = async (newLayout) => {
-        axios
-            .post("/layout", newLayout)
-            .then((res) => {
-                console.log(res.data)
-            })
-            .catch((err) => console.log(err));
+            .then((res) => (dispatch({ type: GET_LAYOUTS, payload: res.data })))
+            .catch((err) => dispatch({ type: MSG_LAYOUT, payload: err }));
+        console.log("nimic?")
     };
 
     const getLayoutsForId = (layoutId) => {
         if (layoutId === null) { return console.error("Missing layout id") }
         axios
             .get(`/layout/${layoutId}`)
-            .then((res) => {
-                setLayouts({ ...layouts, returnedLayout: res.data })
-            })
-            .catch((err) => console.log(err));
+            .then((res) => (dispatch({ type: GET_LAYOUT_BY_ID, payload: res.data })))
+            .catch((err) => dispatch({ type: MSG_LAYOUT, payload: err }));
     };
 
     const deleteLayoutsForId = (layoutId) => {
         axios
             .get(`/layout/${layoutId}/delete`)
-            .then((res) => {
-                console.log(res);
-                getLayouts();
-            })
-            .catch((err) => console.log(err));
+            .then((res) => (dispatch({ type: DELETE_LAYOUT_BY_ID, payload: res.data })))
+            .catch((err) => dispatch({ type: MSG_LAYOUT, payload: err }));
 
     };
 
     const duplicateLayoutsForId = (layoutId) => {
         axios
             .get(`/layout/${layoutId}/duplicate`)
-            .then((res) => {
-                console.log(res)
-            })
-            .catch((err) => console.log(err));
-        getLayouts();
+            .then((res) => (dispatch({ type: DUPLICATE_LAYOUT_BY_ID, payload: res.data })))
+            .catch((err) => dispatch({ type: MSG_LAYOUT, payload: err }));
     };
 
 
@@ -90,6 +74,8 @@ const LayoutState = props => {
             value={{
                 layoutsList,
                 returnedLayout,
+                msgLayout,
+
                 createNewLayout,
                 getLayoutsForId,
                 deleteLayoutsForId,

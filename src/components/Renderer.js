@@ -5,7 +5,6 @@ import Button from "@material-ui/core/Button";
 import RenderedPage from "./RenderedPage";
 import RenderedCover from "./RenderedCover";
 
-import LayoutContext from "../context/layoutsContext/layoutContext"
 
 
 
@@ -15,38 +14,6 @@ const Renderer = (props) => {
         rendererWidth,
         rendererHeight,
         tipLayout,
-        layoutWidth,
-        layoutHeight,
-        zoom,
-        rowsLayout,
-
-        layoutPadding,
-        row1,
-        row1Col1,
-        row1Col2,
-        row1Col3,
-        row1Col4,
-        row2,
-        row2Col1,
-        row2Col2,
-        row2Col3,
-        row2Col4,
-        row3,
-        row3Col1,
-        row3Col2,
-        row3Col3,
-        row3Col4,
-        row4,
-        row4Col1,
-        row4Col2,
-        row4Col3,
-        row4Col4,
-
-        coverHasImage,
-        coverImageWidth,
-        coverImageHeight,
-        coverImageTopPosition,
-        coverImageLeftPosition,
         zoomIn,
         zoomOut
     } = props
@@ -82,7 +49,6 @@ const Renderer = (props) => {
         paddingTop: "100px",
         overflow: "hidden"
     }
-
 
 
 

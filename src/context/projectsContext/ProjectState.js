@@ -6,10 +6,11 @@ import axios from "axios"
 import {
     GET_PROJECTS,
     CREATE_PROJECT,
+    ADD_IMAGE_TO_PROJECT,
     GET_PROJECT_BY_ID,
     DELETE_PROJECT_BY_ID,
     DUPLICATE_PROJECT_BY_ID,
-    CREATE_PROJECT_ERROR,
+    MSG_PROJECTS,
 } from '../types'
 
 const ProjectState = props => {
@@ -17,101 +18,76 @@ const ProjectState = props => {
 
     const projectInitalState = {
         projectsList: [],
-        returnedProject: null
+        returnedProject: null,
+        msgProjects: ""
     }
 
-    const [state, dispatch] = useReducer(projectReducer, projectInitalState)
+    const [state, dispatch] = useReducer(projectReducer, projectInitalState);
+
+    const { projectsList, returnedProject, msgProjects } = state;
+
 
     useEffect(() => {
         getProjects();
     }, [])
 
-
-    const createNewProject = (newProject) => {
-        try {
-            postProjectSpecs(newProject);
-            dispatch({ type: CREATE_PROJECT, payload: newProject })
-        } catch{
-            dispatch({ type: CREATE_PROJECT_ERROR, payload: "Error in creating the project" })
-        }
-    };
-
-
     const getProjects = () => {
         axios
             .get("/project")
-            .then((res) => {
-                setProjects({ ...projects, projectsList: res.data });
-            })
-            .catch((err) => console.log(err));
+            .then((res) => (dispatch({ type: GET_PROJECTS, payload: res.data })))
+            .catch((err) => dispatch({ type: MSG_PROJECTS, payload: err }));
     };
 
 
-
-    const postProjectSpecs = async (newProject) => {
-        await axios
+    const createNewProject = (newProject) => {
+        axios
             .post("/project", newProject)
-            .then((res) => {
-                setProjects({ ...projects, returnedProject: res.data });
-            })
-            .catch((err) => console.log(err));
+            .then((res) => (dispatch({ type: CREATE_PROJECT, payload: res.data })))
+            .catch((err) => dispatch({ type: MSG_PROJECTS, payload: err }));
     }
 
     const addImageToProject = async (picture, id) => {
         const fd = new FormData();
         fd.append('image', picture, picture.name);
         const url = `/project/${id}/image`
-
         axios.defaults.headers.common['Content-Type'] = 'multipart/form-data';
+
+
         axios.post(url, fd)
-
-            .then(res => {
-                console.log("Upload succes for image")
-                getProjects();
-            })
-            .catch((err) => console.log(err))
-
-
+            .then((res) => (dispatch({ type: ADD_IMAGE_TO_PROJECT, payload: res.data })))
+            .catch((err) => dispatch({ type: MSG_PROJECTS, payload: err }));
     }
 
     const getProjectForId = (projectId) => {
         if (projectId === null) { return console.error("Missing layout id") }
         axios
             .get(`/project/${projectId}`)
-            .then((res) => {
-                setProjects({ ...projects, returnedProject: res.data })
-            })
-            .catch((err) => console.log(err));
+            .then((res) => (dispatch({ type: GET_PROJECT_BY_ID, payload: res.data })))
+            .catch((err) => dispatch({ type: MSG_PROJECTS, payload: err }));
     };
 
     const deleteProjectForId = (projectId) => {
         axios
             .get(`/project/${projectId}/delete`)
-            .then((res) => {
-                console.log(res + " deleted succesfully")
-            })
-            .catch((err) => console.log(err));
-        getProjects();
+            .then((res) => (dispatch({ type: DELETE_PROJECT_BY_ID, payload: res.data })))
+            .catch((err) => dispatch({ type: MSG_PROJECTS, payload: err }));
     };
 
     const duplicateProjectForId = (projectId) => {
         axios
-            .get(`/project/${projectId}/delete`)
-            .then((res) => {
-                console.log(res + " deleted succesfully")
-            })
-            .catch((err) => console.log(err));
-        getProjects();
+            .get(`/project/${projectId}/duplicate`)
+            .then((res) => (dispatch({ type: DUPLICATE_PROJECT_BY_ID, payload: res.data })))
+            .catch((err) => dispatch({ type: MSG_PROJECTS, payload: err }));
     };
 
 
-    const { projectsList, returnedProject } = projects;
     return (
         <ProjectContext.Provider
             value={{
-                projects,
                 projectsList,
                 returnedProject,
+                msgProjects,
+
                 createNewProject,
                 addImageToProject,
                 getProjectForId,

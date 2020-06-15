@@ -125,13 +125,13 @@ const ProductFields = props => {
 
 
                     <div style={root}>
-                    <ExpansionPanel>
+                        <ExpansionPanel>
                             <ExpansionPanelSummary
                                 expandIcon={<ExpandMoreIcon />}
                                 aria-controls="panel1a-content"
                                 id="panel1a-header"
                             >
-                                <Typography style={heading}>Albume complete</Typography>
+                                <Typography style={heading}>Dashboard proiecte</Typography>
                             </ExpansionPanelSummary>
                             <ExpansionPanelDetails>
                                 <div style={papers}>
@@ -145,7 +145,7 @@ const ProductFields = props => {
 
                                             >
                                                 <Paper elevation={4} style={paper} className="hoveredComponent"
-                                                    onClick={() => productsContext.addSlide({ id: page.id, type:"Pages"})}
+                                                    onClick={() => productsContext.addSlide({ id: page.id, type: "Pages" })}
                                                 >
                                                     <img
                                                         src={defaultImage}
@@ -180,7 +180,7 @@ const ProductFields = props => {
 
                                             >
                                                 <Paper elevation={4} style={paper} className="hoveredComponent"
-                                                    onClick={() => productsContext.addSlide({ id: page.id, type:"Pages"})}
+                                                    onClick={() => productsContext.addSlide({ id: page.id, type: "Pages" })}
                                                 >
                                                     <img
                                                         src={defaultImage}
@@ -216,7 +216,7 @@ const ProductFields = props => {
                                                 key={cover.id}
 
                                             >
-                                                <Paper elevation={4} style={paper} className="hoveredComponent" onClick={() => productsContext.addSlide({ id: cover.id, type:"Cover"})}>
+                                                <Paper elevation={4} style={paper} className="hoveredComponent" onClick={() => productsContext.addSlide({ id: cover.id, type: "Cover" })}>
                                                     <img
                                                         src={defaultImage}
                                                         style={images}
@@ -251,7 +251,7 @@ const ProductFields = props => {
                                                 key={theme.id}
 
                                             >
-                                                <Paper elevation={4} style={paper} className="hoveredComponent" onClick={() => productsContext.addSlide({id: theme.id, type:"Theme"})}>
+                                                <Paper elevation={4} style={paper} className="hoveredComponent" onClick={() => productsContext.addSlide({ id: theme.id, type: "Theme" })}>
                                                     <img
                                                         src={theme.themeImage}
                                                         style={images}
@@ -273,7 +273,7 @@ const ProductFields = props => {
                                 aria-controls="panel1a-content"
                                 id="panel1a-header"
                             >
-                                <Typography style={heading}>Proiecte</Typography>
+                                <Typography style={heading}>Proiecte la care se pot asa layouts</Typography>
                             </ExpansionPanelSummary>
                             <ExpansionPanelDetails>
                                 <div style={papers}>
@@ -286,7 +286,7 @@ const ProductFields = props => {
                                                 key={project.modelId}
 
                                             >
-                                                <Paper elevation={4} style={paper} className="hoveredComponent" onClick={() => productsContext.addSlide({id:project.modelId, type:"Project"})}>
+                                                <Paper elevation={4} style={paper} className="hoveredComponent" onClick={() => productsContext.addSlide({ id: project.modelId, type: "Project" })}>
                                                     <img
                                                         src={project.imageUrl}
                                                         style={images}

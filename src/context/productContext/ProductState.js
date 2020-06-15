@@ -26,20 +26,20 @@ const ProductState = props => {
     projectsList: [],
     themesList: [],
 
-    slider:[],
+    slider: [],
 
-    message:""
+    message: ""
   };
   const [state, dispatch] = useReducer(productReducer, productsInitialState);
 
-  const  { productsList, returnedProduct, layoutsList, projectsList, themesList, slider, message} = state;
+  const { productsList, returnedProduct, layoutsList, projectsList, themesList, slider, message } = state;
 
-  useEffect( ()=>{
-      getProducts();
-      getLayouts();
-      getProjects();
-      getThemes();
-  } , [])
+  useEffect(() => {
+    getProducts();
+    getLayouts();
+    getProjects();
+    getThemes();
+  }, [])
 
   const getProducts = () => {
     axios
@@ -52,13 +52,13 @@ const ProductState = props => {
   const postProduct = async (newProduct) => {
     axios
       .post("/product", newProduct)
-      .then((res) =>  dispatch({ type: CREATE_PRODUCT, payload: res.data }))
+      .then((res) => dispatch({ type: CREATE_PRODUCT, payload: res.data }))
       .catch((err) => dispatch({ type: MSG_PRODUCTS, payload: err }));
     //console.log("getProducts a fost apelata din ProductState")
   };
 
   const getProductsForId = (productId) => {
-    if (productId === null) {return console.error("Missing layout id");}
+    if (productId === null) { return console.error("Missing layout id"); }
     axios
       .get(`/product/${productId}`)
       .then((res) => dispatch({ type: GET_PRODUCT_BY_ID, payload: res.data }))
@@ -68,7 +68,7 @@ const ProductState = props => {
   const deleteProductForId = (layoutId) => {
     axios
       .get(`/product/${layoutId}/delete`)
-      .then((res) =>dispatch({ type: DELETE_PRODUCT_BY_ID, payload: res.data }))
+      .then((res) => dispatch({ type: DELETE_PRODUCT_BY_ID, payload: res.data }))
       .catch((err) => dispatch({ type: MSG_PRODUCTS, payload: err }));
   };
 
@@ -112,29 +112,32 @@ const ProductState = props => {
   };
 
   const addSlide = (item) => {
-    const { id, type} = item;
-    axios
-    .get(`/layout/${id}`)
-    .then((res) =>
-      dispatch({ type: ADD_SLIDE_FOR_PRODUCT, payload: res.data })
-    )
-    .catch((err) => dispatch({ type: MSG_PRODUCTS, payload: err }));
+    const { id, type } = item;
+    getLayoutsForId(id)
   };
 
   const removeSlide = (item) => {
-    dispatch({ type: REMOVE_SLIDE_FOR_PRODUCT, payload: item })
+    const propsss =
+      dispatch({ type: REMOVE_SLIDE_FOR_PRODUCT, payload: item })
   };
-  
+
+  const getLayoutsForId = (layoutId) => {
+    if (layoutId === null) { return console.error("Missing layout id") }
+    axios
+      .get(`/layout/${layoutId}`)
+      .then((res) => (dispatch({ type: ADD_SLIDE_FOR_PRODUCT, payload: res.data })))
+      .catch((err) => dispatch({ type: MSG_PRODUCTS, payload: err }));
+  };
 
   return (
     <ProductContext.Provider
       value={{
-        productsList, 
-        returnedProduct, 
-        
-        layoutsList, 
-        projectsList, 
-        themesList, 
+        productsList,
+        returnedProduct,
+
+        layoutsList,
+        projectsList,
+        themesList,
         message,
         slider,
 
