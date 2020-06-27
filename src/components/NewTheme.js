@@ -15,11 +15,11 @@ import RenderedPage from "./RenderedPage";
 import RenderedCover from "./RenderedCover";
 import Draggable from 'react-draggable';
 
-import ViwerComponent from '../themeComponents/ThemeViewerComponent';
+import ViwerComponent from './themeComponents/ThemeViewerComponent';
 import ThemeState from "../context/themesContext/ThemeState"
 import ThemeContext from "../context/themesContext/themeContext"
 
-import GeneralThemeFields from "../themeComponents/GeneralThemeFields"
+import GeneralThemeFields from "./themeComponents/GeneralThemeFields"
 
 const NewTheme = props => {
 

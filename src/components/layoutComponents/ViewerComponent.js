@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react'
 import Button from "@material-ui/core/Button";
-import LayoutContext from "../context/layoutsContext/layoutContext"
+import LayoutContext from "../../context/layoutsContext/layoutContext"
 
 
 const ViewerComponent = ({ id, name, tipLayout, categLayout, }) => {

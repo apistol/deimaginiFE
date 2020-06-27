@@ -2,10 +2,8 @@ import React, { useEffect, useState, useContext } from "react";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
-import RenderedPage from "../components/RenderedPage";
-import RenderedCover from "../components/RenderedCover";
-import { render } from "@testing-library/react";
-import ProductContext from "../context/productContext/productContext";
+import RenderedPage from "../RenderedPage";
+import ProductContext from "../../context/productContext/productContext";
 
 const ProductViewer = () => {
   const productsContext = useContext(ProductContext);

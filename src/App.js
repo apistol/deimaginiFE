@@ -8,13 +8,11 @@ import axios from "axios";
 import "./App.css";
 
 import Navigation from "./components/Navigation";
-import CardMenu from "./components/CardMenu";
 
-import NewProject from "./components/NewProject";
+import Project from "./components/Project";
 import NewTheme from "./components/NewTheme";
 import NewLayout from "./components/NewLayout";
 import NewProduct from "./components/NewProduct";
-import ProjectSelector from "./components/ProjectSelector";
 
 
 
@@ -34,13 +32,10 @@ class App extends Component {
         <div className="App">
           <Navigation />
 
-          <CardMenu />
-
           <Switch>
 
             <Route exact path="/">
-              <NewProject />
-              <ProjectSelector />
+              <Project />
             </Route>
 
             <Route exact path="/creeazaLayout">

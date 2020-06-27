@@ -10,8 +10,8 @@ import Box from "@material-ui/core/Box";
 import Container from "@material-ui/core/Container";
 import Button from "@material-ui/core/Button";
 import ImageUploader from 'react-images-upload';
-import "../App.css";
-import ProjectsContext from "../context/projectsContext/projectContext"
+import "../../App.css";
+import ProjectsContext from "../../context/projectsContext/projectContext"
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;

@@ -4,7 +4,7 @@ import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 
-import defaultImage from "../assets/logo.svg";
+import defaultImage from "../../assets/logo.svg";
 
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -14,8 +14,8 @@ import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import ProductContext from "../context/productContext/productContext"
-import productContext from "../context/productContext/productContext";
+import ProductContext from "../../context/productContext/productContext"
+import productContext from "../../context/productContext/productContext";
 
 
 const ProductFields = props => {

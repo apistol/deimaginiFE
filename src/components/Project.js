@@ -7,6 +7,7 @@ import FormControl from "@material-ui/core/FormControl";
 import FormGroup from "@material-ui/core/FormGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Switch from "@material-ui/core/Switch";
+import ProjectSelector from "./projectComponents/ProjectSelector";
 
 
 import DropDown from "./lowLeveComponents/DropDown";
@@ -214,6 +215,11 @@ class NewProject extends React.Component {
             />
           </Grid>
         </Grid>
+
+        <br />
+        <br />
+        <br />
+        <ProjectSelector />
       </Container>
     );
   }

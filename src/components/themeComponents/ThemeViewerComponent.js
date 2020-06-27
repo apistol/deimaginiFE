@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import Button from "@material-ui/core/Button";
 
-import ThemesContext from "../context/themesContext/themeContext"
+import ThemesContext from "../../context/themesContext/themeContext"
 
 
 const ThemeViewer = () => {

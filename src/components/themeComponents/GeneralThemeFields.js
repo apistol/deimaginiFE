@@ -10,14 +10,14 @@ import Switch from "@material-ui/core/Switch";
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 
-import DropDownLayouts from "../components/lowLeveComponents/DropDownLayouts";
-import RenderedPage from "../components/RenderedPage"
-import RenderedCover from "../components/RenderedCover";
+import DropDownLayouts from "../lowLeveComponents/DropDownLayouts";
+import RenderedPage from "../RenderedPage"
+import RenderedCover from "../RenderedCover";
 import Draggable from 'react-draggable';
 
-import ThemesContext from "../context/themesContext/themeContext"
+import ThemesContext from "../../context/themesContext/themeContext"
 
-import Renderer from "../components/Renderer"
+import Renderer from "../Renderer"
 
 
 const GeneralThemeFields = () => {

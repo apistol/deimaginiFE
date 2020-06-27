@@ -1,8 +1,8 @@
 import React, { useState, useContext } from "react";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
-import GeneralFields from "../layoutComponents/GeneralFields";
-import ViewerComponent from "../layoutComponents/ViewerComponent";
+import GeneralFields from "./layoutComponents/GeneralFields";
+import ViewerComponent from "./layoutComponents/ViewerComponent";
 import LayoutState from "../context/layoutsContext/LayoutState"
 
 

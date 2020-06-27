@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react'
 import TextField from "@material-ui/core/TextField";
-import DropDown from "../components/lowLeveComponents/DropDown";
+import DropDown from "../lowLeveComponents/DropDown";
 import Button from "@material-ui/core/Button";
 import LayoutCoverFields from "../layoutComponents/LayoutCoverFields";
 import LayoutPageFields from "../layoutComponents/LayoutPageFields";
@@ -10,10 +10,10 @@ import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Grid from "@material-ui/core/Grid";
 import Container from "@material-ui/core/Container";
-import Renderer from "../components/Renderer"
+import Renderer from "../Renderer"
 
 
-import LayoutsContext from "../context/layoutsContext/layoutContext"
+import LayoutsContext from "../../context/layoutsContext/layoutContext"
 
 const GeneralFields = () => {
 
