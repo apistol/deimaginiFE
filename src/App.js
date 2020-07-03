@@ -15,13 +15,14 @@ import NewLayout from "./components/NewLayout";
 import NewProduct from "./components/NewProduct";
 
 
-
+// For package.json
 axios.defaults.baseURL = "https://us-central1-editor-c70eb.cloudfunctions.net/api"
-//axios.defaults.baseURL = "http://localhost:5000/editor-c70eb/us-central1/api"
+// "homepage": "https://editor-c70eb.web.app/"
+
+axios.defaults.baseURL = "http://localhost:5000/editor-c70eb/us-central1/api"
+
 
 class App extends Component {
-
-
 
   render() {
     return (

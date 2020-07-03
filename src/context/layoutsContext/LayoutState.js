@@ -40,7 +40,6 @@ const LayoutState = props => {
             .get("/layout")
             .then((res) => (dispatch({ type: GET_LAYOUTS, payload: res.data })))
             .catch((err) => dispatch({ type: MSG_LAYOUT, payload: err }));
-        console.log("nimic?")
     };
 
     const getLayoutsForId = (layoutId) => {

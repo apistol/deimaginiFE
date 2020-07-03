@@ -45,13 +45,11 @@ class NewProject extends React.Component {
 
 
   handleTextUpdate = (event) => {
+    if (event === null) return
     this.setState({ [event.target.name]: event.target.value });
   };
 
 
-  handleChangeDropdown = (value) => {
-    this.setState(() => ({ [value.target.name]: value.target.value }));
-  };
 
 
   render() {
@@ -125,7 +123,7 @@ class NewProject extends React.Component {
               value={tipProiect}
               label="Tip proiect"
               name="tipProiect"
-              handleChangeDropdown={(event) => this.handleChangeDropdown(event)}
+              handleChangeDropdown={(event) => this.handleTextUpdate(event)}
             />
 
             <br />
@@ -175,7 +173,7 @@ class NewProject extends React.Component {
               value={tipHartie}
               label="Tip hartie"
               name="tipHartie"
-              handleChangeDropdown={(event) => this.handleChangeDropdown(event)}
+              handleChangeDropdown={(event) => this.handleTextUpdate(event)}
             />
 
             <TextField

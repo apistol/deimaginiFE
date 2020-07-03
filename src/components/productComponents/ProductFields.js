@@ -15,7 +15,6 @@ import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import ProductContext from "../../context/productContext/productContext"
-import productContext from "../../context/productContext/productContext";
 
 
 const ProductFields = props => {
@@ -45,6 +44,16 @@ const ProductFields = props => {
     })
 
     const productsContext = useContext(ProductContext);
+    const { slidesIdsList, returnedProduct } = productsContext;
+
+
+    useEffect(() => {
+        console.log(productsContext)
+        console.log(slidesIdsList ? slidesIdsList.data : "")
+        console.log(returnedProduct)
+    }, [])
+
+
 
 
     const handleChange = (event) => {
@@ -113,7 +122,9 @@ const ProductFields = props => {
                     marginRight: "8px",
                 }}
                 onClick={() => {
-                    productsContext.postProduct(productContext.slider);
+                    productsContext.updateProduct(slidesIdsList, returnedProduct.handlerId);
+                    // console.log(productContext)
+                    // console.log(productContext.slidesIdsList)
                 }}
             >
                 Salveaza produs
@@ -135,28 +146,34 @@ const ProductFields = props => {
                             </ExpansionPanelSummary>
                             <ExpansionPanelDetails>
                                 <div style={papers}>
-                                    {productsContext.productsList.map((page) => {
-                                        return (
-                                            <Grid
-                                                item
-                                                xs={6}
+                                    {(productsContext.projectsList !== null
+                                        && productsContext.projectsList !== undefined
+                                        && productsContext.projectsList !== 0) ?
+                                        productsContext.projectsList.map((project) => {
+                                            return (
+                                                <Grid
+                                                    item
+                                                    xs={6}
 
-                                                key={page.id}
+                                                    key={project.id}
 
-                                            >
-                                                <Paper elevation={4} style={paper} className="hoveredComponent"
-                                                    onClick={() => productsContext.addSlide({ id: page.id, type: "Pages" })}
                                                 >
-                                                    <img
-                                                        src={defaultImage}
-                                                        style={images}
-                                                        alt="media"
-                                                    />
-                                                    <p>Nume: {page.name}</p>
-                                                </Paper>
-                                            </Grid>
-                                        );
-                                    })}
+                                                    <Paper elevation={4} style={paper} className="hoveredComponent"
+                                                        onClick={() => {
+                                                            console.log(project.id)
+                                                            productsContext.getProductForId(project.id)
+                                                        }}
+                                                    >
+                                                        <img
+                                                            src={defaultImage}
+                                                            style={images}
+                                                            alt="media"
+                                                        />
+                                                        <p>Nume: {project.name}</p>
+                                                    </Paper>
+                                                </Grid>
+                                            );
+                                        }) : ""}
                                 </div>
                             </ExpansionPanelDetails>
                         </ExpansionPanel>
@@ -232,7 +249,7 @@ const ProductFields = props => {
                             </ExpansionPanelDetails>
                         </ExpansionPanel>
 
-                        <ExpansionPanel>
+                        {/* <ExpansionPanel>
                             <ExpansionPanelSummary
                                 expandIcon={<ExpandMoreIcon />}
                                 aria-controls="panel1a-content"
@@ -265,41 +282,8 @@ const ProductFields = props => {
                                     })}
                                 </div>
                             </ExpansionPanelDetails>
-                        </ExpansionPanel>
+                        </ExpansionPanel> */}
 
-                        <ExpansionPanel>
-                            <ExpansionPanelSummary
-                                expandIcon={<ExpandMoreIcon />}
-                                aria-controls="panel1a-content"
-                                id="panel1a-header"
-                            >
-                                <Typography style={heading}>Proiecte la care se pot asa layouts</Typography>
-                            </ExpansionPanelSummary>
-                            <ExpansionPanelDetails>
-                                <div style={papers}>
-                                    {productsContext.projectsList.map((project) => {
-                                        return (
-                                            <Grid
-                                                item
-                                                xs={6}
-
-                                                key={project.modelId}
-
-                                            >
-                                                <Paper elevation={4} style={paper} className="hoveredComponent" onClick={() => productsContext.addSlide({ id: project.modelId, type: "Project" })}>
-                                                    <img
-                                                        src={project.imageUrl}
-                                                        style={images}
-                                                        alt="media"
-                                                    />
-                                                    <p>Nume: {project.name}</p>
-                                                </Paper>
-                                            </Grid>
-                                        );
-                                    })}
-                                </div>
-                            </ExpansionPanelDetails>
-                        </ExpansionPanel>
 
 
                     </div>

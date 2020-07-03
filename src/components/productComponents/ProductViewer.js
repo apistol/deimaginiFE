@@ -4,9 +4,10 @@ import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 import RenderedPage from "../RenderedPage";
 import ProductContext from "../../context/productContext/productContext";
+import AsNavFor from "./AsNavFor";
 
 const ProductViewer = () => {
-  const productsContext = useContext(ProductContext);
+  const { returnedProject, slider, returnedProduct } = useContext(ProductContext);
 
   const settings = {
     dots: true,
@@ -16,30 +17,22 @@ const ProductViewer = () => {
     slidesToScroll: 1,
   };
 
-  const { slider } = productsContext;
+  const [state, setState] = useState({
+    nav1: null,
+    nav2: null
+  })
+
+  useEffect(() => {
+    setState({
+      nav1: ProductViewer.slider1,
+      nav2: ProductViewer.slider2,
+    })
+  }, [])
+
 
   return (
     <div>
-
-      <Slider {...settings}>
-
-        {slider.map((prod) => (
-          <RenderedPage layoutSpecs={{ ...prod }} />
-        ))}
-
-
-        {/* <RenderedCover
-          tipLayout={prod.tipLayout}
-          layoutWidth={prod.layoutWidth}
-          layoutHeight={prod.layoutHeight}
-          coverHasImage={prod.coverHasImage}
-          coverImageWidth={prod.coverImageWidth}
-          coverImageHeight={prod.coverImageHeight}
-          coverImageTopPosition={prod.coverImageTopPosition}
-          coverImageLeftPosition={prod.coverImageLeftPosition}
-          zoom={prod.zoom}
-        /> */}
-      </Slider>
+      <AsNavFor carouselSlides={slider} returnedProject={returnedProject} />
     </div>
   );
 };

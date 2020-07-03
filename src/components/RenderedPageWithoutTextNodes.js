@@ -82,23 +82,19 @@ const RenderedPage = ({ layoutSpecs }) => {
 
                         {(row1 >= 1) &&
                             <Grid item xs={row1Col1} style={column}>
-                                row1col1
-                    </Grid>}
+                            </Grid>}
 
                         {(row1 >= 2) &&
                             <Grid item xs={row1Col2} style={column}>
-                                row1col2
-                    </Grid>}
+                            </Grid>}
 
                         {(row1 >= 3) &&
                             <Grid item xs={row1Col3} style={column}>
-                                row1col3
-                    </Grid>}
+                            </Grid>}
 
                         {(row1 >= 4) &&
                             <Grid item xs={row1Col4} style={column}>
-                                row1col4
-                    </Grid>}
+                            </Grid>}
                     </Grid>}
 
 
@@ -113,23 +109,19 @@ const RenderedPage = ({ layoutSpecs }) => {
 
                         {(row2 >= 1) &&
                             <Grid item xs={row2Col1} style={column}>
-                                row2col1
-                    </Grid>}
+                            </Grid>}
 
                         {(row2 >= 2) &&
                             <Grid item xs={row2Col2} style={column}>
-                                row2col2
-                    </Grid>}
+                            </Grid>}
 
                         {(row2 >= 3) &&
                             <Grid item xs={row2Col3} style={column}>
-                                row2col3
-                    </Grid>}
+                            </Grid>}
 
                         {(row2 >= 4) &&
                             <Grid item xs={row2Col4} style={column}>
-                                row2col4
-                    </Grid>}
+                            </Grid>}
                     </Grid>}
 
 
@@ -145,23 +137,19 @@ const RenderedPage = ({ layoutSpecs }) => {
 
                         {(row3 >= 1) &&
                             <Grid item xs={row3Col1} style={column}>
-                                row3col1
-                    </Grid>}
+                            </Grid>}
 
                         {(row3 >= 2) &&
                             <Grid item xs={row3Col2} style={column}>
-                                row3col2
-                    </Grid>}
+                            </Grid>}
 
                         {(row3 >= 3) &&
                             <Grid item xs={row3Col3} style={column}>
-                                row3col3
-                    </Grid>}
+                            </Grid>}
 
                         {(row3 >= 4) &&
                             <Grid item xs={row3Col4} style={column}>
-                                row3col4
-                    </Grid>}
+                            </Grid>}
                     </Grid>}
 
 
@@ -177,23 +165,19 @@ const RenderedPage = ({ layoutSpecs }) => {
 
                         {(row4 >= 1) &&
                             <Grid item xs={row4Col1} style={column}>
-                                row4col1
-                    </Grid>}
+                            </Grid>}
 
                         {(row4 >= 2) &&
                             <Grid item xs={row4Col2} style={column}>
-                                row4col2
-                    </Grid>}
+                            </Grid>}
 
                         {(row4 >= 3) &&
                             <Grid item xs={row4Col3} style={column}>
-                                row4col3
-                    </Grid>}
+                            </Grid>}
 
                         {(row4 >= 4) &&
                             <Grid item xs={row4Col4} style={column}>
-                                row4col4
-                    </Grid>}
+                            </Grid>}
                     </Grid>}
 
 

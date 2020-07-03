@@ -26,7 +26,6 @@ const ProjectState = props => {
 
     const { projectsList, returnedProject, msgProjects } = state;
 
-
     useEffect(() => {
         getProjects();
     }, [])
@@ -38,12 +37,21 @@ const ProjectState = props => {
             .catch((err) => dispatch({ type: MSG_PROJECTS, payload: err }));
     };
 
-
     const createNewProject = (newProject) => {
+        let projectId;
         axios
             .post("/project", newProject)
-            .then((res) => (dispatch({ type: CREATE_PROJECT, payload: res.data })))
-            .catch((err) => dispatch({ type: MSG_PROJECTS, payload: err }));
+            .then((res) => {
+                dispatch({ type: CREATE_PROJECT, payload: res.data })
+                axios.post("/product", { id: res.data.id })
+                projectId = res.data.id;
+            })
+            .then((res2) => {
+                console.log(res2)
+                console.log("projectId")
+                console.log(projectId)
+            })
+            .catch((err) => dispatch({ type: MSG_PROJECTS, payload: err }))
     }
 
     const addImageToProject = async (picture, id) => {

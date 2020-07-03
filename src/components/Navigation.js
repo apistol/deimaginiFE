@@ -61,7 +61,7 @@ class Navigation extends React.Component {
 
 
         <Grid container className="cardMenu" spacing={2}>
-          <Grid item xs={12} md={3}>
+          <Grid item xs={12} md={4}>
             <Link to="/">
               <Paper style={card} className="menuCard">
                 <img src={m1} style={image} alt="creeaza proiect" />
@@ -69,7 +69,7 @@ class Navigation extends React.Component {
               </Paper>
             </Link>
           </Grid>
-          <Grid item xs={12} md={3}>
+          <Grid item xs={12} md={4}>
             <Link to="/creeazaLayout">
               <Paper style={card} className="menuCard">
                 <img src={m2} style={image} alt="creeaza layout" />
@@ -77,15 +77,15 @@ class Navigation extends React.Component {
               </Paper>
             </Link>
           </Grid>
-          <Grid item xs={12} md={3}>
+          {/* <Grid item xs={12} md={3}>
             <Link to="/creeazaTematica">
               <Paper style={card} className="menuCard">
                 <img src={m3} style={image} alt="creeaza tematica" />
                 <h3 style={textCenter}>Creeaza tematica</h3>
               </Paper>
             </Link>
-          </Grid>
-          <Grid item xs={12} md={3}>
+          </Grid> */}
+          <Grid item xs={12} md={4}>
             <Link to="/creeazaProdusComplet">
               <Paper style={card} className="menuCard">
                 <img src={m4} style={image} alt="creeaza produs" />
