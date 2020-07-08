@@ -15,7 +15,7 @@ const Renderer = (props) => {
         rendererHeight,
         tipLayout,
         zoomIn,
-        zoomOut
+        zoomOut,
     } = props
 
     const [dragState, setDragState] = useState("")

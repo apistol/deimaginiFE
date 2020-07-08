@@ -39,3 +39,7 @@ p {
 .slick-next:before {
   color: #333 !important;
 }
+
+.slick-slide.slick-active {
+  /* background: rgba(225, 64, 19, 0.05); */
+}

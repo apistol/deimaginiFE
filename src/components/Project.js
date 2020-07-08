@@ -9,7 +9,6 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Switch from "@material-ui/core/Switch";
 import ProjectSelector from "./projectComponents/ProjectSelector";
 
-
 import DropDown from "./lowLeveComponents/DropDown";
 import ProjectsContext from "../context/projectsContext/projectContext"
 
@@ -50,8 +49,6 @@ class NewProject extends React.Component {
   };
 
 
-
-
   render() {
 
     const {
@@ -81,6 +78,7 @@ class NewProject extends React.Component {
           marginBottom: "60px",
         }}
       >
+
         <Button
           variant="contained"
           style={{

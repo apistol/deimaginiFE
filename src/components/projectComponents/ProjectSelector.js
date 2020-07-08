@@ -13,6 +13,10 @@ import ImageUploader from 'react-images-upload';
 import "../../App.css";
 import ProjectsContext from "../../context/projectsContext/projectContext"
 
+import Snackbar from '@material-ui/core/Snackbar';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
+
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -82,8 +86,32 @@ export default function SimpleTabs({
     setValue(newValue);
   };
 
+  //  const handleClick = () => {
+  //   setOpen(true);
+  // };
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+  };
+
   return (
     <Container>
+
+
+      <Snackbar
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'left',
+        }}
+        open={projectsContext.msgProjects ? true : false}
+        autoHideDuration={1000}
+        message={projectsContext.msgProjects ? projectsContext.msgProjects.message : ""}
+      />
+
+
+
       <div className={classes.root}>
         <AppBar
           position="static"
@@ -126,7 +154,7 @@ export default function SimpleTabs({
                   >
                     <Grid item xs={4}>
                       <img
-                        src={project.imageUrl}
+                        src={project.picture}
                         alt="testImage"
                         style={{ width: "100%", height: "auto" }}
                       />
@@ -180,7 +208,7 @@ export default function SimpleTabs({
                         label="Marime imagine max: 4MB se accepta doar .jpg, .png"
                         withIcon={false}
                         buttonText='Alege imagine proiect'
-                        onChange={(event) => onDrop(event, project.modelId)}
+                        onChange={(event) => onDrop(event, project.id)}
                         imgExtension={['.jpg', '.png']}
                         maxFileSize={50000000}
                         withPreview={true}
@@ -208,7 +236,7 @@ export default function SimpleTabs({
                         variant="contained"
                         style={{ backgroundColor: "#e14013", color: "#FFF" }}
                         onClick={() => {
-                          projectsContext.deleteProjectForId(project.modelId);
+                          projectsContext.deleteProjectForId(project.id);
                         }}
                       >
                         Sterge album

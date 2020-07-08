@@ -34,6 +34,10 @@ const GeneralFields = () => {
         coverImageTopPosition: "",
         coverImageLeftPosition: "",
 
+        paddingBetweenImages: "",
+        borderWidth: "",
+        dropShadow: "",
+
         hasText: false,
         editableText: false,
         editableBackground: false,
@@ -81,6 +85,10 @@ const GeneralFields = () => {
         coverImageHeight,
         coverImageTopPosition,
         coverImageLeftPosition,
+
+        paddingBetweenImages,
+        borderWidth,
+        dropShadow,
 
         rowsLayout,
         layoutPadding,
@@ -231,6 +239,9 @@ const GeneralFields = () => {
                             handleChangeDropdown={handleChangeDropdown}
                             rowsLayout={rowsLayout}
                             layoutPadding={layoutPadding}
+                            paddingBetweenImages={paddingBetweenImages}
+                            borderWidth={borderWidth}
+                            dropShadow={dropShadow}
                             row1={row1}
                             row1Col1={row1Col1}
                             row1Col2={row1Col2}
@@ -324,6 +335,10 @@ const GeneralFields = () => {
                         coverImageHeight={coverImageHeight}
                         coverImageTopPosition={coverImageTopPosition}
                         coverImageLeftPosition={coverImageLeftPosition}
+
+                        paddingBetweenImages={paddingBetweenImages}
+                        borderWidth={borderWidth}
+                        dropShadow={dropShadow}
 
                         rowsLayout={rowsLayout}
                         layoutPadding={layoutPadding}

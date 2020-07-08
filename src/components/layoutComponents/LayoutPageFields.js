@@ -8,6 +8,9 @@ const LayoutPageFields = ({
     handleChangeDropdown,
     rowsLayout,
     layoutPadding,
+    paddingBetweenImages,
+    borderWidth,
+    dropShadow,
     row1,
     row1Col1,
     row1Col2,
@@ -37,11 +40,35 @@ const LayoutPageFields = ({
             <br />
             <TextField
                 id="standard-basic"
-                label="Padding layout"
+                label="Padding layout (px)"
                 type="text"
                 onChange={(event) => handleTextUpdate(event)}
                 name="layoutPadding"
                 value={layoutPadding}
+            />
+            <TextField
+                id="standard-basic"
+                label="Padding imagini (%)"
+                type="text"
+                onChange={(event) => handleTextUpdate(event)}
+                name="paddingBetweenImages"
+                value={paddingBetweenImages}
+            />
+            <TextField
+                id="standard-basic"
+                label="Latime border imagini"
+                type="text"
+                onChange={(event) => handleTextUpdate(event)}
+                name="borderWidth"
+                value={borderWidth}
+            />
+            <TextField
+                id="standard-basic"
+                label="Spread shadow"
+                type="text"
+                onChange={(event) => handleTextUpdate(event)}
+                name="dropShadow"
+                value={dropShadow}
             />
 
             <br />

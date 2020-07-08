@@ -4,38 +4,35 @@ import productReducer from "./productReducer";
 import axios from "axios";
 
 import {
+  // Retrieves products and layouts
   GET_PRODUCTS,
-  CREATE_PRODUCT,
-  GET_PRODUCT_BY_ID,
-  DELETE_PRODUCT_BY_ID,
-  DUPLICATE_PRODUCT_BY_ID,
   GET_LAYOUTS_FOR_PRODUCTS,
-  GET_THEMES_FOR_PRODUCTS,
-  GET_PROJECTS_FOR_PRODUCTS,
-  MSG_PRODUCTS,
+  // Get and update for product
+  UPDATE_PRODUCT,
+  GET_PRODUCT_BY_ID,
+  // Add and remove slide product
   ADD_SLIDE_FOR_PRODUCT,
   REMOVE_SLIDE_FOR_PRODUCT,
-  SET_CURRENT_ID_FOR_PROJECT,
-  RETURNED_PRODUCT
+  // Message
+  MSG_PRODUCTS,
+
 } from "../types";
 
 
 //TODO remove unused functions
 const ProductState = props => {
   const productsInitialState = {
-    productsList: [],
-    returnedProject: null,
+    //Displays current product retrieved from Db
     returnedProduct: null,
 
     layoutsList: [],
-    projectsList: [],
-    themesList: [],
+    productsList: [],
     slidesIdsList: [],
 
-    currentProject: null,
+    // Keeps the state of slides from retrieved returnedProduct and added from layouts or covers
     slider: [],
 
-    message: ""
+    message: null
   };
   const [state, dispatch] = useReducer(productReducer, productsInitialState);
 
@@ -43,7 +40,11 @@ const ProductState = props => {
 
   useEffect(() => {
     getLayouts();
-    getProjects();
+    getProducts();
+    if (returnedProduct != null) {
+      //if returned product is not null, slides will come from retrieved product
+      dispatch({ type: ADD_SLIDE_FOR_PRODUCT, payload: returnedProduct.slider })
+    }
   }, [])
 
 
@@ -53,16 +54,21 @@ const ProductState = props => {
 
 
   const addSlide = (item) => {
+    console.log("addSlide started")
     const { id, type } = item;
     slidesIdsList.push(item.id)
     // push layout id to slider
     getLayoutsForId(id)
+    console.log("addSlide ended")
   };
 
   const removeSlide = (item) => {
-    // const propsss =
     dispatch({ type: REMOVE_SLIDE_FOR_PRODUCT, payload: item })
   };
+
+  //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+
 
 
 
@@ -72,7 +78,7 @@ const ProductState = props => {
     console.log("getProducts a fost apelata")
 
     axios
-      .get("/product")
+      .get("/products")
       .then((res) => {
         dispatch({ type: GET_PRODUCTS, payload: res.data })
         console.log("getProducts runned succesfull")
@@ -84,30 +90,8 @@ const ProductState = props => {
       });
   };
 
-  //TODO verifica endpointul
-  const deleteProductForId = (layoutId) => {
-    axios
-      .get(`/product/${layoutId}/delete`)
-      .then((res) => dispatch({ type: DELETE_PRODUCT_BY_ID, payload: res.data }))
-      .catch((err) => dispatch({ type: MSG_PRODUCTS, payload: err }));
-  };
 
-
-
-  //TODO not implemented yet
-  const duplicateProductForId = (layoutId) => {
-    axios
-      .get(`/product/${layoutId}/duplicate`)
-      .then((res) =>
-        dispatch({ type: DUPLICATE_PRODUCT_BY_ID, payload: res.data })
-      )
-      .catch((err) => dispatch({ type: MSG_PRODUCTS, payload: err }));
-  };
-
-
-
-  //TODO on click of button "SALVEAZA"
-  const updateProduct = async (slidesIdsList, productUid) => {
+  const updateProduct = (slidesIdsList, productUid) => {
     console.log("updateProduct started")
     console.log(slidesIdsList)
     console.log(productUid)
@@ -115,20 +99,17 @@ const ProductState = props => {
       .put(`/product`, { slider, productUid })
       .then((res) => {
         console.log("updateProduct was successfull")
-        return dispatch({ type: CREATE_PRODUCT, payload: res.data });
+        return dispatch({ type: UPDATE_PRODUCT, payload: res.data });
       })
       .catch((err) => {
         dispatch({ type: MSG_PRODUCTS, payload: err })
         console.log("updateProduct was unsuccessfull")
       });
-    //console.log("getProducts a fost apelata din ProductState")
   };
 
 
-  //TODO on product click "RETRIEVES AN PRODUCT"
   const getProductForId = (productId) => {
     console.log("getProductForId started")
-
     if (productId === null) { return console.error("Missing product id"); }
     axios
       .get(`/product/${productId}`)
@@ -136,55 +117,17 @@ const ProductState = props => {
         console.log(res.data)
         dispatch({ type: GET_PRODUCT_BY_ID, payload: res.data })
         console.log("getProductForId runned successfull")
-
       })
       .catch((err) => {
         console.log("getProductForId runned unsuccessfull")
         dispatch({ type: MSG_PRODUCTS, payload: err })
       });
-
   };
 
 
-  /////////////////////////////////////////////////////////////////////////////////////
+  //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
-
-
-
-
-
-  /////////////////////////////////  PROJECTS  /////////////////////////////////////////
-
-  const getProjects = () => {
-    axios
-      .get("/project")
-      .then((res) =>
-        dispatch({ type: GET_PROJECTS_FOR_PRODUCTS, payload: res.data })
-      )
-      .catch((err) => dispatch({ type: MSG_PRODUCTS, payload: err }));
-    console.log("getProjects a fost apelata din ProductState");
-  };
-
-  /////////////////////////////////////////////////////////////////////////////////////
-
-
-
-
-
-  /////////////////////////////////  THEMES  /////////////////////////////////////////
-  // TODO daca renuntam la teme sa stergem metoda
-  const getThemes = () => {
-    axios
-      .get("/theme")
-      .then((res) =>
-        dispatch({ type: GET_THEMES_FOR_PRODUCTS, payload: res.data })
-      )
-      .catch((err) => dispatch({ type: MSG_PRODUCTS, payload: err }));
-    console.log("getThemes a fost apelata din ProductState");
-  };
-
-  /////////////////////////////////////////////////////////////////////////////////////
 
 
 
@@ -205,44 +148,37 @@ const ProductState = props => {
 
   const getLayoutsForId = (layoutId) => {
     if (layoutId === null) { return console.error("Missing layout id") }
+    console.log("getLayoutsForId started")
     axios
       .get(`/layout/${layoutId}`)
       .then((res) => {
         dispatch({ type: ADD_SLIDE_FOR_PRODUCT, payload: res.data })
-
-        let projecId;
-        let idOfLayout;
-        axios.post(`/slider/${projecId}`, idOfLayout)
-        // persist slide with project id
-        // add(`/slider/${projectId}`)
+        console.log("getLayoutsForId finished succesfull")
       })
-      .then(res => { return res.status(200).json(res.data) })
-      .catch((err) => dispatch({ type: MSG_PRODUCTS, payload: err }));
+      .catch((err) => {
+        dispatch({ type: MSG_PRODUCTS, payload: err })
+        console.log("getLayoutsForId finished unsuccesfull")
+      });
   };
 
-  /////////////////////////////////////////////////////////////////////////////////////
+  //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
 
   return (
     <ProductContext.Provider
       value={{
-        productsList,
-        returnedProject,
         returnedProduct,
 
         layoutsList,
-        projectsList,
-        themesList,
+        productsList,
         slidesIdsList,
+
         message,
         slider,
-        currentProject,
 
         updateProduct,
         getProductForId,
-        deleteProductForId,
-        duplicateProductForId,
         addSlide,
       }}
     >

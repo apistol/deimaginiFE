@@ -3,6 +3,7 @@ import Button from "@material-ui/core/Button";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
+import Switch from '@material-ui/core/Switch';
 
 import defaultImage from "../../assets/logo.svg";
 
@@ -21,9 +22,6 @@ const ProductFields = props => {
 
 
     const [productFields, setProductFields] = useState({
-        name: "",
-        photoOnC1: false,
-        emptyWindowOnC1: true,
         layoutEditC1: false,
         layoutEditC2: false,
         layoutEditC3: false,
@@ -35,12 +33,7 @@ const ProductFields = props => {
         backgroundEditC1C4: false,
         backgroundEditC2: false,
         backgroundEditC3: false,
-        backgroundImageC1C4: "",
-        backgroundImageC2: "",
-        backgroundImageC3: "",
-        layoutC1C4: "",
-        layoutC2: "",
-        layoutC3: "",
+        checkedA: false,
     })
 
     const productsContext = useContext(ProductContext);
@@ -48,9 +41,9 @@ const ProductFields = props => {
 
 
     useEffect(() => {
-        console.log(productsContext)
-        console.log(slidesIdsList ? slidesIdsList.data : "")
-        console.log(returnedProduct)
+        // console.log(productsContext)
+        // console.log(slidesIdsList ? slidesIdsList.data : "")
+        // console.log(returnedProduct)
     }, [])
 
 
@@ -61,6 +54,10 @@ const ProductFields = props => {
     };
     const handleChangeDropdown = (item) => {
         productsContext.addSlide(item)
+    };
+
+    const handleChangeSwitch = (event) => {
+        setProductFields({ [event.target.name]: event.target.checked });
     };
 
 
@@ -122,9 +119,10 @@ const ProductFields = props => {
                     marginRight: "8px",
                 }}
                 onClick={() => {
-                    productsContext.updateProduct(slidesIdsList, returnedProduct.handlerId);
+                    productsContext.updateProduct(slidesIdsList, returnedProduct.id);
                     // console.log(productContext)
-                    // console.log(productContext.slidesIdsList)
+                    console.log(slidesIdsList)
+                    console.log(returnedProduct.id)
                 }}
             >
                 Salveaza produs
@@ -146,34 +144,31 @@ const ProductFields = props => {
                             </ExpansionPanelSummary>
                             <ExpansionPanelDetails>
                                 <div style={papers}>
-                                    {(productsContext.projectsList !== null
-                                        && productsContext.projectsList !== undefined
-                                        && productsContext.projectsList !== 0) ?
-                                        productsContext.projectsList.map((project) => {
-                                            return (
-                                                <Grid
-                                                    item
-                                                    xs={6}
+                                    {productsContext.productsList ? productsContext.productsList.map((product) => {
+                                        return (
+                                            <Grid
+                                                item
+                                                xs={6}
 
-                                                    key={project.id}
+                                                key={product.id}
 
+                                            >
+                                                <Paper elevation={4} style={paper} className="hoveredComponent"
+                                                    onClick={() => {
+                                                        console.log(product.id)
+                                                        productsContext.getProductForId(product.id)
+                                                    }}
                                                 >
-                                                    <Paper elevation={4} style={paper} className="hoveredComponent"
-                                                        onClick={() => {
-                                                            console.log(project.id)
-                                                            productsContext.getProductForId(project.id)
-                                                        }}
-                                                    >
-                                                        <img
-                                                            src={defaultImage}
-                                                            style={images}
-                                                            alt="media"
-                                                        />
-                                                        <p>Nume: {project.name}</p>
-                                                    </Paper>
-                                                </Grid>
-                                            );
-                                        }) : ""}
+                                                    <img
+                                                        src={defaultImage}
+                                                        style={images}
+                                                        alt="media"
+                                                    />
+                                                    <p>Nume: {product.name}</p>
+                                                </Paper>
+                                            </Grid>
+                                        );
+                                    }) : ""}
                                 </div>
                             </ExpansionPanelDetails>
                         </ExpansionPanel>
@@ -249,41 +244,49 @@ const ProductFields = props => {
                             </ExpansionPanelDetails>
                         </ExpansionPanel>
 
-                        {/* <ExpansionPanel>
+                        {productsContext.returnedProduct && <ExpansionPanel>
                             <ExpansionPanelSummary
                                 expandIcon={<ExpandMoreIcon />}
                                 aria-controls="panel1a-content"
                                 id="panel1a-header"
                             >
-                                <Typography style={heading}>Tematici</Typography>
+                                <Typography style={heading}>Slides</Typography>
+
                             </ExpansionPanelSummary>
                             <ExpansionPanelDetails>
                                 <div style={papers}>
-                                    {productsContext.themesList.map((theme) => {
+
+                                    <p > <Switch
+                                        checked={productFields.checkedA}
+                                        onChange={handleChangeSwitch}
+                                        color="primary"
+                                        name="checkedA"
+                                        inputProps={{ 'aria-label': 'primary checkbox' }}
+                                    /> Este deschidere</p>
+
+
+                                    {productsContext.slider ? productsContext.slider.map((slider) => {
                                         return (
                                             <Grid
                                                 item
                                                 xs={6}
-
-                                                key={theme.id}
-
+                                                key={slider.id}
                                             >
-                                                <Paper elevation={4} style={paper} className="hoveredComponent" onClick={() => productsContext.addSlide({ id: theme.id, type: "Theme" })}>
+                                                <Paper elevation={4} style={paper} className="hoveredComponent" onClick={() => console.log("clicked")} >
                                                     <img
-                                                        src={theme.themeImage}
+                                                        src={slider.sliderBackground}
                                                         style={images}
                                                         alt="media"
                                                     />
-                                                    <p>Nume: {theme.name}</p>
-                                                    <p>Tematica folosita: {theme.layoutUsed}</p>
+                                                    <p>Nume: {slider.name}</p>
                                                 </Paper>
                                             </Grid>
                                         );
-                                    })}
+                                    }) : ""}
                                 </div>
                             </ExpansionPanelDetails>
-                        </ExpansionPanel> */}
-
+                        </ExpansionPanel>
+                        }
 
 
                     </div>

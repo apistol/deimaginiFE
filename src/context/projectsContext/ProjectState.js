@@ -19,7 +19,7 @@ const ProjectState = props => {
     const projectInitalState = {
         projectsList: [],
         returnedProject: null,
-        msgProjects: ""
+        msgProjects: null
     }
 
     const [state, dispatch] = useReducer(projectReducer, projectInitalState);
@@ -43,7 +43,7 @@ const ProjectState = props => {
             .post("/project", newProject)
             .then((res) => {
                 dispatch({ type: CREATE_PROJECT, payload: res.data })
-                axios.post("/product", { id: res.data.id })
+                axios.post("/product", { id: res.data.id, name: res.data.name })
                 projectId = res.data.id;
             })
             .then((res2) => {
@@ -55,15 +55,24 @@ const ProjectState = props => {
     }
 
     const addImageToProject = async (picture, id) => {
+        console.log("addImageToProject started")
         const fd = new FormData();
         fd.append('image', picture, picture.name);
+        console.log(id)
         const url = `/project/${id}/image`
         axios.defaults.headers.common['Content-Type'] = 'multipart/form-data';
 
 
         axios.post(url, fd)
-            .then((res) => (dispatch({ type: ADD_IMAGE_TO_PROJECT, payload: res.data })))
-            .catch((err) => dispatch({ type: MSG_PROJECTS, payload: err }));
+            .then((res) => {
+                (dispatch({ type: ADD_IMAGE_TO_PROJECT, payload: res.data }))
+                //getProjects();
+                console.log("addImageToProject finished succesfully")
+            })
+            .catch((err) => {
+                dispatch({ type: MSG_PROJECTS, payload: err })
+                console.log("addImageToProject finished unsuccesfully")
+            });
     }
 
     const getProjectForId = (projectId) => {
@@ -75,8 +84,10 @@ const ProjectState = props => {
     };
 
     const deleteProjectForId = (projectId) => {
+        console.log("deleteProjectForId started")
+        //console.log(projectId)
         axios
-            .get(`/project/${projectId}/delete`)
+            .delete(`/project/${projectId}`)
             .then((res) => (dispatch({ type: DELETE_PROJECT_BY_ID, payload: res.data })))
             .catch((err) => dispatch({ type: MSG_PROJECTS, payload: err }));
     };
