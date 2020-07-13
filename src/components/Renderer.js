@@ -3,6 +3,7 @@ import Draggable from 'react-draggable';
 import Button from "@material-ui/core/Button";
 
 import RenderedPage from "./RenderedPage";
+import RenderedSecondaryPage from "./RenderedSecondaryPage";
 import RenderedCover from "./RenderedCover";
 
 
@@ -81,13 +82,13 @@ const Renderer = (props) => {
                 <Draggable
                     axis="both"
                     handle=".handle"
-                    defaultPosition={{ x: 0, y: 0 }}
+                    defaultPosition={{ x: -100, y: 0 }}
                     position={null}
                     grid={[1, 1]}
                     scale={1}
                     onDrag={handleDrag}
                 >
-                    <div>
+                    <div id="firstPage">
                         <div className="handle">
 
                             {showOnlyForCategory(["Pagina"]) &&
@@ -102,12 +103,42 @@ const Renderer = (props) => {
 
                         </div>
                     </div>
+
+
+
                 </Draggable>
+                {props.opening && <Draggable
+                    axis="both"
+                    handle=".handle"
+                    position={{ x: props.layoutWidth - 100, y: -props.layoutHeight }}
+                    grid={[1, 1]}
+                    scale={1}
+                    onDrag={handleDrag}
+                >
+                    <div id="secondPage">
+                        <div className="handle">
+
+                            {showOnlyForCategory(["Pagina"]) &&
+
+                                <div>
+                                    <RenderedSecondaryPage layoutSpecs={{ ...props }} />
+                                </div>}
+
+
+                            {showOnlyForCategory(["CopertaC1C4", "CopertaC2", "CopertaC3"]) &&
+                                <RenderedCover layoutSpecs={{ ...props }} />}
+
+                        </div>
+                    </div>
+
+
+
+                </Draggable>}
 
 
             </div>
 
-        </div>
+        </div >
 
     )
 }

@@ -12,10 +12,11 @@ import Button from "@material-ui/core/Button";
 import ImageUploader from 'react-images-upload';
 import "../../App.css";
 import ProjectsContext from "../../context/projectsContext/projectContext"
+import ProductContext from "../../context/productContext/productContext"
+
+import { Redirect, Link } from "react-router-dom";
 
 import Snackbar from '@material-ui/core/Snackbar';
-import IconButton from '@material-ui/core/IconButton';
-import CloseIcon from '@material-ui/icons/Close';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -76,6 +77,7 @@ export default function SimpleTabs({
   const [picture, setPicture] = React.useState(null);
 
   const projectsContext = useContext(ProjectsContext)
+  const productsContext = useContext(ProductContext)
 
   const onDrop = (event, id) => {
     projectsContext.addImageToProject(event[0], id);
@@ -140,7 +142,7 @@ export default function SimpleTabs({
           >
 
             <React.Fragment>
-              {projectsContext.projectsList ? (projectsContext.projectsList.map((project) => {
+              {projectsContext.projectsList && projectsContext.projectsList.length !== 0 ? (projectsContext.projectsList.map((project) => {
                 return (
                   <Grid
                     key={project.modelId}
@@ -205,6 +207,7 @@ export default function SimpleTabs({
                     <Grid item xs={4}>
 
                       <ImageUploader
+                        id="buttonUpload"
                         label="Marime imagine max: 4MB se accepta doar .jpg, .png"
                         withIcon={false}
                         buttonText='Alege imagine proiect'
@@ -216,21 +219,23 @@ export default function SimpleTabs({
                         fileContainerStyle={{
                           padding: "0px",
                           alignItems: "flex-start",
-                          margin: "10px auto"
+                          margin: "10px auto",
+                          boxShadow: "none",
                         }}
                       />
 
                       <br /> <br />
-                      <Button
-                        disabled
-                        variant="contained"
-                        style={{ backgroundColor: "#7f7f7f", color: "#FFF" }}
-                        onClick={() => {
-                          projectsContext.getProjectForId(project.modelId);
-                        }}
-                      >
-                        Editeaza album
+                      <Link to="/creeazaProdusComplet">
+                        <Button
+                          variant="contained"
+                          style={{ backgroundColor: "#e14013", color: "#FFF" }}
+                          onClick={() => {
+                            // productsContext.getProductForProjectsDisplay(project.id);
+                          }}
+                        >
+                          Editeaza album
                       </Button>
+                      </Link>
                       <br /> <br />
                       <Button
                         variant="contained"

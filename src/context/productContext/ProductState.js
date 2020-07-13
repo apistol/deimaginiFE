@@ -24,6 +24,7 @@ const ProductState = props => {
   const productsInitialState = {
     //Displays current product retrieved from Db
     returnedProduct: null,
+    recursiveBackground: null,
 
     layoutsList: [],
     productsList: [],
@@ -36,7 +37,7 @@ const ProductState = props => {
   };
   const [state, dispatch] = useReducer(productReducer, productsInitialState);
 
-  const { productsList, returnedProduct, returnedProject, layoutsList, projectsList, themesList, slidesIdsList, currentProject, slider, message, } = state;
+  const { productsList, returnedProduct, returnedProject, recursiveBackground, layoutsList, projectsList, themesList, slidesIdsList, currentProject, slider, message, } = state;
 
   useEffect(() => {
     getLayouts();
@@ -99,12 +100,36 @@ const ProductState = props => {
       .put(`/product`, { slider, productUid })
       .then((res) => {
         console.log("updateProduct was successfull")
-        return dispatch({ type: UPDATE_PRODUCT, payload: res.data });
+        dispatch({ type: UPDATE_PRODUCT, payload: res.data });
       })
       .catch((err) => {
         dispatch({ type: MSG_PRODUCTS, payload: err })
         console.log("updateProduct was unsuccessfull")
       });
+  };
+
+  const updateProductBackground = (picture, id) => {
+    console.log("updateProductBackground started")
+    console.log(picture)
+    console.log(id)
+
+    const fd = new FormData();
+    fd.append('image', picture, picture.name);
+    axios.defaults.headers.common['Content-Type'] = 'multipart/form-data';
+
+    axios
+      .post(`/product/${id}/background`, fd)
+      .then((res) => {
+        console.log("updateProductBackground was successfull")
+        dispatch({ type: UPDATE_PRODUCT, payload: res.data });
+      })
+      .catch((err) => {
+        dispatch({ type: MSG_PRODUCTS, payload: err })
+        console.log("updateProductBackground was unsuccessfull")
+      });
+
+
+
   };
 
 
@@ -113,6 +138,25 @@ const ProductState = props => {
     if (productId === null) { return console.error("Missing product id"); }
     axios
       .get(`/product/${productId}`)
+      .then((res) => {
+        console.log(res.data)
+        dispatch({ type: GET_PRODUCT_BY_ID, payload: res.data })
+        console.log("getProductForId runned successfull")
+      })
+      .catch((err) => {
+        console.log("getProductForId runned unsuccessfull")
+        dispatch({ type: MSG_PRODUCTS, payload: err })
+      });
+    console.log(productsInitialState)
+  };
+
+
+
+  const getProductForProjectsDisplay = (projectId) => {
+    console.log("getProductForProjectsDisplay started")
+    if (projectId === null) { return console.error("Missing project id"); }
+    axios
+      .get(`/productByProjectId/${projectId}`)
       .then((res) => {
         console.log(res.data)
         dispatch({ type: GET_PRODUCT_BY_ID, payload: res.data })
@@ -169,6 +213,7 @@ const ProductState = props => {
     <ProductContext.Provider
       value={{
         returnedProduct,
+        recursiveBackground,
 
         layoutsList,
         productsList,
@@ -178,8 +223,13 @@ const ProductState = props => {
         slider,
 
         updateProduct,
+        updateProductBackground,
         getProductForId,
         addSlide,
+
+
+        //For projects
+        getProductForProjectsDisplay,
       }}
     >
       {props.children}

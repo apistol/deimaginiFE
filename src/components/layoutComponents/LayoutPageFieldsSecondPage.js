@@ -6,31 +6,32 @@ import DropDown from "../lowLeveComponents/DropDown";
 const LayoutPageFields = ({
     handleTextUpdate,
     handleChangeDropdown,
-    rowsLayout,
-    layoutPadding,
-    paddingBetweenImages,
-    borderWidth,
-    dropShadow,
-    row1,
-    row1Col1,
-    row1Col2,
-    row1Col3,
-    row1Col4,
-    row2,
-    row2Col1,
-    row2Col2,
-    row2Col3,
-    row2Col4,
-    row3,
-    row3Col1,
-    row3Col2,
-    row3Col3,
-    row3Col4,
-    row4,
-    row4Col1,
-    row4Col2,
-    row4Col3,
-    row4Col4 }) => {
+    secondLayoutRowsLayout,
+    secondLayoutLayoutPadding,
+    secondLayoutPaddingBetweenImages,
+    secondLayoutBorderWidth,
+    secondLayoutDropShadow,
+    secondLayoutRow1,
+    secondLayoutRow1Col1,
+    secondLayoutRow1Col2,
+    secondLayoutRow1Col3,
+    secondLayoutRow1Col4,
+    secondLayoutRow2,
+    secondLayoutRow2Col1,
+    secondLayoutRow2Col2,
+    secondLayoutRow2Col3,
+    secondLayoutRow2Col4,
+    secondLayoutRow3,
+    secondLayoutRow3Col1,
+    secondLayoutRow3Col2,
+    secondLayoutRow3Col3,
+    secondLayoutRow3Col4,
+    secondLayoutRow4,
+    secondLayoutRow4Col1,
+    secondLayoutRow4Col2,
+    secondLayoutRow4Col3,
+    secondLayoutRow4Col4,
+}) => {
 
 
 
@@ -43,8 +44,8 @@ const LayoutPageFields = ({
                 label="Padding layout (px)"
                 type="text"
                 onChange={(event) => handleTextUpdate(event)}
-                name="layoutPadding"
-                value={layoutPadding}
+                name="secondLayoutLayoutPadding"
+                value={secondLayoutLayoutPadding}
             />
             <br />
             <TextField
@@ -52,8 +53,8 @@ const LayoutPageFields = ({
                 label="Padding imagini (%)"
                 type="text"
                 onChange={(event) => handleTextUpdate(event)}
-                name="paddingBetweenImages"
-                value={paddingBetweenImages}
+                name="secondLayoutPaddingBetweenImages"
+                value={secondLayoutPaddingBetweenImages}
             />
             <br />
             <TextField
@@ -61,8 +62,8 @@ const LayoutPageFields = ({
                 label="Latime border imagini"
                 type="text"
                 onChange={(event) => handleTextUpdate(event)}
-                name="borderWidth"
-                value={borderWidth}
+                name="secondLayoutBorderWidth"
+                value={secondLayoutBorderWidth}
             />
             <br />
             <TextField
@@ -70,79 +71,79 @@ const LayoutPageFields = ({
                 label="Spread shadow"
                 type="text"
                 onChange={(event) => handleTextUpdate(event)}
-                name="dropShadow"
-                value={dropShadow}
+                name="secondLayoutDropShadow"
+                value={secondLayoutDropShadow}
             />
             <br />
             {/* Number of rows */}
             <DropDown
                 options={["1", "2", "3", "4"]}
-                value={rowsLayout}
+                value={secondLayoutRowsLayout}
                 label="Randuri layout"
-                name="rowsLayout"
-                handleChangeDropdown={handleChangeDropdown}
+                name="secondLayoutRowsLayout"
+                handleChangeDropdown={(event) => handleChangeDropdown(event)}
             />
-            <br />
+
 
 
 
             {/* ROW 1 */}
 
 
-            {(rowsLayout >= 1) &&
+            {(secondLayoutRowsLayout >= 1) &&
                 <div>
                     <DropDown
                         options={["1", "2", "3", "4"]}
-                        value={row1}
+                        value={secondLayoutRow1}
                         label="Numar coloane row 1"
-                        name="row1"
+                        name="secondLayoutRow1"
                         handleChangeDropdown={(event) => handleChangeDropdown(event)}
                     />
-
-                    {(row1 >= 1) &&
+                    <br />
+                    {(secondLayoutRow1 >= 1) &&
                         <TextField
                             label="Expand coloana 1"
                             type="text"
                             onChange={(event) => handleTextUpdate(event)}
-                            name="row1Col1"
-                            value={row1Col1}
+                            name="secondLayoutRow1Col1"
+                            value={secondLayoutRow1Col1}
                         />
                     }
-
-                    {(row1 >= 2) &&
+                    <br />
+                    {(secondLayoutRow1 >= 2) &&
 
                         <TextField
                             label="Expand coloana 2"
                             type="text"
                             onChange={(event) => handleTextUpdate(event)}
-                            name="row1Col2"
-                            value={row1Col2}
+                            name="secondLayoutRow1Col2"
+                            value={secondLayoutRow1Col2}
                         />
                     }
-
-                    {(row1 >= 3) &&
+                    <br />
+                    {(secondLayoutRow1 >= 3) &&
 
                         <TextField
                             label="Expand coloana 3"
                             type="text"
                             onChange={(event) => handleTextUpdate(event)}
-                            name="row1Col3"
-                            value={row1Col3}
+                            name="secondLayoutRow1Col3"
+                            value={secondLayoutRow1Col3}
                         />
                     }
-
-                    {(row1 >= 4) &&
+                    <br />
+                    {(secondLayoutRow1 >= 4) &&
 
                         <TextField
                             label="Expand coloana 4"
                             type="text"
                             onChange={(event) => handleTextUpdate(event)}
-                            name="row1Col4"
-                            value={row1Col4}
+                            name="secondLayoutRow1Col4"
+                            value={secondLayoutRow1Col4}
                         />
                     }
                 </div>}
-
+            <br />
 
 
 
@@ -150,177 +151,177 @@ const LayoutPageFields = ({
 
 
 
-            {(rowsLayout >= 1) &&
+            {(secondLayoutRowsLayout >= 1) &&
                 <div>
                     <p>---------------------------------------</p>
                     <DropDown
                         options={["1", "2", "3", "4"]}
-                        value={row2}
+                        value={secondLayoutRow2}
                         label="Numar coloane row 2"
-                        name="row2"
+                        name="secondLayoutRow2"
                         handleChangeDropdown={(event) => handleChangeDropdown(event)}
                     />
-
-                    {(row2 >= 1) &&
+                    <br />
+                    {(secondLayoutRow2 >= 1) &&
                         <TextField
                             label="Expand coloana 1"
                             type="text"
                             onChange={(event) => handleTextUpdate(event)}
-                            name="row2Col1"
-                            value={row2Col1}
+                            name="secondLayoutRow2Col1"
+                            value={secondLayoutRow2Col1}
                         />
                     }
-
-                    {(row2 >= 2) &&
+                    <br />
+                    {(secondLayoutRow2 >= 2) &&
 
                         <TextField
                             label="Expand coloana 2"
                             type="text"
                             onChange={(event) => handleTextUpdate(event)}
-                            name="row2Col2"
-                            value={row2Col2}
+                            name="secondLayoutRow2Col2"
+                            value={secondLayoutRow2Col2}
                         />
                     }
-
-                    {(row2 >= 3) &&
+                    <br />
+                    {(secondLayoutRow2 >= 3) &&
 
                         <TextField
                             label="Expand coloana 3"
                             type="text"
                             onChange={(event) => handleTextUpdate(event)}
-                            name="row2Col3"
-                            value={row2Col3}
+                            name="secondLayoutRow2Col3"
+                            value={secondLayoutRow2Col3}
                         />
                     }
-
-                    {(row2 >= 4) &&
+                    <br />
+                    {(secondLayoutRow2 >= 4) &&
 
                         <TextField
                             label="Expand coloana 4"
                             type="text"
                             onChange={(event) => handleTextUpdate(event)}
-                            name="row2Col4"
-                            value={row2Col4}
+                            name="secondLayoutRow2Col4"
+                            value={secondLayoutRow2Col4}
                         />
                     }
                 </div>}
-
+            <br />
 
 
 
             {/* ROW 3 */}
 
-            {(rowsLayout >= 3) &&
+            {(secondLayoutRowsLayout >= 3) &&
                 <div>
                     <p>---------------------------------------</p>
                     <DropDown
                         options={["1", "2", "3", "4"]}
-                        value={row3}
+                        value={secondLayoutRow3}
                         label="Numar coloane row 3"
-                        name="row3"
+                        name="secondLayoutRow3"
                         handleChangeDropdown={(event) => handleChangeDropdown(event)}
                     />
-
-                    {(row3 >= 1) &&
+                    <br />
+                    {(secondLayoutRow3 >= 1) &&
                         <TextField
                             label="Expand coloana 1"
                             type="text"
                             onChange={(event) => handleTextUpdate(event)}
-                            name="row2Col1"
-                            value={row3Col1}
+                            name="secondLayoutRow2Col1"
+                            value={secondLayoutRow3Col1}
                         />
                     }
-
-                    {(row3 >= 2) &&
+                    <br />
+                    {(secondLayoutRow3 >= 2) &&
 
                         <TextField
                             label="Expand coloana 2"
                             type="text"
                             onChange={(event) => handleTextUpdate(event)}
-                            name="row3Col2"
-                            value={row3Col2}
+                            name="secondLayoutRow3Col2"
+                            value={secondLayoutRow3Col2}
                         />
                     }
-
-                    {(row3 >= 3) &&
+                    <br />
+                    {(secondLayoutRow3 >= 3) &&
 
                         <TextField
                             label="Expand coloana 3"
                             type="text"
                             onChange={(event) => handleTextUpdate(event)}
-                            name="row3Col3"
-                            value={row3Col3}
+                            name="secondLayoutRow3Col3"
+                            value={secondLayoutRow3Col3}
                         />
                     }
-
-                    {(row3 >= 4) &&
+                    <br />
+                    {(secondLayoutRow3 >= 4) &&
 
                         <TextField
                             label="Expand coloana 4"
                             type="text"
                             onChange={(event) => handleTextUpdate(event)}
-                            name="row3Col4"
-                            value={row3Col4}
+                            name="secondLayoutRow3Col4"
+                            value={secondLayoutRow3Col4}
                         />
                     }
                 </div>}
-
+            <br />
 
 
             {/* ROW 4 */}
 
-            {(rowsLayout >= 4) &&
+            {(secondLayoutRowsLayout >= 4) &&
                 <div>
                     <p>---------------------------------------</p>
                     <DropDown
                         options={["1", "2", "3", "4"]}
-                        value={row4}
+                        value={secondLayoutRow4}
                         label="Numar coloane row 4"
-                        name="row4"
+                        name="secondLayoutRow4"
                         handleChangeDropdown={(event) => handleChangeDropdown(event)}
                     />
-
-                    {(row4 >= 1) &&
+                    <br />
+                    {(secondLayoutRow4 >= 1) &&
 
                         <TextField
                             label="Expand coloana 1"
                             type="text"
                             onChange={(event) => handleTextUpdate(event)}
-                            name="row4Col1"
-                            value={row4Col1}
+                            name="secondLayoutRow4Col1"
+                            value={secondLayoutRow4Col1}
                         />
                     }
-
-                    {(row4 >= 2) &&
+                    <br />
+                    {(secondLayoutRow4 >= 2) &&
 
                         <TextField
                             label="Expand coloana 2"
                             type="text"
                             onChange={(event) => handleTextUpdate(event)}
-                            name="row4Col2"
-                            value={row4Col2}
+                            name="secondLayoutRow4Col2"
+                            value={secondLayoutRow4Col2}
                         />
                     }
-
-                    {(row4 >= 3) &&
+                    <br />
+                    {(secondLayoutRow4 >= 3) &&
 
                         <TextField
                             label="Expand coloana 3"
                             type="text"
                             onChange={(event) => handleTextUpdate(event)}
-                            name="row4Col3"
-                            value={row4Col3}
+                            name="secondLayoutRow4Col3"
+                            value={secondLayoutRow4Col3}
                         />
                     }
-
-                    {(row4 >= 4) &&
+                    <br />
+                    {(secondLayoutRow4 >= 4) &&
 
                         <TextField
                             label="Expand coloana 4"
                             type="text"
                             onChange={(event) => handleTextUpdate(event)}
-                            name="row4Col4"
-                            value={row4Col4}
+                            name="secondLayoutRow4Col4"
+                            value={secondLayoutRow4Col4}
                         />
                     }
                 </div>}

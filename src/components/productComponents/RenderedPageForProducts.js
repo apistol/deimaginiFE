@@ -3,7 +3,7 @@ import Grid from "@material-ui/core/Grid";
 import Paper from '@material-ui/core/Paper';
 
 
-const RenderedPage = ({ layoutSpecs }) => {
+const RenderedPage = ({ layoutSpecs, display, width }) => {
 
     const {
         rowsLayout,
@@ -53,8 +53,9 @@ const RenderedPage = ({ layoutSpecs }) => {
         backgroundPosition: "center",
         display: `${tipLayout === "" ? "none" : "inherit"}`,
         boxShadow: "0px 0px 5px 0px rgba(0,0,0,0.75)",
-        width: `80%`,
-        height: `80%`,
+        width: `100%`,
+        height: `100%`,
+        display: "block",
         margin: "auto",
         border: "1px solid #000000",
         padding: `${layoutPadding}px`,
@@ -89,7 +90,7 @@ const RenderedPage = ({ layoutSpecs }) => {
 
 
     return (
-        <div>
+        <div style={{ display, width, margin: "auto", zIndex: "9999" }}>
             <div id="layoutStyle" style={layoutStyle}>
                 {/* row 1 */}
                 {(rowsLayout >= 1) &&
@@ -181,28 +182,24 @@ const RenderedPage = ({ layoutSpecs }) => {
                         {(row3 >= 1) &&
                             <Grid item xs={row3Col1} style={column}>
                                 <div style={innerColumn}>
-                                    row3col1
                                 </div>
                             </Grid>}
 
                         {(row3 >= 2) &&
                             <Grid item xs={row3Col2} style={column}>
                                 <div style={innerColumn}>
-                                    row3col2
                                 </div>
                             </Grid>}
 
                         {(row3 >= 3) &&
                             <Grid item xs={row3Col3} style={column}>
                                 <div style={innerColumn}>
-                                    row3col3
                                 </div>
                             </Grid>}
 
                         {(row3 >= 4) &&
                             <Grid item xs={row3Col4} style={column}>
                                 <div style={innerColumn}>
-                                    row3col4
                                 </div>
                             </Grid>}
                     </Grid>}
@@ -221,28 +218,24 @@ const RenderedPage = ({ layoutSpecs }) => {
                         {(row4 >= 1) &&
                             <Grid item xs={row4Col1} style={column}>
                                 <div style={innerColumn}>
-                                    row4col1
                                 </div>
                             </Grid>}
 
                         {(row4 >= 2) &&
                             <Grid item xs={row4Col2} style={column}>
                                 <div style={innerColumn}>
-                                    row4col2
                                 </div>
                             </Grid>}
 
                         {(row4 >= 3) &&
                             <Grid item xs={row4Col3} style={column}>
                                 <div style={innerColumn}>
-                                    row4col3
                                 </div>
                             </Grid>}
 
                         {(row4 >= 4) &&
                             <Grid item xs={row4Col4} style={column}>
                                 <div style={innerColumn}>
-                                    row4col4
                                 </div>
                             </Grid>}
                     </Grid>}

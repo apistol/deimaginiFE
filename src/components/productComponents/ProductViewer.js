@@ -7,7 +7,7 @@ import ProductContext from "../../context/productContext/productContext";
 import AsNavFor from "./AsNavFor";
 
 const ProductViewer = () => {
-  const { returnedProject, slider, returnedProduct } = useContext(ProductContext);
+  const { returnedProject, slider, returnedProduct, recursiveBackground } = useContext(ProductContext);
 
   const settings = {
     dots: true,
@@ -32,7 +32,7 @@ const ProductViewer = () => {
 
   return (
     <div>
-      <AsNavFor carouselSlides={slider} returnedProject={returnedProject} />
+      <AsNavFor carouselSlides={slider} returnedProject={returnedProject} recursiveBackground={recursiveBackground} />
     </div>
   );
 };

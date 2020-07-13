@@ -3,8 +3,12 @@ import Button from "@material-ui/core/Button";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
-import Switch from '@material-ui/core/Switch';
 
+
+import ImageUploader from 'react-images-upload';
+import addImage from "../../assets/add.png";
+import minusImage from "../../assets/minus.png";
+import deleteImage from "../../assets/delete.png";
 import defaultImage from "../../assets/logo.svg";
 
 import FormGroup from '@material-ui/core/FormGroup';
@@ -33,7 +37,6 @@ const ProductFields = props => {
         backgroundEditC1C4: false,
         backgroundEditC2: false,
         backgroundEditC3: false,
-        checkedA: false,
     })
 
     const productsContext = useContext(ProductContext);
@@ -47,19 +50,14 @@ const ProductFields = props => {
     }, [])
 
 
-
+    const onDrop = (event, id) => {
+        console.log(event, id)
+        productsContext.updateProductBackground(event[0], id);
+    }
 
     const handleChange = (event) => {
         setProductFields({ [event.target.name]: event });
     };
-    const handleChangeDropdown = (item) => {
-        productsContext.addSlide(item)
-    };
-
-    const handleChangeSwitch = (event) => {
-        setProductFields({ [event.target.name]: event.target.checked });
-    };
-
 
 
     const root = {
@@ -101,6 +99,8 @@ const ProductFields = props => {
         padding: "10px",
         boxShadow: "0px 0px 17px 0px rgba(225,64,19,1)",
     };
+
+    let sliderCounter = 0;
 
 
     return (
@@ -250,34 +250,63 @@ const ProductFields = props => {
                                 aria-controls="panel1a-content"
                                 id="panel1a-header"
                             >
-                                <Typography style={heading}>Slides</Typography>
+                                <Typography style={heading}>Slide-uri proiect curent</Typography>
 
                             </ExpansionPanelSummary>
                             <ExpansionPanelDetails>
                                 <div style={papers}>
 
-                                    <p > <Switch
-                                        checked={productFields.checkedA}
-                                        onChange={handleChangeSwitch}
-                                        color="primary"
-                                        name="checkedA"
-                                        inputProps={{ 'aria-label': 'primary checkbox' }}
-                                    /> Este deschidere</p>
+                                    <div>
+                                        <ImageUploader
+                                            label="Marime imagine max: 4MB se accepta doar .jpg, .png"
+                                            withIcon={false}
+                                            buttonText="Adauga background recurent"
+                                            onChange={(event) => onDrop(event, productsContext.returnedProduct.id)}
+                                            imgExtension={['.jpg', '.png']}
+                                            maxFileSize={50000000}
+                                            withPreview={true}
+                                            withLabel={false}
+                                            fileContainerStyle={{
+                                                padding: "0px",
+                                                alignItems: "flex-start",
+                                                margin: "10px auto",
+                                                color: "#000",
+                                                boxShadow: "none"
+                                            }}
+                                        />
 
+                                        <p onClick={() => alert(productsContext.returnedProduct)}><img src={minusImage} style={{ width: "20px", height: "20px", marginRight: "10px", marginBottom: "-5px", cursor: "pointer" }} /> Sterge background recurent</p>
+                                    </div>
+
+                                    <br />
+                                    <br />
+                                    <br /><br />
+                                    <br />
+                                    <br />
 
                                     {productsContext.slider ? productsContext.slider.map((slider) => {
+                                        sliderCounter += 1;
                                         return (
                                             <Grid
                                                 item
                                                 xs={6}
-                                                key={slider.id}
+                                                key={sliderCounter}
                                             >
                                                 <Paper elevation={4} style={paper} className="hoveredComponent" onClick={() => console.log("clicked")} >
                                                     <img
-                                                        src={slider.sliderBackground}
+                                                        src={slider.sliderBackground ? slider.sliderBackground : defaultImage}
                                                         style={images}
                                                         alt="media"
                                                     />
+                                                    <p style={{ textAlign: "center" }}>
+                                                        <img src={addImage} style={{ width: "20px", height: "20px", marginRight: "10px", cursor: "pointer" }}
+                                                            onClick={() => alert("add")} />
+                                                        <img src={minusImage} style={{ width: "20px", height: "20px", marginRight: "10px", cursor: "pointer" }}
+                                                            onClick={() => alert("remove")} />
+                                                        <img src={deleteImage} style={{ width: "20px", height: "20px", cursor: "pointer" }}
+                                                            onClick={() => alert("delete")} />
+                                                    </p>
+                                                    <p>Slide: {sliderCounter}</p>
                                                     <p>Nume: {slider.name}</p>
                                                 </Paper>
                                             </Grid>

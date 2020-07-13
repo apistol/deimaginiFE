@@ -29,6 +29,8 @@ const LayoutState = props => {
     }, [])
 
     const createNewLayout = (newLayout) => {
+        console.log('createNewLayout has starte')
+        console.log(newLayout)
         axios
             .post("/layout", newLayout)
             .then((res) => (dispatch({ type: CREATE_LAYOUT, payload: res.data })))

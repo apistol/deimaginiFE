@@ -11,12 +11,14 @@ import ProjectSelector from "./projectComponents/ProjectSelector";
 
 import DropDown from "./lowLeveComponents/DropDown";
 import ProjectsContext from "../context/projectsContext/projectContext"
+import ProductContext from "../context/productContext/productContext"
 
 
 
 class NewProject extends React.Component {
 
   static projectsContext = ProjectsContext;
+  static productContext = ProductContext;
 
   constructor(props) {
     super(props);

@@ -43,3 +43,12 @@ p {
 .slick-slide.slick-active {
   /* background: rgba(225, 64, 19, 0.05); */
 }
+
+.fileContainer {
+  box-shadow: "none" !important;
+}
+
+.productUploadButton {
+  background: "none!important";
+  color: "#000000!important";
+}

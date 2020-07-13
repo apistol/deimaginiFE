@@ -3,88 +3,88 @@ import Grid from "@material-ui/core/Grid";
 import Paper from '@material-ui/core/Paper';
 
 
-const RenderedPage = ({ layoutSpecs }) => {
+const RenderedPageSecondaryPage = ({ layoutSpecs }) => {
 
     const {
-        rowsLayout,
-        layoutPadding,
-        paddingBetweenImages,
-        borderWidth,
-        dropShadow,
         tipLayout,
         layoutWidth,
         layoutHeight,
         zoom,
-        row1,
-        row1Col1,
-        row1Col2,
-        row1Col3,
-        row1Col4,
-        row2,
-        row2Col1,
-        row2Col2,
-        row2Col3,
-        row2Col4,
-        row3,
-        row3Col1,
-        row3Col2,
-        row3Col3,
-        row3Col4,
-        row4,
-        row4Col1,
-        row4Col2,
-        row4Col3,
-        row4Col4,
-        themeImage,
-        coverThemeImage
+
+        secondLayoutPaddingBetweenImages,
+        secondLayoutBorderWidth,
+        secondLayoutDropShadow,
+        secondLayoutRowsLayout,
+        secondLayoutLayoutPadding,
+        secondLayoutRow1,
+        secondLayoutRow1Col1,
+        secondLayoutRow1Col2,
+        secondLayoutRow1Col3,
+        secondLayoutRow1Col4,
+        secondLayoutRow2,
+        secondLayoutRow2Col1,
+        secondLayoutRow2Col2,
+        secondLayoutRow2Col3,
+        secondLayoutRow2Col4,
+        secondLayoutRow3,
+        secondLayoutRow3Col1,
+        secondLayoutRow3Col2,
+        secondLayoutRow3Col3,
+        secondLayoutRow3Col4,
+        secondLayoutRow4,
+        secondLayoutRow4Col1,
+        secondLayoutRow4Col2,
+        secondLayoutRow4Col3,
+        secondLayoutRow4Col4,
+        secondLayoutZoom,
     } = layoutSpecs;
 
-    const columnHeight = (layoutHeight - 2 * layoutPadding) / rowsLayout;
-    const innerColumnHeight = columnHeight - 2 * borderWidth - 2 * (layoutHeight * (paddingBetweenImages / 100));
+    const columnHeight = (layoutHeight - 2 * secondLayoutLayoutPadding) / secondLayoutRowsLayout;
+    const innerColumnHeight = columnHeight - 2 * secondLayoutBorderWidth - 2 * (layoutHeight * (secondLayoutPaddingBetweenImages / 100));
 
     // console.log(columnHeight)
     // console.log(innerColumnHeight)
-    // console.log(layoutHeight * (paddingBetweenImages / 100))
+    // console.log(layoutHeight * (secondLayoutPaddingBetweenImages / 100))
 
     const layoutStyle = {
-        backgroundImage: `url(${coverThemeImage})`,
         backgroundSize: "100%",
         backgroundRepeat: "no-repeat",
         backgroundPosition: "center",
         display: `${tipLayout === "" ? "none" : "inherit"}`,
         boxShadow: "0px 0px 5px 0px rgba(0,0,0,0.75)",
-        width: `${layoutWidth - 2 * layoutPadding}px`,
-        height: `${layoutHeight - 2 * layoutPadding}px`,
+        width: `${layoutWidth - 2 * secondLayoutLayoutPadding}px`,
+        height: `${layoutHeight - 2 * secondLayoutLayoutPadding}px`,
         margin: "auto",
         border: "1px solid #000000",
-        padding: `${layoutPadding}px`,
-        transform: "scale(" + zoom + ")"
+        padding: `${secondLayoutLayoutPadding}px`,
+        transform: "scale(" + zoom + ")",
+
     }
 
     const fixWrapping = {
         flexWrap: "inherit",
-        height: `${layoutHeight / rowsLayout}px`
+        height: `${layoutHeight / secondLayoutRowsLayout}px`
     }
 
     const column = {
         width: "100%",
         height: `${columnHeight}px`,
-        padding: `${layoutHeight * (paddingBetweenImages / 100)}px`
+        padding: `${layoutHeight * (secondLayoutPaddingBetweenImages / 100)}px`
     }
 
     const innerColumn = {
         background: "none",
         borderRadius: "0px",
         height: `${innerColumnHeight}px`,
-        border: `${borderWidth}px solid #FFFFFF`,
-        boxShadow: `0px 0px ${dropShadow}px 0px rgba(0,0,0,0.75)`,
+        border: `${secondLayoutBorderWidth}px solid #FFFFFF`,
+        boxShadow: `0px 0px ${secondLayoutDropShadow}px 0px rgba(0,0,0,0.75)`,
         marginTop: "0px",
     }
 
 
     useEffect(() => {
 
-    }, [themeImage])
+    }, [])
 
 
 
@@ -92,36 +92,36 @@ const RenderedPage = ({ layoutSpecs }) => {
         <div>
             <div id="layoutStyle" style={layoutStyle}>
                 {/* row 1 */}
-                {(rowsLayout >= 1) &&
+                {(secondLayoutRowsLayout >= 1) &&
                     <Grid container
                         direction="row"
                         justify="space-around"
                         alignItems="center"
                         style={fixWrapping}>
 
-                        {(row1 >= 1) &&
-                            <Grid item xs={row1Col1} style={column}>
-                                <div style={innerColumn} width={`${((layoutWidth - 2 * layoutPadding) / row1) - 2 * borderWidth}px`}>
+                        {(secondLayoutRow1 >= 1) &&
+                            <Grid item xs={secondLayoutRow1Col1} style={column}>
+                                <div style={innerColumn} width={`${((layoutWidth - 2 * secondLayoutLayoutPadding) / secondLayoutRow1) - 2 * secondLayoutBorderWidth}px`}>
 
                                 </div>
                             </Grid>}
 
-                        {(row1 >= 2) &&
-                            <Grid item xs={row1Col2} style={column}>
+                        {(secondLayoutRow1 >= 2) &&
+                            <Grid item xs={secondLayoutRow1Col2} style={column}>
                                 <div style={innerColumn}>
 
                                 </div>
                             </Grid>}
 
-                        {(row1 >= 3) &&
-                            <Grid item xs={row1Col3} style={column}>
+                        {(secondLayoutRow1 >= 3) &&
+                            <Grid item xs={secondLayoutRow1Col3} style={column}>
                                 <div style={innerColumn}>
 
                                 </div>
                             </Grid>}
 
-                        {(row1 >= 4) &&
-                            <Grid item xs={row1Col4} style={column}>
+                        {(secondLayoutRow1 >= 4) &&
+                            <Grid item xs={secondLayoutRow1Col4} style={column}>
                                 <div style={innerColumn}>
 
                                 </div>
@@ -130,7 +130,7 @@ const RenderedPage = ({ layoutSpecs }) => {
 
 
                 {/* row 2 */}
-                {(rowsLayout >= 2) &&
+                {(secondLayoutRowsLayout >= 2) &&
                     <Grid container
                         direction="row"
                         justify="center"
@@ -138,29 +138,29 @@ const RenderedPage = ({ layoutSpecs }) => {
                         spacing={1}
                         style={fixWrapping}>
 
-                        {(row2 >= 1) &&
-                            <Grid item xs={row2Col1} style={column}>
+                        {(secondLayoutRow2 >= 1) &&
+                            <Grid item xs={secondLayoutRow2Col1} style={column}>
                                 <div style={innerColumn}>
 
                                 </div>
                             </Grid>}
 
-                        {(row2 >= 2) &&
-                            <Grid item xs={row2Col2} style={column}>
+                        {(secondLayoutRow2 >= 2) &&
+                            <Grid item xs={secondLayoutRow2Col2} style={column}>
                                 <div style={innerColumn}>
 
                                 </div>
                             </Grid>}
 
-                        {(row2 >= 3) &&
-                            <Grid item xs={row2Col3} style={column}>
+                        {(secondLayoutRow2 >= 3) &&
+                            <Grid item xs={secondLayoutRow2Col3} style={column}>
                                 <div style={innerColumn}>
 
                                 </div>
                             </Grid>}
 
-                        {(row2 >= 4) &&
-                            <Grid item xs={row2Col4} style={column}>
+                        {(secondLayoutRow2 >= 4) &&
+                            <Grid item xs={secondLayoutRow2Col4} style={column}>
                                 <div style={innerColumn}>
 
                                 </div>
@@ -169,7 +169,7 @@ const RenderedPage = ({ layoutSpecs }) => {
 
 
                 {/* row 3 */}
-                {(rowsLayout >= 3) &&
+                {(secondLayoutRowsLayout >= 3) &&
                     <Grid container
                         direction="row"
                         justify="center"
@@ -178,26 +178,26 @@ const RenderedPage = ({ layoutSpecs }) => {
                         style={fixWrapping}>
 
 
-                        {(row3 >= 1) &&
-                            <Grid item xs={row3Col1} style={column}>
+                        {(secondLayoutRow3 >= 1) &&
+                            <Grid item xs={secondLayoutRow3Col1} style={column}>
                                 <div style={innerColumn}>
                                 </div>
                             </Grid>}
 
-                        {(row3 >= 2) &&
-                            <Grid item xs={row3Col2} style={column}>
+                        {(secondLayoutRow3 >= 2) &&
+                            <Grid item xs={secondLayoutRow3Col2} style={column}>
                                 <div style={innerColumn}>
                                 </div>
                             </Grid>}
 
-                        {(row3 >= 3) &&
-                            <Grid item xs={row3Col3} style={column}>
+                        {(secondLayoutRow3 >= 3) &&
+                            <Grid item xs={secondLayoutRow3Col3} style={column}>
                                 <div style={innerColumn}>
                                 </div>
                             </Grid>}
 
-                        {(row3 >= 4) &&
-                            <Grid item xs={row3Col4} style={column}>
+                        {(secondLayoutRow3 >= 4) &&
+                            <Grid item xs={secondLayoutRow3Col4} style={column}>
                                 <div style={innerColumn}>
                                 </div>
                             </Grid>}
@@ -205,7 +205,7 @@ const RenderedPage = ({ layoutSpecs }) => {
 
 
                 {/* row 4 */}
-                {(rowsLayout >= 4) &&
+                {(secondLayoutRowsLayout >= 4) &&
                     <Grid
                         direction="row"
                         justify="center"
@@ -214,26 +214,26 @@ const RenderedPage = ({ layoutSpecs }) => {
                         style={fixWrapping}>
 
 
-                        {(row4 >= 1) &&
-                            <Grid item xs={row4Col1} style={column}>
+                        {(secondLayoutRow4 >= 1) &&
+                            <Grid item xs={secondLayoutRow4Col1} style={column}>
                                 <div style={innerColumn}>
                                 </div>
                             </Grid>}
 
-                        {(row4 >= 2) &&
-                            <Grid item xs={row4Col2} style={column}>
+                        {(secondLayoutRow4 >= 2) &&
+                            <Grid item xs={secondLayoutRow4Col2} style={column}>
                                 <div style={innerColumn}>
                                 </div>
                             </Grid>}
 
-                        {(row4 >= 3) &&
-                            <Grid item xs={row4Col3} style={column}>
+                        {(secondLayoutRow4 >= 3) &&
+                            <Grid item xs={secondLayoutRow4Col3} style={column}>
                                 <div style={innerColumn}>
                                 </div>
                             </Grid>}
 
-                        {(row4 >= 4) &&
-                            <Grid item xs={row4Col4} style={column}>
+                        {(secondLayoutRow4 >= 4) &&
+                            <Grid item xs={secondLayoutRow4Col4} style={column}>
                                 <div style={innerColumn}>
                                 </div>
                             </Grid>}
@@ -247,5 +247,5 @@ const RenderedPage = ({ layoutSpecs }) => {
 }
 
 
-export default RenderedPage
+export default RenderedPageSecondaryPage
 

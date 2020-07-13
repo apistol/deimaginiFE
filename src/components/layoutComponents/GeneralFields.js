@@ -1,16 +1,20 @@
 import React, { useEffect, useState, useContext } from 'react'
+
 import TextField from "@material-ui/core/TextField";
 import DropDown from "../lowLeveComponents/DropDown";
 import Button from "@material-ui/core/Button";
-import LayoutCoverFields from "../layoutComponents/LayoutCoverFields";
-import LayoutPageFields from "../layoutComponents/LayoutPageFields";
 import FormControl from "@material-ui/core/FormControl";
 import Switch from "@material-ui/core/Switch";
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Grid from "@material-ui/core/Grid";
 import Container from "@material-ui/core/Container";
+
+import LayoutCoverFields from "../layoutComponents/LayoutCoverFields";
+import LayoutPageFields from "../layoutComponents/LayoutPageFields";
+import LayoutPageFieldsSecondPage from "../layoutComponents/LayoutPageFieldsSecondPage";
 import Renderer from "../Renderer"
+import ViewerComponent from "./ViewerComponent";
 
 
 import LayoutsContext from "../../context/layoutsContext/layoutContext"
@@ -22,6 +26,8 @@ const GeneralFields = () => {
     const [fields, setFields] = useState({
         name: "",
         categLayout: "",
+        opening: false,
+
         tipLayout: "",
         layoutWidth: "",
         layoutHeight: "",
@@ -65,6 +71,52 @@ const GeneralFields = () => {
         row4Col3: "",
         row4Col4: "",
         zoom: 1,
+
+        // Second layout for opening type pages
+
+        secondLayoutTipLayout: "",
+        secondLayoutLayoutWidth: "",
+        secondLayoutLayoutHeight: "",
+        secondLayoutHasText: false,
+
+        secondLayoutCoverHasImage: false,
+        secondLayoutCoverImageWidth: "",
+        secondLayoutCoverImageHeight: "",
+        secondLayoutCoverImageTopPosition: "",
+        secondLayoutCoverImageLeftPosition: "",
+
+        secondLayoutPaddingBetweenImages: "",
+        secondLayoutBorderWidth: "",
+        secondLayoutDropShadow: "",
+
+        secondLayoutHasText: false,
+        secondLayoutEditableText: false,
+        secondLayoutEditableBackground: false,
+
+        secondLayoutRowsLayout: "",
+        secondLayoutLayoutPadding: "",
+        secondLayoutRow1: "",
+        secondLayoutRow1Col1: "",
+        secondLayoutRow1Col2: "",
+        secondLayoutRow1Col3: "",
+        secondLayoutRow1Col4: "",
+        secondLayoutRow2: "",
+        secondLayoutRow2Col1: "",
+        secondLayoutRow2Col2: "",
+        secondLayoutRow2Col3: "",
+        secondLayoutRow2Col4: "",
+        secondLayoutRow3: "",
+        secondLayoutRow3Col1: "",
+        secondLayoutRow3Col2: "",
+        secondLayoutRow3Col3: "",
+        secondLayoutRow3Col4: "",
+        secondLayoutRow4: "",
+        secondLayoutRow4Col1: "",
+        secondLayoutRow4Col2: "",
+        secondLayoutRow4Col3: "",
+        secondLayoutRow4Col4: "",
+        secondLayoutZoom: 1,
+
     })
 
 
@@ -72,6 +124,8 @@ const GeneralFields = () => {
         name,
         categLayout,
         tipLayout,
+        opening,
+
         layoutWidth,
         layoutHeight,
 
@@ -112,7 +166,42 @@ const GeneralFields = () => {
         row4Col2,
         row4Col3,
         row4Col4,
-        zoom
+        zoom,
+
+
+
+        secondLayoutCoverHasImage,
+        secondLayoutCoverImageWidth,
+        secondLayoutCoverImageHeight,
+        secondLayoutCoverImageTopPosition,
+        secondLayoutCoverImageLeftPosition,
+        secondLayoutPaddingBetweenImages,
+        secondLayoutBorderWidth,
+        secondLayoutDropShadow,
+
+        secondLayoutRowsLayout,
+        secondLayoutLayoutPadding,
+        secondLayoutRow1,
+        secondLayoutRow1Col1,
+        secondLayoutRow1Col2,
+        secondLayoutRow1Col3,
+        secondLayoutRow1Col4,
+        secondLayoutRow2,
+        secondLayoutRow2Col1,
+        secondLayoutRow2Col2,
+        secondLayoutRow2Col3,
+        secondLayoutRow2Col4,
+        secondLayoutRow3,
+        secondLayoutRow3Col1,
+        secondLayoutRow3Col2,
+        secondLayoutRow3Col3,
+        secondLayoutRow3Col4,
+        secondLayoutRow4,
+        secondLayoutRow4Col1,
+        secondLayoutRow4Col2,
+        secondLayoutRow4Col3,
+        secondLayoutRow4Col4,
+        secondLayoutZoom,
     } = layoutsContext.returnedLayout ? { ...layoutsContext.returnedLayout } : fields
 
     const handleTextUpdate = (event) => {
@@ -121,7 +210,6 @@ const GeneralFields = () => {
             [event.target.name]: event.target.value
         });
     };
-
 
     const handleChangeDropdown = (value) => {
         setFields({
@@ -137,7 +225,6 @@ const GeneralFields = () => {
         });
     };
 
-
     const zoomOut = () => {
         setFields({
             ...fields,
@@ -150,6 +237,10 @@ const GeneralFields = () => {
             zoom: zoom - 0.1
         })
     }
+
+    const handleChangeSwitch = (event) => {
+        setFields({ ...fields, [event.target.name]: event.target.checked });
+    };
 
     return (
 
@@ -204,6 +295,15 @@ const GeneralFields = () => {
                         handleChangeDropdown={(event) => handleChangeDropdown(event)}
                     />
 
+                    <p style={{ margin: "0px", padding: "0px" }}> <Switch
+                        checked={fields.opening}
+                        onChange={(event) => handleChangeSwitch(event)}
+                        color="primary"
+                        name="opening"
+                    /> Este deschidere</p>
+
+
+
                     <TextField
                         label="Latime layout"
                         type="text"
@@ -211,6 +311,7 @@ const GeneralFields = () => {
                         name="layoutWidth"
                         value={layoutWidth}
                     />
+
                     <br />
 
                     <TextField
@@ -230,6 +331,16 @@ const GeneralFields = () => {
                         coverImageHeight={coverImageHeight}
                         coverImageTopPosition={coverImageTopPosition}
                         coverImageLeftPosition={coverImageLeftPosition}
+                    /> : ""}
+
+                    {(tipLayout !== "" && tipLayout !== "Pagina" && opening === true) ? <LayoutCoverFields
+                        handleChangeCheck={handleChangeCheck}
+                        handleTextUpdate={handleTextUpdate}
+                        coverHasImage={secondLayoutCoverHasImage}
+                        coverImageWidth={secondLayoutCoverImageWidth}
+                        coverImageHeight={secondLayoutCoverImageHeight}
+                        coverImageTopPosition={secondLayoutCoverImageTopPosition}
+                        coverImageLeftPosition={secondLayoutCoverImageLeftPosition}
                     /> : ""
                     }
 
@@ -262,10 +373,42 @@ const GeneralFields = () => {
                             row4Col2={row4Col2}
                             row4Col3={row4Col3}
                             row4Col4={row4Col4}
+                        /> : ""}
+
+
+                    {(tipLayout !== "" && tipLayout === "Pagina" && opening === true) ?
+                        <LayoutPageFieldsSecondPage
+                            handleTextUpdate={handleTextUpdate}
+                            handleChangeDropdown={handleChangeDropdown}
+                            secondLayoutRowsLayout={secondLayoutRowsLayout}
+                            secondLayoutLayoutPadding={secondLayoutLayoutPadding}
+                            secondLayoutPaddingBetweenImages={secondLayoutPaddingBetweenImages}
+                            secondLayoutBorderWidth={secondLayoutBorderWidth}
+                            secondLayoutDropShadow={secondLayoutDropShadow}
+                            secondLayoutRow1={secondLayoutRow1}
+                            secondLayoutRow1Col1={secondLayoutRow1Col1}
+                            secondLayoutRow1Col2={secondLayoutRow1Col2}
+                            secondLayoutRow1Col3={secondLayoutRow1Col3}
+                            secondLayoutRow1Col4={secondLayoutRow1Col4}
+                            secondLayoutRow2={secondLayoutRow2}
+                            secondLayoutRow2Col1={secondLayoutRow2Col1}
+                            secondLayoutRow2Col2={secondLayoutRow2Col2}
+                            secondLayoutRow2Col3={secondLayoutRow2Col3}
+                            secondLayoutRow2Col4={secondLayoutRow2Col4}
+                            secondLayoutRow3={secondLayoutRow3}
+                            secondLayoutRow3Col1={secondLayoutRow3Col1}
+                            secondLayoutRow3Col2={secondLayoutRow3Col2}
+                            secondLayoutRow3Col3={secondLayoutRow3Col3}
+                            secondLayoutRow3Col4={secondLayoutRow3Col4}
+                            secondLayoutRow4={secondLayoutRow4}
+                            secondLayoutRow4Col1={secondLayoutRow4Col1}
+                            secondLayoutRow4Col2={secondLayoutRow4Col2}
+                            secondLayoutRow4Col3={secondLayoutRow4Col3}
+                            secondLayoutRow4Col4={secondLayoutRow4Col4}
                         /> : ""
                     }
 
-
+                    <br />
                     <FormControl component="fieldset">
                         <FormGroup>
                             <FormControlLabel
@@ -281,6 +424,7 @@ const GeneralFields = () => {
                             />
                         </FormGroup>
                     </FormControl>
+                    <br />
                     <FormControl component="fieldset">
                         <FormGroup>
                             <FormControlLabel
@@ -296,6 +440,7 @@ const GeneralFields = () => {
                             />
                         </FormGroup>
                     </FormControl>
+                    <br />
                     <FormControl component="fieldset">
                         <FormGroup>
                             <FormControlLabel
@@ -317,11 +462,17 @@ const GeneralFields = () => {
 
                 <Grid item xs={8}>
                     <Renderer
-                        rendererWidth={500}
-                        rendererHeight={600}
+                        rendererWidth={900}
+                        rendererHeight={500}
                         name={name}
                         categLayout={categLayout}
                         tipLayout={tipLayout}
+                        opening={opening}
+
+                        zoom={zoom}
+                        zoomOut={zoomOut}
+                        zoomIn={zoomIn}
+
                         layoutWidth={layoutWidth}
                         layoutHeight={layoutHeight}
 
@@ -362,10 +513,45 @@ const GeneralFields = () => {
                         row4Col2={row4Col2}
                         row4Col3={row4Col3}
                         row4Col4={row4Col4}
-                        zoom={zoom}
-                        zoomOut={zoomOut}
-                        zoomIn={zoomIn}
+
+
+
+
+                        secondLayoutCoverHasImage={secondLayoutCoverHasImage}
+                        secondLayoutCoverImageWidth={secondLayoutCoverImageWidth}
+                        secondLayoutCoverImageHeight={secondLayoutCoverImageHeight}
+                        secondLayoutCoverImageTopPosition={secondLayoutCoverImageTopPosition}
+                        secondLayoutCoverImageLeftPosition={secondLayoutCoverImageLeftPosition}
+                        secondLayoutPaddingBetweenImages={secondLayoutPaddingBetweenImages}
+                        secondLayoutBorderWidth={secondLayoutBorderWidth}
+                        secondLayoutDropShadow={secondLayoutDropShadow}
+
+                        secondLayoutRowsLayout={secondLayoutRowsLayout}
+                        secondLayoutLayoutPadding={secondLayoutLayoutPadding}
+                        secondLayoutRow1={secondLayoutRow1}
+                        secondLayoutRow1Col1={secondLayoutRow1Col1}
+                        secondLayoutRow1Col2={secondLayoutRow1Col2}
+                        secondLayoutRow1Col3={secondLayoutRow1Col3}
+                        secondLayoutRow1Col4={secondLayoutRow1Col4}
+                        secondLayoutRow2={secondLayoutRow2}
+                        secondLayoutRow2Col1={secondLayoutRow2Col1}
+                        secondLayoutRow2Col2={secondLayoutRow2Col2}
+                        secondLayoutRow2Col3={secondLayoutRow2Col3}
+                        secondLayoutRow2Col4={secondLayoutRow2Col4}
+                        secondLayoutRow3={secondLayoutRow3}
+                        secondLayoutRow3Col1={secondLayoutRow3Col1}
+                        secondLayoutRow3Col2={secondLayoutRow3Col2}
+                        secondLayoutRow3Col3={secondLayoutRow3Col3}
+                        secondLayoutRow3Col4={secondLayoutRow3Col4}
+                        secondLayoutRow4={secondLayoutRow4}
+                        secondLayoutRow4Col1={secondLayoutRow4Col1}
+                        secondLayoutRow4Col2={secondLayoutRow4Col2}
+                        secondLayoutRow4Col3={secondLayoutRow4Col3}
+                        secondLayoutRow4Col4={secondLayoutRow4Col4}
+                        secondLayoutZoom={secondLayoutZoom}
                     />
+                    <br /><br /><br />
+                    <ViewerComponent />
                 </Grid>
             </Grid>
         </Container>

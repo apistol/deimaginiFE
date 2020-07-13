@@ -21,6 +21,7 @@ export default (state, action) => {
     case UPDATE_PRODUCT:
       return {
         ...state,
+        recursiveBackground: { ...action.payload },
         message: { type: "success", message: "Product updated successfull" },
       };
     case GET_PRODUCT_BY_ID:
@@ -28,6 +29,7 @@ export default (state, action) => {
         ...state,
         returnedProduct: { ...action.payload },
         slider: action.payload.slider,
+        recursiveBackground: action.payload.recursiveBackground,
         message: { type: "success", message: "Product retrieved successfull" },
       };
     case GET_PRODUCTS:

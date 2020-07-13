@@ -14,11 +14,10 @@ import NewTheme from "./components/NewTheme";
 import NewLayout from "./components/NewLayout";
 import NewProduct from "./components/NewProduct";
 
+import ProductState from "./context/productContext/ProductState"
 
 // For package.json
-axios.defaults.baseURL = "https://us-central1-editor-c70eb.cloudfunctions.net/api"
-// "homepage": "https://editor-c70eb.web.app/"
-
+//axios.defaults.baseURL = "https://us-central1-editor-c70eb.cloudfunctions.net/api"
 axios.defaults.baseURL = "http://localhost:5000/editor-c70eb/us-central1/api"
 
 
@@ -27,35 +26,37 @@ class App extends Component {
   render() {
     return (
 
+      <ProductState >
 
-      <Router>
+        <Router>
 
-        <div className="App">
-          <Navigation />
+          <div className="App">
+            <Navigation />
 
-          <Switch>
+            <Switch>
 
-            <Route exact path="/">
-              <Project />
-            </Route>
+              <Route exact path="/">
+                <Project />
+              </Route>
 
-            <Route exact path="/creeazaLayout">
-              <NewLayout />
-            </Route>
+              <Route exact path="/creeazaLayout">
+                <NewLayout />
+              </Route>
 
-            <Route exact path="/creeazaTematica">
-              <NewTheme />
-            </Route>
+              <Route exact path="/creeazaTematica">
+                <NewTheme />
+              </Route>
 
-            <Route exact path="/creeazaProdusComplet">
-              <NewProduct />
-            </Route>
+              <Route exact path="/creeazaProdusComplet">
+                <NewProduct />
+              </Route>
 
-          </Switch>
-        </div>
+            </Switch>
+          </div>
 
-      </Router>
+        </Router>
 
+      </ProductState >
 
     );
   }

@@ -45,7 +45,7 @@ export default (state, action) => {
         case MSG_PROJECTS:
             return {
                 ...state,
-                projectsList: [...state.projectsList, action.payload]
+                msgProjects: { type: "success", message: "" },
             }
         default:
             return state

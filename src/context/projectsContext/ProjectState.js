@@ -17,7 +17,7 @@ const ProjectState = props => {
 
 
     const projectInitalState = {
-        projectsList: [],
+        projectsList: null,
         returnedProject: null,
         msgProjects: null
     }
@@ -33,7 +33,7 @@ const ProjectState = props => {
     const getProjects = () => {
         axios
             .get("/project")
-            .then((res) => (dispatch({ type: GET_PROJECTS, payload: res.data })))
+            .then((res) => dispatch({ type: GET_PROJECTS, payload: res.data }))
             .catch((err) => dispatch({ type: MSG_PROJECTS, payload: err }));
     };
 
@@ -90,6 +90,10 @@ const ProjectState = props => {
             .delete(`/project/${projectId}`)
             .then((res) => (dispatch({ type: DELETE_PROJECT_BY_ID, payload: res.data })))
             .catch((err) => dispatch({ type: MSG_PROJECTS, payload: err }));
+        axios
+            .get(`/deleteProductByProjectId/${projectId}`)
+            .then((res) => (console.log("Success")))
+            .catch((err) => dispatch({ type: MSG_PROJECTS, payload: err }));
     };
 
     const duplicateProjectForId = (projectId) => {
@@ -100,6 +104,8 @@ const ProjectState = props => {
     };
 
 
+
+
     return (
         <ProjectContext.Provider
             value={{
@@ -107,11 +113,13 @@ const ProjectState = props => {
                 returnedProject,
                 msgProjects,
 
+                //For products
                 createNewProject,
                 addImageToProject,
                 getProjectForId,
                 deleteProjectForId,
-                duplicateProjectForId
+                duplicateProjectForId,
+
             }}>
             {props.children}
         </ProjectContext.Provider>
