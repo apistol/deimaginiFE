@@ -275,7 +275,7 @@ const ProductFields = props => {
                                             }}
                                         />
 
-                                        <p onClick={() => alert(productsContext.returnedProduct)}><img src={minusImage} style={{ width: "20px", height: "20px", marginRight: "10px", marginBottom: "-5px", cursor: "pointer" }} /> Sterge background recurent</p>
+                                        <p onClick={() => productsContext.removeProductBackground(productsContext.returnedProduct.id)}><img src={minusImage} style={{ width: "20px", height: "20px", marginRight: "10px", marginBottom: "-5px", cursor: "pointer" }} /> Sterge background recurent</p>
                                     </div>
 
                                     <br />

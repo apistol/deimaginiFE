@@ -127,10 +127,23 @@ const ProductState = props => {
         dispatch({ type: MSG_PRODUCTS, payload: err })
         console.log("updateProductBackground was unsuccessfull")
       });
-
-
-
   };
+
+  const removeProductBackground = (productId) => {
+    console.log("removeProductBackground started")
+    console.log(productId)
+
+    axios
+      .post(`/product/${productId}/removeBackground`)
+      .then((res) => {
+        console.log("removeProductBackground was successfull")
+        dispatch({ type: MSG_PRODUCTS, payload: res.data.msg });
+      })
+      .catch((err) => {
+        dispatch({ type: MSG_PRODUCTS, payload: err })
+        console.log("removeProductBackground was unsuccessfull")
+      });
+  }
 
 
   const getProductForId = (productId) => {
@@ -224,6 +237,7 @@ const ProductState = props => {
 
         updateProduct,
         updateProductBackground,
+        removeProductBackground,
         getProductForId,
         addSlide,
 

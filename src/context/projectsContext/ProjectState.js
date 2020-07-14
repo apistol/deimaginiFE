@@ -10,6 +10,7 @@ import {
     GET_PROJECT_BY_ID,
     DELETE_PROJECT_BY_ID,
     DUPLICATE_PROJECT_BY_ID,
+    UPDATE_PROJECT,
     MSG_PROJECTS,
 } from '../types'
 
@@ -88,10 +89,11 @@ const ProjectState = props => {
         //console.log(projectId)
         axios
             .delete(`/project/${projectId}`)
-            .then((res) => (dispatch({ type: DELETE_PROJECT_BY_ID, payload: res.data })))
-            .catch((err) => dispatch({ type: MSG_PROJECTS, payload: err }));
-        axios
-            .get(`/deleteProductByProjectId/${projectId}`)
+            .then((res) => {
+                (dispatch({ type: DELETE_PROJECT_BY_ID, payload: res.data }))
+                axios
+                .get(`/deleteProductByProjectId/${projectId}`)
+            })
             .then((res) => (console.log("Success")))
             .catch((err) => dispatch({ type: MSG_PROJECTS, payload: err }));
     };
@@ -104,6 +106,23 @@ const ProjectState = props => {
     };
 
 
+    const updateProject = (projectId, projectProperties) => {
+        console.log("updateProject started")
+        console.log(projectId)
+        console.log(projectProperties)
+        axios
+          .put(`/project/${projectId}/update`, projectProperties)
+          .then((res) => {
+            console.log("updateProject was successfull")
+            dispatch({ type: UPDATE_PROJECT, payload: res.data });
+          })
+          .catch((err) => {
+            dispatch({ type: MSG_PROJECTS, payload: err })
+            console.log("updateProject was unsuccessfull")
+          });
+      };
+
+
 
 
     return (
@@ -113,7 +132,7 @@ const ProjectState = props => {
                 returnedProject,
                 msgProjects,
 
-                //For products
+                updateProject,
                 createNewProject,
                 addImageToProject,
                 getProjectForId,

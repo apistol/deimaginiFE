@@ -98,6 +98,8 @@ export default function SimpleTabs({
     }
   };
 
+
+
   return (
     <Container>
 
@@ -153,6 +155,7 @@ export default function SimpleTabs({
                     alignItems="flex-start"
                     item
                     className={classes.cardShadow}
+                    style={projectsContext.returnedProject !== null && project.id === projectsContext.returnedProject.id  ? {background:"#f9c9bb"} : {background:"none"} }
                   >
                     <Grid item xs={4}>
                       <img
@@ -225,17 +228,15 @@ export default function SimpleTabs({
                       />
 
                       <br /> <br />
-                      <Link to="/creeazaProdusComplet">
                         <Button
                           variant="contained"
                           style={{ backgroundColor: "#e14013", color: "#FFF" }}
                           onClick={() => {
-                            // productsContext.getProductForProjectsDisplay(project.id);
+                             projectsContext.getProjectForId(project.id);
                           }}
                         >
                           Editeaza album
                       </Button>
-                      </Link>
                       <br /> <br />
                       <Button
                         variant="contained"

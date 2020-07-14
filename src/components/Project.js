@@ -11,22 +11,17 @@ import ProjectSelector from "./projectComponents/ProjectSelector";
 
 import DropDown from "./lowLeveComponents/DropDown";
 import ProjectsContext from "../context/projectsContext/projectContext"
-import ProductContext from "../context/productContext/productContext"
 
 
 
-class NewProject extends React.Component {
+const NewProject = () => {
 
-  static projectsContext = ProjectsContext;
-  static productContext = ProductContext;
+  const projectsContext = useContext(ProjectsContext);
 
-  constructor(props) {
-    super(props);
-    this.state = {
+  const[fields, setFields] = useState({
       id: "",
       name: "",
-      pages: 0,
-      checkedHasCover: false,
+      pages: "",
       coverWidth: "",
       coverHeight: "",
       pageWidth: "",
@@ -37,27 +32,21 @@ class NewProject extends React.Component {
       pretEuro: "",
       discount: "",
       tipProiect: "",
-      picture: null,
-      returnedProject: null
-    }
-  }
+    })
 
 
 
-
-  handleTextUpdate = (event) => {
-    if (event === null) return
-    this.setState({ [event.target.name]: event.target.value });
+  const handleTextUpdate = (event) => {
+    setFields({ 
+      ...fields,  
+      [event.target.name]: event.target.value 
+      });
   };
-
-
-  render() {
 
     const {
       id,
       name,
       pages,
-      checkedHasCover,
       coverWidth,
       coverHeight,
       pageWidth,
@@ -68,9 +57,7 @@ class NewProject extends React.Component {
       pretEuro,
       discount,
       tipProiect,
-      picture,
-      returnedProject
-    } = this.state;
+    } = fields
 
     return (
       <Container
@@ -89,10 +76,12 @@ class NewProject extends React.Component {
             marginRight: "8px",
           }}
           onClick={() => {
-            this.context.createNewProject(this.state);
+            projectsContext.returnedProject !==  null ?
+            projectsContext.updateProject(projectsContext.returnedProject.id, fields):
+            projectsContext.createNewProject(fields);
           }}
         >
-          Creeaza
+          {projectsContext.returnedProject !==  null ? "Update" : "Creeaza"}
       </Button>
 
 
@@ -103,7 +92,7 @@ class NewProject extends React.Component {
               id="standard-basic"
               label="Denumeste proiectul"
               type="text"
-              onChange={(event) => this.handleTextUpdate(event)}
+              onChange={(event) => handleTextUpdate(event)}
               name="name"
               value={name}
             />
@@ -113,7 +102,7 @@ class NewProject extends React.Component {
               id="standard-basic"
               label="Numar pagini"
               type="text"
-              onChange={(event) => this.handleTextUpdate(event)}
+              onChange={(event) => handleTextUpdate(event)}
               name="pages"
               value={pages}
             />
@@ -123,7 +112,7 @@ class NewProject extends React.Component {
               value={tipProiect}
               label="Tip proiect"
               name="tipProiect"
-              handleChangeDropdown={(event) => this.handleTextUpdate(event)}
+              handleChangeDropdown={(event) => handleTextUpdate(event)}
             />
 
             <br />
@@ -135,7 +124,7 @@ class NewProject extends React.Component {
               id="standard-basic1"
               label="Latime coperta"
               type="text"
-              onChange={(event) => this.handleTextUpdate(event)}
+              onChange={(event) => handleTextUpdate(event)}
               name="coverWidth"
               value={coverWidth}
             />
@@ -144,7 +133,7 @@ class NewProject extends React.Component {
               id="standard-basic2"
               label="Inaltime coperta"
               type="text"
-              onChange={(event) => this.handleTextUpdate(event)}
+              onChange={(event) => handleTextUpdate(event)}
               name="coverHeight"
               value={coverHeight}
             />
@@ -153,7 +142,7 @@ class NewProject extends React.Component {
               id="standard-basic3"
               label="Latime pagina"
               type="text"
-              onChange={(event) => this.handleTextUpdate(event)}
+              onChange={(event) => handleTextUpdate(event)}
               name="pageWidth"
               value={pageWidth}
             />
@@ -173,14 +162,14 @@ class NewProject extends React.Component {
               value={tipHartie}
               label="Tip hartie"
               name="tipHartie"
-              handleChangeDropdown={(event) => this.handleTextUpdate(event)}
+              handleChangeDropdown={(event) => handleTextUpdate(event)}
             />
 
             <TextField
               id="standard-basic5"
               label="Pret Ron"
               type="text"
-              onChange={(event) => this.handleTextUpdate(event)}
+              onChange={(event) => handleTextUpdate(event)}
               name="pretRon"
               value={pretRon}
             />
@@ -189,7 +178,7 @@ class NewProject extends React.Component {
               id="standard-basic6"
               label="Pret Dolari"
               type="text"
-              onChange={(event) => this.handleTextUpdate(event)}
+              onChange={(event) => handleTextUpdate(event)}
               name="pretDolari"
               value={pretDolari}
             />
@@ -198,7 +187,7 @@ class NewProject extends React.Component {
               id="standard-basic7"
               label="Pret Euro"
               type="text"
-              onChange={(event) => this.handleTextUpdate(event)}
+              onChange={(event) => handleTextUpdate(event)}
               name="pretEuro"
               value={pretEuro}
             />
@@ -207,7 +196,7 @@ class NewProject extends React.Component {
               id="standard-basic8"
               label="Discount"
               type="text"
-              onChange={(event) => this.handleTextUpdate(event)}
+              onChange={(event) => handleTextUpdate(event)}
               name="discount"
               value={discount}
             />
@@ -221,8 +210,7 @@ class NewProject extends React.Component {
       </Container>
     );
   }
-}
 
-NewProject.contextType = ProjectsContext;
+
 
 export default NewProject;

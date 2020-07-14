@@ -5,6 +5,7 @@ import {
     GET_PROJECT_BY_ID,
     DELETE_PROJECT_BY_ID,
     DUPLICATE_PROJECT_BY_ID,
+    UPDATE_PROJECT,
     MSG_PROJECTS,
 } from '../types'
 
@@ -41,6 +42,11 @@ export default (state, action) => {
             return {
                 ...state,
                 projectsList: [...state.projectsList, action.payload]
+            }
+        case UPDATE_PROJECT:
+            return {
+                ...state,
+                msgProjects: { type: "success", message: "Proiectul a fost actualizats cu succes, va rugam faceti refresh paginii." },
             }
         case MSG_PROJECTS:
             return {
