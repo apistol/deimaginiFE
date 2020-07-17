@@ -53,7 +53,7 @@ const RenderedPage = ({ layoutSpecs, layoutHeightProp, layoutWidthProp, backgrou
 
     const layoutStyle = {
         backgroundImage: `url(${background ? background : recurentBackground})`,
-        backgroundSize: "100%",
+        backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
         backgroundPosition: "center",
         display: `${tipLayout === "" ? "none" : "block"}`,
