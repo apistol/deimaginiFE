@@ -1,0 +1,52 @@
+[debug] [2020-07-16T21:11:42.340Z] ----------------------------------------------------------------------
+[debug] [2020-07-16T21:11:42.344Z] Command:       C:\hard\executabile\nodejs\node.exe C:\Users\Alex P\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js serve
+[debug] [2020-07-16T21:11:42.344Z] CLI Version:   6.8.0
+[debug] [2020-07-16T21:11:42.344Z] Platform:      win32
+[debug] [2020-07-16T21:11:42.344Z] Node Version:  v12.18.1
+[debug] [2020-07-16T21:11:42.345Z] Time:          Fri Jul 17 2020 00:11:42 GMT+0300 (Eastern European Summer Time)
+[debug] [2020-07-16T21:11:42.346Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2020-07-16T21:11:42.356Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2020-07-16T21:11:42.357Z] > authorizing via signed-in user
+[debug] [2020-07-16T21:11:42.357Z] [iam] checking project editor-c70eb for permissions ["firebase.projects.get"]
+[debug] [2020-07-16T21:11:42.360Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/editor-c70eb:testIamPermissions  
+
+[debug] [2020-07-16T21:11:43.251Z] <<< HTTP RESPONSE 200
+[debug] [2020-07-16T21:11:43.257Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/editor-c70eb  
+ 
+[debug] [2020-07-16T21:11:44.023Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Serving from 'C:\Users\Alex P\Desktop\photocarte\decarte'...
+[info] 
+[debug] [2020-07-16T21:11:44.032Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/416101552231/clients/_:getWebAppConfig  
+ 
+[debug] [2020-07-16T21:11:44.853Z] <<< HTTP RESPONSE 200
+[warn] !  hosting: Port 5000 is not available. Trying another port...
+[info] i  hosting: Serving hosting files from: build
+[info] +  hosting: Local server: http://localhost:5005
+[debug] [2020-07-16T21:15:57.012Z] ----------------------------------------------------------------------
+[debug] [2020-07-16T21:15:57.015Z] Command:       C:\hard\executabile\nodejs\node.exe C:\Users\Alex P\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js serve
+[debug] [2020-07-16T21:15:57.015Z] CLI Version:   6.8.0
+[debug] [2020-07-16T21:15:57.015Z] Platform:      win32
+[debug] [2020-07-16T21:15:57.015Z] Node Version:  v12.18.1
+[debug] [2020-07-16T21:15:57.016Z] Time:          Fri Jul 17 2020 00:15:57 GMT+0300 (Eastern European Summer Time)
+[debug] [2020-07-16T21:15:57.016Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2020-07-16T21:15:57.026Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2020-07-16T21:15:57.026Z] > authorizing via signed-in user
+[debug] [2020-07-16T21:15:57.026Z] [iam] checking project editor-c70eb for permissions ["firebase.projects.get"]
+[debug] [2020-07-16T21:15:57.028Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/editor-c70eb:testIamPermissions  
+
+[debug] [2020-07-16T21:15:57.914Z] <<< HTTP RESPONSE 200
+[debug] [2020-07-16T21:15:57.920Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/editor-c70eb  
+ 
+[debug] [2020-07-16T21:15:58.756Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Serving from 'C:\Users\Alex P\Desktop\photocarte\decarte'...
+[info] 
+[debug] [2020-07-16T21:15:58.773Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/416101552231/clients/_:getWebAppConfig  
+ 
+[debug] [2020-07-16T21:15:59.549Z] <<< HTTP RESPONSE 200
+[warn] !  hosting: Port 5000 is not available. Trying another port...
+[info] i  hosting: Serving hosting files from: build
+[info] +  hosting: Local server: http://localhost:5005

@@ -155,7 +155,7 @@ export default function SimpleTabs({
                     alignItems="flex-start"
                     item
                     className={classes.cardShadow}
-                    style={projectsContext.returnedProject !== null && project.id === projectsContext.returnedProject.id  ? {background:"#f9c9bb"} : {background:"none"} }
+                    style={projectsContext.returnedProject !== null && project.id === projectsContext.returnedProject.id ? { background: "#f9c9bb" } : { background: "none" }}
                   >
                     <Grid item xs={4}>
                       <img
@@ -169,8 +169,7 @@ export default function SimpleTabs({
                         Denumire album: {project.name}
                       </p>
                       <p className={classes.projectProperty}>
-                        Are coperta:
-                        {project.checkedHasCover === true ? "Da" : "Nu"}
+                        Pagini:{project.pages}
                       </p>
                       <p className={classes.projectProperty}>
                         Latime coperta: {project.coverWidth}
@@ -228,14 +227,14 @@ export default function SimpleTabs({
                       />
 
                       <br /> <br />
-                        <Button
-                          variant="contained"
-                          style={{ backgroundColor: "#e14013", color: "#FFF" }}
-                          onClick={() => {
-                             projectsContext.getProjectForId(project.id);
-                          }}
-                        >
-                          Editeaza album
+                      <Button
+                        variant="contained"
+                        style={{ backgroundColor: "#e14013", color: "#FFF" }}
+                        onClick={() => {
+                          projectsContext.getProjectForId(project.id);
+                        }}
+                      >
+                        Editeaza album
                       </Button>
                       <br /> <br />
                       <Button
@@ -249,11 +248,10 @@ export default function SimpleTabs({
                       </Button>
                       <br /> <br />
                       <Button
-                        disabled
                         variant="contained"
-                        style={{ backgroundColor: "#7f7f7f", color: "#FFF" }}
+                        style={{ backgroundColor: "#e14013", color: "#FFF" }}
                         onClick={() => {
-                          projectsContext.duplicateProjectForId(project.modelId);
+                          projectsContext.duplicateProjectForId(project.id);
                         }}
                       >
                         Duplica album

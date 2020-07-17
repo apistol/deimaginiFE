@@ -6,6 +6,7 @@ import Paper from '@material-ui/core/Paper';
 const RenderedPage = ({ layoutSpecs }) => {
 
     const {
+        background,
         tipLayout,
         coverThemeImage,
         layoutHeight,
@@ -50,7 +51,7 @@ const RenderedPage = ({ layoutSpecs }) => {
     // console.log(layoutHeight * (paddingBetweenImages / 100))
 
     const layoutStyle = {
-        backgroundImage: `url(${coverThemeImage})`,
+        backgroundImage: `url(${background})`,
         backgroundSize: "100%",
         backgroundRepeat: "no-repeat",
         backgroundPosition: "center",

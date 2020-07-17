@@ -16,13 +16,14 @@ const RenderedCover = ({ layoutSpecs }) => {
         coverImageLeftPosition,
         zoom,
         themeImage,
-        coverThemeImage
+        coverThemeImage,
+        background
     } = layoutSpecs;
 
 
     const layoutStyle = {
-        backgroundImage: `url(${themeImage})`,
-        backgroundSize: "100%",
+        backgroundImage: `url(${background})`,
+        backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
         backgroundPosition: "center",
         display: `${tipLayout === "" ? "none" : "inherit"}`,

@@ -40,11 +40,17 @@ const RenderedPage = ({ layoutSpecs }) => {
     } = layoutSpecs;
 
     const columnHeight = (layoutHeight - 2 * layoutPadding) / rowsLayout;
-    const innerColumnHeight = columnHeight - 2 * borderWidth - 2 * (layoutHeight * (paddingBetweenImages / 100));
+    const innerColumnHeight = columnHeight - 2 * borderWidth - paddingBetweenImages * (layoutHeight / 100);
 
-    // console.log(columnHeight)
-    // console.log(innerColumnHeight)
-    // console.log(layoutHeight * (paddingBetweenImages / 100))
+    console.log("================================================")
+    console.log("columnHeight : " + columnHeight)
+    console.log("layoutHeight : " + layoutHeight)
+    console.log("layoutPadding : " + layoutPadding)
+    console.log("rowsLayout : " + rowsLayout)
+    console.log("innerColumnHeight : " + innerColumnHeight)
+    console.log("borderWidth : " + borderWidth)
+    console.log("paddingBetweenImages : " + paddingBetweenImages)
+
 
     const layoutStyle = {
         backgroundImage: `url(${coverThemeImage})`,
@@ -69,7 +75,7 @@ const RenderedPage = ({ layoutSpecs }) => {
     const column = {
         width: "100%",
         height: `${columnHeight}px`,
-        padding: `${layoutHeight * (paddingBetweenImages / 100)}px`
+        padding: `${layoutHeight * (paddingBetweenImages / 100)}px ${layoutHeight * (paddingBetweenImages / 100)}px 0px  ${layoutHeight * (paddingBetweenImages / 100)}px `
     }
 
     const innerColumn = {

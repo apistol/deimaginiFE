@@ -1,26 +1,24 @@
-import React, { useEffect, useState, useContext } from 'react'
+import React, { useEffect, useState, useContext } from "react";
 
 import TextField from "@material-ui/core/TextField";
 import DropDown from "../lowLeveComponents/DropDown";
 import Button from "@material-ui/core/Button";
 import FormControl from "@material-ui/core/FormControl";
 import Switch from "@material-ui/core/Switch";
-import FormGroup from '@material-ui/core/FormGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormGroup from "@material-ui/core/FormGroup";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Grid from "@material-ui/core/Grid";
 import Container from "@material-ui/core/Container";
 
 import LayoutCoverFields from "../layoutComponents/LayoutCoverFields";
 import LayoutPageFields from "../layoutComponents/LayoutPageFields";
 import LayoutPageFieldsSecondPage from "../layoutComponents/LayoutPageFieldsSecondPage";
-import Renderer from "../Renderer"
+import Renderer from "../Renderer";
 import ViewerComponent from "./ViewerComponent";
 
-
-import LayoutsContext from "../../context/layoutsContext/layoutContext"
+import LayoutsContext from "../../context/layoutsContext/layoutContext";
 
 const GeneralFields = () => {
-
     const layoutsContext = useContext(LayoutsContext);
 
     const [fields, setFields] = useState({
@@ -116,9 +114,7 @@ const GeneralFields = () => {
         secondLayoutRow4Col3: "",
         secondLayoutRow4Col4: "",
         secondLayoutZoom: 1,
-
-    })
-
+    });
 
     const {
         name,
@@ -168,8 +164,6 @@ const GeneralFields = () => {
         row4Col4,
         zoom,
 
-
-
         secondLayoutCoverHasImage,
         secondLayoutCoverImageWidth,
         secondLayoutCoverImageHeight,
@@ -202,12 +196,14 @@ const GeneralFields = () => {
         secondLayoutRow4Col3,
         secondLayoutRow4Col4,
         secondLayoutZoom,
-    } = layoutsContext.returnedLayout ? { ...layoutsContext.returnedLayout } : fields
+    } = layoutsContext.returnedLayout
+            ? { ...layoutsContext.returnedLayout }
+            : fields;
 
     const handleTextUpdate = (event) => {
         setFields({
             ...fields,
-            [event.target.name]: event.target.value
+            [event.target.name]: event.target.value,
         });
     };
 
@@ -221,40 +217,36 @@ const GeneralFields = () => {
     const handleChangeCheck = (event) => {
         setFields({
             ...fields,
-            [event.target.name]: event.target.checked
+            [event.target.name]: event.target.checked,
         });
     };
 
     const zoomOut = () => {
         setFields({
             ...fields,
-            zoom: zoom + 0.1
-        })
-    }
+            zoom: zoom + 0.1,
+        });
+    };
     const zoomIn = () => {
         setFields({
             ...fields,
-            zoom: zoom - 0.1
-        })
-    }
+            zoom: zoom - 0.1,
+        });
+    };
 
     const handleChangeSwitch = (event) => {
         setFields({ ...fields, [event.target.name]: event.target.checked });
     };
 
     return (
-
         <Container
             direction="row"
             style={{
                 marginBottom: "60px",
             }}
         >
-            <Grid container  >
-
-
+            <Grid container>
                 <Grid item xs={4}>
-
                     <Button
                         variant="contained"
                         style={{
@@ -267,7 +259,7 @@ const GeneralFields = () => {
                         }}
                     >
                         Creeaza
-                 </Button>
+                        </Button>
                     <br />
 
                     <TextField
@@ -280,7 +272,12 @@ const GeneralFields = () => {
                     <br />
 
                     <DropDown
-                        options={["Clasic", "Horizon", "Panoramic clasic", "Panoramic horizon"]}
+                        options={[
+                            "Clasic",
+                            "Horizon",
+                            "Panoramic clasic",
+                            "Panoramic horizon",
+                        ]}
                         value={categLayout}
                         label="Categorie layout"
                         name="categLayout"
@@ -294,13 +291,22 @@ const GeneralFields = () => {
                         name="tipLayout"
                         handleChangeDropdown={(event) => handleChangeDropdown(event)}
                     />
+                    <br />
+                    <p style={{ margin: "0px", padding: "0px" }}>
+                        {" "}
+                        <Switch
+                            checked={fields.opening}
+                            onChange={(event) => handleChangeSwitch(event)}
+                            color="primary"
+                            name="opening"
+                        />{" "}
+                                Este deschidere
+                                </p>
 
-                    <p style={{ margin: "0px", padding: "0px" }}> <Switch
-                        checked={fields.opening}
-                        onChange={(event) => handleChangeSwitch(event)}
-                        color="primary"
-                        name="opening"
-                    /> Este deschidere</p>
+                </Grid>
+
+
+                <Grid item xs={4}>
 
 
 
@@ -322,93 +328,7 @@ const GeneralFields = () => {
                         value={layoutHeight}
                     />
 
-
-                    {(tipLayout !== "" && tipLayout !== "Pagina") ? <LayoutCoverFields
-                        handleChangeCheck={handleChangeCheck}
-                        handleTextUpdate={handleTextUpdate}
-                        coverHasImage={coverHasImage}
-                        coverImageWidth={coverImageWidth}
-                        coverImageHeight={coverImageHeight}
-                        coverImageTopPosition={coverImageTopPosition}
-                        coverImageLeftPosition={coverImageLeftPosition}
-                    /> : ""}
-
-                    {(tipLayout !== "" && tipLayout !== "Pagina" && opening === true) ? <LayoutCoverFields
-                        handleChangeCheck={handleChangeCheck}
-                        handleTextUpdate={handleTextUpdate}
-                        coverHasImage={secondLayoutCoverHasImage}
-                        coverImageWidth={secondLayoutCoverImageWidth}
-                        coverImageHeight={secondLayoutCoverImageHeight}
-                        coverImageTopPosition={secondLayoutCoverImageTopPosition}
-                        coverImageLeftPosition={secondLayoutCoverImageLeftPosition}
-                    /> : ""
-                    }
-
-                    {(tipLayout !== "" && tipLayout === "Pagina") ?
-                        <LayoutPageFields
-                            handleTextUpdate={handleTextUpdate}
-                            handleChangeDropdown={handleChangeDropdown}
-                            rowsLayout={rowsLayout}
-                            layoutPadding={layoutPadding}
-                            paddingBetweenImages={paddingBetweenImages}
-                            borderWidth={borderWidth}
-                            dropShadow={dropShadow}
-                            row1={row1}
-                            row1Col1={row1Col1}
-                            row1Col2={row1Col2}
-                            row1Col3={row1Col3}
-                            row1Col4={row1Col4}
-                            row2={row2}
-                            row2Col1={row2Col1}
-                            row2Col2={row2Col2}
-                            row2Col3={row2Col3}
-                            row2Col4={row2Col4}
-                            row3={row3}
-                            row3Col1={row3Col1}
-                            row3Col2={row3Col2}
-                            row3Col3={row3Col3}
-                            row3Col4={row3Col4}
-                            row4={row4}
-                            row4Col1={row4Col1}
-                            row4Col2={row4Col2}
-                            row4Col3={row4Col3}
-                            row4Col4={row4Col4}
-                        /> : ""}
-
-
-                    {(tipLayout !== "" && tipLayout === "Pagina" && opening === true) ?
-                        <LayoutPageFieldsSecondPage
-                            handleTextUpdate={handleTextUpdate}
-                            handleChangeDropdown={handleChangeDropdown}
-                            secondLayoutRowsLayout={secondLayoutRowsLayout}
-                            secondLayoutLayoutPadding={secondLayoutLayoutPadding}
-                            secondLayoutPaddingBetweenImages={secondLayoutPaddingBetweenImages}
-                            secondLayoutBorderWidth={secondLayoutBorderWidth}
-                            secondLayoutDropShadow={secondLayoutDropShadow}
-                            secondLayoutRow1={secondLayoutRow1}
-                            secondLayoutRow1Col1={secondLayoutRow1Col1}
-                            secondLayoutRow1Col2={secondLayoutRow1Col2}
-                            secondLayoutRow1Col3={secondLayoutRow1Col3}
-                            secondLayoutRow1Col4={secondLayoutRow1Col4}
-                            secondLayoutRow2={secondLayoutRow2}
-                            secondLayoutRow2Col1={secondLayoutRow2Col1}
-                            secondLayoutRow2Col2={secondLayoutRow2Col2}
-                            secondLayoutRow2Col3={secondLayoutRow2Col3}
-                            secondLayoutRow2Col4={secondLayoutRow2Col4}
-                            secondLayoutRow3={secondLayoutRow3}
-                            secondLayoutRow3Col1={secondLayoutRow3Col1}
-                            secondLayoutRow3Col2={secondLayoutRow3Col2}
-                            secondLayoutRow3Col3={secondLayoutRow3Col3}
-                            secondLayoutRow3Col4={secondLayoutRow3Col4}
-                            secondLayoutRow4={secondLayoutRow4}
-                            secondLayoutRow4Col1={secondLayoutRow4Col1}
-                            secondLayoutRow4Col2={secondLayoutRow4Col2}
-                            secondLayoutRow4Col3={secondLayoutRow4Col3}
-                            secondLayoutRow4Col4={secondLayoutRow4Col4}
-                        /> : ""
-                    }
-
-                    <br />
+                    <br /> <br /> <br />
                     <FormControl component="fieldset">
                         <FormGroup>
                             <FormControlLabel
@@ -456,109 +376,208 @@ const GeneralFields = () => {
                             />
                         </FormGroup>
                     </FormControl>
-
-
                 </Grid>
 
-                <Grid item xs={8}>
-                    <Renderer
-                        rendererWidth={900}
-                        rendererHeight={500}
-                        name={name}
-                        categLayout={categLayout}
-                        tipLayout={tipLayout}
-                        opening={opening}
-
-                        zoom={zoom}
-                        zoomOut={zoomOut}
-                        zoomIn={zoomIn}
-
-                        layoutWidth={layoutWidth}
-                        layoutHeight={layoutHeight}
-
-                        hasText={hasText}
-                        editableText={editableText}
-                        editableBackground={editableBackground}
-
-                        returnedLayout={returnedLayout}
-                        coverHasImage={coverHasImage}
-                        coverImageWidth={coverImageWidth}
-                        coverImageHeight={coverImageHeight}
-                        coverImageTopPosition={coverImageTopPosition}
-                        coverImageLeftPosition={coverImageLeftPosition}
-
-                        paddingBetweenImages={paddingBetweenImages}
-                        borderWidth={borderWidth}
-                        dropShadow={dropShadow}
-
-                        rowsLayout={rowsLayout}
-                        layoutPadding={layoutPadding}
-                        row1={row1}
-                        row1Col1={row1Col1}
-                        row1Col2={row1Col2}
-                        row1Col3={row1Col3}
-                        row1Col4={row1Col4}
-                        row2={row2}
-                        row2Col1={row2Col1}
-                        row2Col2={row2Col2}
-                        row2Col3={row2Col3}
-                        row2Col4={row2Col4}
-                        row3={row3}
-                        row3Col1={row3Col1}
-                        row3Col2={row3Col2}
-                        row3Col3={row3Col3}
-                        row3Col4={row3Col4}
-                        row4={row4}
-                        row4Col1={row4Col1}
-                        row4Col2={row4Col2}
-                        row4Col3={row4Col3}
-                        row4Col4={row4Col4}
+                <Grid item xs={4}>
 
 
+                    {tipLayout !== "" && tipLayout !== "Pagina" ? (
+                        <LayoutCoverFields
+                            handleChangeCheck={handleChangeCheck}
+                            handleTextUpdate={handleTextUpdate}
+                            coverHasImage={coverHasImage}
+                            coverImageWidth={coverImageWidth}
+                            coverImageHeight={coverImageHeight}
+                            coverImageTopPosition={coverImageTopPosition}
+                            coverImageLeftPosition={coverImageLeftPosition}
+                        />
+                    ) : (
+                            ""
+                        )}
 
+                    {tipLayout !== "" && tipLayout !== "Pagina" && opening === true ? (
+                        <LayoutCoverFields
+                            handleChangeCheck={handleChangeCheck}
+                            handleTextUpdate={handleTextUpdate}
+                            coverHasImage={secondLayoutCoverHasImage}
+                            coverImageWidth={secondLayoutCoverImageWidth}
+                            coverImageHeight={secondLayoutCoverImageHeight}
+                            coverImageTopPosition={secondLayoutCoverImageTopPosition}
+                            coverImageLeftPosition={secondLayoutCoverImageLeftPosition}
+                        />
+                    ) : (
+                            ""
+                        )}
 
-                        secondLayoutCoverHasImage={secondLayoutCoverHasImage}
-                        secondLayoutCoverImageWidth={secondLayoutCoverImageWidth}
-                        secondLayoutCoverImageHeight={secondLayoutCoverImageHeight}
-                        secondLayoutCoverImageTopPosition={secondLayoutCoverImageTopPosition}
-                        secondLayoutCoverImageLeftPosition={secondLayoutCoverImageLeftPosition}
-                        secondLayoutPaddingBetweenImages={secondLayoutPaddingBetweenImages}
-                        secondLayoutBorderWidth={secondLayoutBorderWidth}
-                        secondLayoutDropShadow={secondLayoutDropShadow}
+                    {tipLayout !== "" && tipLayout === "Pagina" ? (
+                        <LayoutPageFields
+                            handleTextUpdate={handleTextUpdate}
+                            handleChangeDropdown={handleChangeDropdown}
+                            rowsLayout={rowsLayout}
+                            layoutPadding={layoutPadding}
+                            paddingBetweenImages={paddingBetweenImages}
+                            borderWidth={borderWidth}
+                            dropShadow={dropShadow}
+                            row1={row1}
+                            row1Col1={row1Col1}
+                            row1Col2={row1Col2}
+                            row1Col3={row1Col3}
+                            row1Col4={row1Col4}
+                            row2={row2}
+                            row2Col1={row2Col1}
+                            row2Col2={row2Col2}
+                            row2Col3={row2Col3}
+                            row2Col4={row2Col4}
+                            row3={row3}
+                            row3Col1={row3Col1}
+                            row3Col2={row3Col2}
+                            row3Col3={row3Col3}
+                            row3Col4={row3Col4}
+                            row4={row4}
+                            row4Col1={row4Col1}
+                            row4Col2={row4Col2}
+                            row4Col3={row4Col3}
+                            row4Col4={row4Col4}
+                        />
+                    ) : (
+                            ""
+                        )}
 
-                        secondLayoutRowsLayout={secondLayoutRowsLayout}
-                        secondLayoutLayoutPadding={secondLayoutLayoutPadding}
-                        secondLayoutRow1={secondLayoutRow1}
-                        secondLayoutRow1Col1={secondLayoutRow1Col1}
-                        secondLayoutRow1Col2={secondLayoutRow1Col2}
-                        secondLayoutRow1Col3={secondLayoutRow1Col3}
-                        secondLayoutRow1Col4={secondLayoutRow1Col4}
-                        secondLayoutRow2={secondLayoutRow2}
-                        secondLayoutRow2Col1={secondLayoutRow2Col1}
-                        secondLayoutRow2Col2={secondLayoutRow2Col2}
-                        secondLayoutRow2Col3={secondLayoutRow2Col3}
-                        secondLayoutRow2Col4={secondLayoutRow2Col4}
-                        secondLayoutRow3={secondLayoutRow3}
-                        secondLayoutRow3Col1={secondLayoutRow3Col1}
-                        secondLayoutRow3Col2={secondLayoutRow3Col2}
-                        secondLayoutRow3Col3={secondLayoutRow3Col3}
-                        secondLayoutRow3Col4={secondLayoutRow3Col4}
-                        secondLayoutRow4={secondLayoutRow4}
-                        secondLayoutRow4Col1={secondLayoutRow4Col1}
-                        secondLayoutRow4Col2={secondLayoutRow4Col2}
-                        secondLayoutRow4Col3={secondLayoutRow4Col3}
-                        secondLayoutRow4Col4={secondLayoutRow4Col4}
-                        secondLayoutZoom={secondLayoutZoom}
-                    />
-                    <br /><br /><br />
-                    <ViewerComponent />
+                    {tipLayout !== "" && tipLayout === "Pagina" && opening === true ? (
+                        <LayoutPageFieldsSecondPage
+                            handleTextUpdate={handleTextUpdate}
+                            handleChangeDropdown={handleChangeDropdown}
+                            secondLayoutRowsLayout={secondLayoutRowsLayout}
+                            secondLayoutLayoutPadding={secondLayoutLayoutPadding}
+                            secondLayoutPaddingBetweenImages={
+                                secondLayoutPaddingBetweenImages
+                            }
+                            secondLayoutBorderWidth={secondLayoutBorderWidth}
+                            secondLayoutDropShadow={secondLayoutDropShadow}
+                            secondLayoutRow1={secondLayoutRow1}
+                            secondLayoutRow1Col1={secondLayoutRow1Col1}
+                            secondLayoutRow1Col2={secondLayoutRow1Col2}
+                            secondLayoutRow1Col3={secondLayoutRow1Col3}
+                            secondLayoutRow1Col4={secondLayoutRow1Col4}
+                            secondLayoutRow2={secondLayoutRow2}
+                            secondLayoutRow2Col1={secondLayoutRow2Col1}
+                            secondLayoutRow2Col2={secondLayoutRow2Col2}
+                            secondLayoutRow2Col3={secondLayoutRow2Col3}
+                            secondLayoutRow2Col4={secondLayoutRow2Col4}
+                            secondLayoutRow3={secondLayoutRow3}
+                            secondLayoutRow3Col1={secondLayoutRow3Col1}
+                            secondLayoutRow3Col2={secondLayoutRow3Col2}
+                            secondLayoutRow3Col3={secondLayoutRow3Col3}
+                            secondLayoutRow3Col4={secondLayoutRow3Col4}
+                            secondLayoutRow4={secondLayoutRow4}
+                            secondLayoutRow4Col1={secondLayoutRow4Col1}
+                            secondLayoutRow4Col2={secondLayoutRow4Col2}
+                            secondLayoutRow4Col3={secondLayoutRow4Col3}
+                            secondLayoutRow4Col4={secondLayoutRow4Col4}
+                        />
+                    ) : (
+                            ""
+                        )}
                 </Grid>
+
+
+
+
+
             </Grid>
-        </Container>
 
+            <br /> <br /> <br />
 
-    )
-}
+            <Grid item xs={12}>
+                <Renderer
+                    rendererWidth={1200}
+                    rendererHeight={500}
+                    name={name}
+                    categLayout={categLayout}
+                    tipLayout={tipLayout}
+                    opening={opening}
+                    zoom={zoom}
+                    zoomOut={zoomOut}
+                    zoomIn={zoomIn}
+                    layoutWidth={layoutWidth}
+                    layoutHeight={layoutHeight}
+                    hasText={hasText}
+                    editableText={editableText}
+                    editableBackground={editableBackground}
+                    returnedLayout={returnedLayout}
+                    coverHasImage={coverHasImage}
+                    coverImageWidth={coverImageWidth}
+                    coverImageHeight={coverImageHeight}
+                    coverImageTopPosition={coverImageTopPosition}
+                    coverImageLeftPosition={coverImageLeftPosition}
+                    paddingBetweenImages={paddingBetweenImages}
+                    borderWidth={borderWidth}
+                    dropShadow={dropShadow}
+                    rowsLayout={rowsLayout}
+                    layoutPadding={layoutPadding}
+                    row1={row1}
+                    row1Col1={row1Col1}
+                    row1Col2={row1Col2}
+                    row1Col3={row1Col3}
+                    row1Col4={row1Col4}
+                    row2={row2}
+                    row2Col1={row2Col1}
+                    row2Col2={row2Col2}
+                    row2Col3={row2Col3}
+                    row2Col4={row2Col4}
+                    row3={row3}
+                    row3Col1={row3Col1}
+                    row3Col2={row3Col2}
+                    row3Col3={row3Col3}
+                    row3Col4={row3Col4}
+                    row4={row4}
+                    row4Col1={row4Col1}
+                    row4Col2={row4Col2}
+                    row4Col3={row4Col3}
+                    row4Col4={row4Col4}
+                    secondLayoutCoverHasImage={secondLayoutCoverHasImage}
+                    secondLayoutCoverImageWidth={secondLayoutCoverImageWidth}
+                    secondLayoutCoverImageHeight={secondLayoutCoverImageHeight}
+                    secondLayoutCoverImageTopPosition={
+                        secondLayoutCoverImageTopPosition
+                    }
+                    secondLayoutCoverImageLeftPosition={
+                        secondLayoutCoverImageLeftPosition
+                    }
+                    secondLayoutPaddingBetweenImages={secondLayoutPaddingBetweenImages}
+                    secondLayoutBorderWidth={secondLayoutBorderWidth}
+                    secondLayoutDropShadow={secondLayoutDropShadow}
+                    secondLayoutRowsLayout={secondLayoutRowsLayout}
+                    secondLayoutLayoutPadding={secondLayoutLayoutPadding}
+                    secondLayoutRow1={secondLayoutRow1}
+                    secondLayoutRow1Col1={secondLayoutRow1Col1}
+                    secondLayoutRow1Col2={secondLayoutRow1Col2}
+                    secondLayoutRow1Col3={secondLayoutRow1Col3}
+                    secondLayoutRow1Col4={secondLayoutRow1Col4}
+                    secondLayoutRow2={secondLayoutRow2}
+                    secondLayoutRow2Col1={secondLayoutRow2Col1}
+                    secondLayoutRow2Col2={secondLayoutRow2Col2}
+                    secondLayoutRow2Col3={secondLayoutRow2Col3}
+                    secondLayoutRow2Col4={secondLayoutRow2Col4}
+                    secondLayoutRow3={secondLayoutRow3}
+                    secondLayoutRow3Col1={secondLayoutRow3Col1}
+                    secondLayoutRow3Col2={secondLayoutRow3Col2}
+                    secondLayoutRow3Col3={secondLayoutRow3Col3}
+                    secondLayoutRow3Col4={secondLayoutRow3Col4}
+                    secondLayoutRow4={secondLayoutRow4}
+                    secondLayoutRow4Col1={secondLayoutRow4Col1}
+                    secondLayoutRow4Col2={secondLayoutRow4Col2}
+                    secondLayoutRow4Col3={secondLayoutRow4Col3}
+                    secondLayoutRow4Col4={secondLayoutRow4Col4}
+                    secondLayoutZoom={secondLayoutZoom}
+                />
+                <br />
+                <br />
+                <br />
+                <ViewerComponent />
+            </Grid>
+        </Container >
+    );
+};
 
-
-export default GeneralFields
+export default GeneralFields;

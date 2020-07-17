@@ -67,6 +67,25 @@ const LayoutState = props => {
             .catch((err) => dispatch({ type: MSG_LAYOUT, payload: err }));
     };
 
+    const updateLayoutBackground = (image, layoutId) => {
+        console.log("updateLayoutBackground started")
+        console.log(image + " : " + layoutId)
+
+        const fd = new FormData();
+        fd.append('image', image, image.name);
+        axios.defaults.headers.common['Content-Type'] = 'multipart/form-data';
+
+        axios
+            .put(`/layout/${layoutId}`, fd)
+            .then((res) => {
+                dispatch({ type: MSG_LAYOUT, payload: "Background-ul layout-ului a fost actualizat, va rugam faceti refresh." });
+                console.log("updateLayoutBackground was successfull")
+            })
+            .catch((err) => {
+                dispatch({ type: MSG_LAYOUT, payload: err })
+                console.log("updateLayoutBackground was unsuccessfull")
+            });
+    };
 
 
 
@@ -81,6 +100,7 @@ const LayoutState = props => {
                 getLayoutsForId,
                 deleteLayoutsForId,
                 duplicateLayoutsForId,
+                updateLayoutBackground,
             }}>
             {props.children}
         </LayoutContext.Provider>

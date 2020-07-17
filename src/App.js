@@ -26,37 +26,35 @@ class App extends Component {
   render() {
     return (
 
-      <ProductState >
 
-        <Router>
+      <Router>
 
-          <div className="App">
-            <Navigation />
+        <div className="App">
+          <Navigation />
 
-            <Switch>
+          <Switch>
 
-              <Route exact path="/">
-                <Project />
-              </Route>
+            <Route exact path="/">
+              <Project />
+            </Route>
 
-              <Route exact path="/creeazaLayout">
-                <NewLayout />
-              </Route>
+            <Route exact path="/creeazaLayout">
+              <NewLayout />
+            </Route>
 
-              <Route exact path="/creeazaTematica">
-                <NewTheme />
-              </Route>
+            <Route exact path="/creeazaTematica">
+              <NewTheme />
+            </Route>
 
-              <Route exact path="/creeazaProdusComplet">
-                <NewProduct />
-              </Route>
+            <Route exact path="/creeazaProdusComplet">
+              <NewProduct />
+            </Route>
 
-            </Switch>
-          </div>
+          </Switch>
+        </div>
 
-        </Router>
+      </Router>
 
-      </ProductState >
 
     );
   }

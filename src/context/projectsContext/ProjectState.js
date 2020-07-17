@@ -39,18 +39,22 @@ const ProjectState = props => {
     };
 
     const createNewProject = (newProject) => {
+        console.log("createNewProject started")
         let projectId;
         axios
             .post("/project", newProject)
-            .then((res) => {
-                dispatch({ type: CREATE_PROJECT, payload: res.data })
-                axios.post("/product", { id: res.data.id, name: res.data.name })
-                projectId = res.data.id;
+            .then((resProject) => {
+                projectId = resProject.data.id;
+                dispatch({ type: CREATE_PROJECT, payload: resProject.data })
+                console.log(resProject)
+                axios.post("/product", { id: resProject.data.id, name: resProject.data.name })
+                    .then(resProduct => {
+                        console.log(resProduct.data)
+                        axios.put(`/project/${projectId}/update`, { productHandler: resProduct.data })
+                    })
             })
-            .then((res2) => {
-                console.log(res2)
-                console.log("projectId")
-                console.log(projectId)
+            .then((resProduct) => {
+                console.log(resProduct)
             })
             .catch((err) => dispatch({ type: MSG_PROJECTS, payload: err }))
     }
@@ -92,7 +96,7 @@ const ProjectState = props => {
             .then((res) => {
                 (dispatch({ type: DELETE_PROJECT_BY_ID, payload: res.data }))
                 axios
-                .get(`/deleteProductByProjectId/${projectId}`)
+                    .get(`/deleteProductByProjectId/${projectId}`)
             })
             .then((res) => (console.log("Success")))
             .catch((err) => dispatch({ type: MSG_PROJECTS, payload: err }));
@@ -100,27 +104,38 @@ const ProjectState = props => {
 
     const duplicateProjectForId = (projectId) => {
         axios
-            .get(`/project/${projectId}/duplicate`)
+            .post(`/project/${projectId}/duplicate`)
             .then((res) => (dispatch({ type: DUPLICATE_PROJECT_BY_ID, payload: res.data })))
             .catch((err) => dispatch({ type: MSG_PROJECTS, payload: err }));
     };
 
-
-    const updateProject = (projectId, projectProperties) => {
+    const updateProject = (projectId, projectProperties, productHandlerId) => {
         console.log("updateProject started")
         console.log(projectId)
         console.log(projectProperties)
         axios
-          .put(`/project/${projectId}/update`, projectProperties)
-          .then((res) => {
-            console.log("updateProject was successfull")
-            dispatch({ type: UPDATE_PROJECT, payload: res.data });
-          })
-          .catch((err) => {
-            dispatch({ type: MSG_PROJECTS, payload: err })
-            console.log("updateProject was unsuccessfull")
-          });
-      };
+            .put(`/project/${projectId}/update`, projectProperties)
+            .then((res) => {
+                console.log("updateProject was successfull")
+                console.log(projectProperties)
+                dispatch({ type: UPDATE_PROJECT, payload: res.data });
+
+                // Update product name accordingly to project
+                if (projectProperties.name !== "") {
+                    axios.get(`/products/${productHandlerId}/updateNameOnProjectUpdate/${projectProperties.name}`)
+                        .then(dateTimeOfUpdate => console.log("ProjectState.js : 126 : updateProject() : Update product succesfull"))
+                        .catch((err) => {
+                            dispatch({ type: MSG_PROJECTS, payload: err })
+                            console.log("ProjectState.js : 130 : updateProject() : Update product unsuccesfull")
+                        })
+                }
+            })
+            .catch((err) => {
+                dispatch({ type: MSG_PROJECTS, payload: err })
+                console.log("ProjectState.js : 130 : updateProject() : Update project unsuccesfull")
+                console.log(err)
+            });
+    };
 
 
 

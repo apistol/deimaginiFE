@@ -13,6 +13,8 @@ import {
   // Add and remove slide product
   ADD_SLIDE_FOR_PRODUCT,
   REMOVE_SLIDE_FOR_PRODUCT,
+  UPDATE_SLIDES,
+  UPDATE_SLIDES_BACKGROUND,
   // Message
   MSG_PRODUCTS,
 
@@ -44,7 +46,7 @@ const ProductState = props => {
     getProducts();
     if (returnedProduct != null) {
       //if returned product is not null, slides will come from retrieved product
-      dispatch({ type: ADD_SLIDE_FOR_PRODUCT, payload: returnedProduct.slider })
+      //dispatch({ type: ADD_SLIDE_FOR_PRODUCT, payload: returnedProduct.slider })
     }
   }, [])
 
@@ -56,9 +58,9 @@ const ProductState = props => {
 
   const addSlide = (item) => {
     console.log("addSlide started")
-    const { id, type } = item;
+    const { id, type, index } = item;
+    console.log(item)
     slidesIdsList.push(item.id)
-    // push layout id to slider
     getLayoutsForId(id)
     console.log("addSlide ended")
   };
@@ -96,6 +98,7 @@ const ProductState = props => {
     console.log("updateProduct started")
     console.log(slidesIdsList)
     console.log(productUid)
+    console.log(slider)
     axios
       .put(`/product`, { slider, productUid })
       .then((res) => {
@@ -129,15 +132,44 @@ const ProductState = props => {
       });
   };
 
+
+
+
+
+  const updateProductBackgroundSlide = (picture, productId, slideNumber) => {
+    console.log("updateProductBackgroundSlide started")
+    console.log(picture + " : " + productId + " : " + slideNumber)
+
+    const fd = new FormData();
+    fd.append('image', picture, picture.name);
+    axios.defaults.headers.common['Content-Type'] = 'multipart/form-data';
+
+    axios
+      .post(`/product/${productId}/${slideNumber}/slideBackground`, fd)
+      .then((res) => {
+        dispatch({ type: MSG_PRODUCTS, payload: "Background-ul Slide-ului a fost actualizat, va rugam faceti refresh." });
+        console.log("updateProductBackgroundSlide was successfull")
+      })
+      .catch((err) => {
+        dispatch({ type: MSG_PRODUCTS, payload: err })
+        console.log("updateProductBackgroundSlide was unsuccessfull")
+      });
+  }
+
+
+
+
+
+
   const removeProductBackground = (productId) => {
     console.log("removeProductBackground started")
     console.log(productId)
 
     axios
-      .post(`/product/${productId}/removeBackground`)
+      .post(`/product/${productId}/removeProductBackground`)
       .then((res) => {
         console.log("removeProductBackground was successfull")
-        dispatch({ type: MSG_PRODUCTS, payload: res.data.msg });
+        dispatch({ type: MSG_PRODUCTS, payload: "Background-ul recurent a fost sters cu succes, va rugam faceti refresh paginii." });
       })
       .catch((err) => {
         dispatch({ type: MSG_PRODUCTS, payload: err })
@@ -182,6 +214,43 @@ const ProductState = props => {
   };
 
 
+
+  const removeBackgroundForSlide = (productId, slider) => {
+    console.log("removeBackgroundForSlide started")
+    if (productId === null) { return console.error("Missing project id"); }
+    if (slider === null) { return console.error("Missing slider"); }
+
+    axios
+      .post(`/product/${productId}/${slider}/removeBackgroundForSlide`)
+      .then((res) => {
+        return dispatch({ type: MSG_PRODUCTS, payload: "Background pentru slide a fost sters cu succes, va rugam faceti refresh paginii." })
+      })
+      .catch((err) => {
+        dispatch({ type: MSG_PRODUCTS, payload: err })
+        console.log("removeBackgroundForSlide runned unsuccessfull")
+      });
+  }
+
+
+
+  const removeSlideForProduct = (productId, slider) => {
+    console.log("removeSlideForProduct started")
+    if (productId === null) { return console.error("Missing project id"); }
+    if (slider === null) { return console.error("Missing slider"); }
+
+    axios
+      .post(`/product/${productId}/${slider}/removeSlideForProduct`)
+      .then((res) => {
+        dispatch({ type: REMOVE_SLIDE_FOR_PRODUCT, payload: "Slide-ul a fost sters cu succes, va rugam faceti refresh paginii." })
+        console.log("removeSlideForProduct runned successfull")
+      })
+      .catch((err) => {
+        dispatch({ type: MSG_PRODUCTS, payload: err })
+        console.log("removeSlideForProduct runned unsuccessfull")
+      });
+  }
+
+
   //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
@@ -209,6 +278,7 @@ const ProductState = props => {
     axios
       .get(`/layout/${layoutId}`)
       .then((res) => {
+        console.log(res.data)
         dispatch({ type: ADD_SLIDE_FOR_PRODUCT, payload: res.data })
         console.log("getLayoutsForId finished succesfull")
       })
@@ -240,6 +310,9 @@ const ProductState = props => {
         removeProductBackground,
         getProductForId,
         addSlide,
+        updateProductBackgroundSlide,
+        removeBackgroundForSlide,
+        removeSlideForProduct,
 
 
         //For projects

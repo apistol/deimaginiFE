@@ -3,6 +3,8 @@ import Slider from "./slider";
 import ProductContext from "../../context/productContext/productContext";
 import RenderedPageForProducts from "./RenderedPageForProducts";
 import RenderedSecondaryPageForProducts from "./RenderedSecondaryPageForProducts";
+import RenderedCover from "../../components/RenderedCover";
+import defaultImage from "../../assets/logo.svg";
 import "../../App.css";
 
 export default class AsNavFor extends Component {
@@ -50,14 +52,24 @@ export default class AsNavFor extends Component {
               this.props.carouselSlides.map((prod) => {
                 prod.layoutHeight = 450;
                 prod.layoutWidth = 400;
-                return <div>  <div style={backgroundImageConfig}><RenderedPageForProducts
-                  key={prod.id} layoutSpecs={{ ...prod }}
-                  width={prod.opening === true ? "50%" : "inherit"}
-                  display={prod.opening === true ? "inline-block" : "block"} />
-                  {prod.opening &&
-                    <RenderedSecondaryPageForProducts
-                      key={prod.id}
-                      layoutSpecs={{ ...prod }} />}</div></div>
+                return <div>
+
+                  {prod.tipLayout !== "Pagina" && <RenderedCover key={prod.id} layoutSpecs={{ ...prod }} />}
+
+
+                  {prod.tipLayout === "Pagina" && <div style={prod.opening === true ? backgroundImageConfig : null}>
+                    <RenderedPageForProducts
+                      key={prod.id} layoutSpecs={{ ...prod }}
+                      width={prod.opening === true ? "50%" : "inherit"}
+                      display={prod.opening === true ? "inline-block" : "block"}
+                      background={prod.background}
+                      recurentBackground={this.props.recursiveBackground} />
+                    {prod.opening &&
+                      <RenderedSecondaryPageForProducts
+                        key={prod.id}
+                        layoutSpecs={{ ...prod }} />}
+                  </div>}
+                </div>
               })
             }
 
@@ -72,16 +84,14 @@ export default class AsNavFor extends Component {
           swipeToSlide={true}
           focusOnSelect={false}
         >
-          {this.props.carouselSlides.map((prod) => {
-            prod.layoutHeight = 150;
-            prod.layoutWidth = 150;
+          {this.props.carouselSlides.map((prodNav) => {
+            // prodNav.layoutHeight = 150;
+            // prodNav.layoutWidth = 150;
 
             currentSlide += 1;
-            return <div><RenderedPageForProducts
-              key={prod.id} layoutSpecs={{ ...prod }}
-              width={prod.opening === true ? "49%" : "50%"}
-              display={prod.opening === true ? "inline-block" : "block"}
-            /> {prod.opening && <RenderedSecondaryPageForProducts key={prod.id} layoutSpecs={{ ...prod }} />}
+            return <div>
+
+              <img src={prodNav.backgroundLayout ? prodNav.backgroundLayout : defaultImage} style={{ height: "120px", width: "auto", margin: "0 auto" }} />
               <p style={{ textAlign: "center" }}>{`${currentSlide} / ${this.props.carouselSlides.length}`}</p>
             </div>
           })}

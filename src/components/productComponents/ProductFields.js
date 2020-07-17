@@ -21,6 +21,7 @@ import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import ProductContext from "../../context/productContext/productContext"
 
+import Snackbar from '@material-ui/core/Snackbar';
 
 const ProductFields = props => {
 
@@ -55,6 +56,19 @@ const ProductFields = props => {
         productsContext.updateProductBackground(event[0], id);
     }
 
+    const onDropForSlide = (event, productId, slider) => {
+        console.log(event, productId)
+        console.log(slider)
+        productsContext.updateProductBackgroundSlide(event[0], productId, slider);
+    }
+
+    const removeBackgroundForSlide = (productId, slider) => {
+        productsContext.removeBackgroundForSlide(productId, slider);
+    }
+    const removeSlideForProduct = (productId, slider) => {
+        productsContext.removeSlideForProduct(productId, slider);
+    }
+
     const handleChange = (event) => {
         setProductFields({ [event.target.name]: event });
     };
@@ -83,7 +97,7 @@ const ProductFields = props => {
         height: "190px!important",
         width: "190px!important",
         overflow: "hidden",
-
+        background: "rgb(240, 240, 240)"
     };
 
     const images = {
@@ -111,6 +125,19 @@ const ProductFields = props => {
                 marginBottom: "60px",
             }}
         >
+
+
+            <Snackbar
+                anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'left',
+                }}
+                open={productsContext.message ? true : false}
+                autoHideDuration={300}
+                message={productsContext.message ? productsContext.message.message : ""}
+            />
+
+
             <Button
                 variant="contained"
                 style={{
@@ -150,7 +177,7 @@ const ProductFields = props => {
                                                 item
                                                 xs={6}
 
-                                                key={product.id}
+                                                key={Math.random() * 100}
 
                                             >
                                                 <Paper elevation={4} style={paper} className="hoveredComponent"
@@ -164,7 +191,7 @@ const ProductFields = props => {
                                                         style={images}
                                                         alt="media"
                                                     />
-                                                    <p>Nume: {product.name}</p>
+                                                    <p>Nume: {product.name ? product.name : ""}</p>
                                                 </Paper>
                                             </Grid>
                                         );
@@ -192,10 +219,10 @@ const ProductFields = props => {
 
                                             >
                                                 <Paper elevation={4} style={paper} className="hoveredComponent"
-                                                    onClick={() => productsContext.addSlide({ id: page.id, type: "Pages" })}
+                                                    onClick={() => productsContext.addSlide({ id: page.id, type: "Pages", index: productsContext.returnedProduct.length })}
                                                 >
                                                     <img
-                                                        src={defaultImage}
+                                                        src={page.backgroundLayout ? page.backgroundLayout : defaultImage}
                                                         style={images}
                                                         alt="media"
                                                     />
@@ -230,7 +257,7 @@ const ProductFields = props => {
                                             >
                                                 <Paper elevation={4} style={paper} className="hoveredComponent" onClick={() => productsContext.addSlide({ id: cover.id, type: "Cover" })}>
                                                     <img
-                                                        src={defaultImage}
+                                                        src={cover.backgroundLayout ? cover.backgroundLayout : defaultImage}
                                                         style={images}
                                                         alt="media"
                                                     />
@@ -284,34 +311,48 @@ const ProductFields = props => {
                                     <br />
                                     <br />
 
-                                    {productsContext.slider ? productsContext.slider.map((slider) => {
-                                        sliderCounter += 1;
-                                        return (
-                                            <Grid
-                                                item
-                                                xs={6}
-                                                key={sliderCounter}
-                                            >
-                                                <Paper elevation={4} style={paper} className="hoveredComponent" onClick={() => console.log("clicked")} >
-                                                    <img
-                                                        src={slider.sliderBackground ? slider.sliderBackground : defaultImage}
-                                                        style={images}
-                                                        alt="media"
-                                                    />
-                                                    <p style={{ textAlign: "center" }}>
-                                                        <img src={addImage} style={{ width: "20px", height: "20px", marginRight: "10px", cursor: "pointer" }}
-                                                            onClick={() => alert("add")} />
-                                                        <img src={minusImage} style={{ width: "20px", height: "20px", marginRight: "10px", cursor: "pointer" }}
-                                                            onClick={() => alert("remove")} />
-                                                        <img src={deleteImage} style={{ width: "20px", height: "20px", cursor: "pointer" }}
-                                                            onClick={() => alert("delete")} />
-                                                    </p>
-                                                    <p>Slide: {sliderCounter}</p>
-                                                    <p>Nume: {slider.name}</p>
-                                                </Paper>
-                                            </Grid>
-                                        );
-                                    }) : ""}
+
+                                    {productsContext.slider && productsContext.slider.map((slider, index) => {
+                                        sliderCounter += 1
+                                        return <Grid
+                                            item
+                                            xs={6}
+                                            key={slider.id}
+                                        >
+                                            <Paper elevation={4} style={paper} className="hoveredComponent">
+                                                <img
+                                                    src={slider.background ? slider.background : defaultImage}
+                                                    style={images}
+                                                    alt="media"
+                                                />
+                                                <p style={{ textAlign: "center" }}>
+                                                    <ImageUploader
+                                                        label="Marime imagine max: 4MB se accepta doar .jpg, .png"
+                                                        withIcon={false}
+                                                        buttonText="BG slide"
+                                                        onChange={(event) => onDropForSlide(event, productsContext.returnedProduct.id, index)}
+                                                        imgExtension={['.jpg', '.png']}
+                                                        maxFileSize={50000000}
+                                                        withPreview={true}
+                                                        withLabel={false}
+                                                        fileContainerStyle={{
+                                                            padding: "0px",
+                                                            alignItems: "flex-start",
+                                                            margin: "10px auto",
+                                                            color: "#000",
+                                                            boxShadow: "none"
+                                                        }} />
+                                                    <img src={minusImage} style={{ width: "20px", height: "20px", marginRight: "10px", cursor: "pointer" }}
+                                                        onClick={() => removeBackgroundForSlide(productsContext.returnedProduct.id, index)} />
+                                                    <img src={deleteImage} style={{ width: "20px", height: "20px", cursor: "pointer" }}
+                                                        onClick={() => removeSlideForProduct(productsContext.returnedProduct.id, index)} />
+                                                </p>
+                                                <p>Slide: {sliderCounter}</p>
+                                                <p>Nume: {slider.name}</p>
+                                            </Paper>
+                                        </Grid>
+                                    }
+                                    )}
                                 </div>
                             </ExpansionPanelDetails>
                         </ExpansionPanel>
