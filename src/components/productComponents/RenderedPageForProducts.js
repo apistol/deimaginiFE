@@ -54,11 +54,12 @@ const RenderedPage = ({ layoutSpecs, display, width, background, recurentBackgro
         display: `${tipLayout === "" ? "none" : "inherit"}`,
         boxShadow: "0px 0px 5px 0px rgba(0,0,0,0.75)",
         width: `${layoutHeightProp ? layoutHeightProp : layoutWidth}px`,
-        height: `${layoutWidthProp ? layoutWidthProp : layoutHeight}px`,
+        height: `${(layoutWidthProp ? layoutWidthProp : layoutHeight) - 2 * layoutPadding}px`,
         display: "block",
         margin: "auto",
         border: "1px solid #000000",
         padding: `${layoutPadding}px`,
+        paddingBottom: `${paddingBetweenImages * (layoutHeight / 100)}px`
         // transform: "scale(" + zoom + ")"
     }
 

@@ -17,8 +17,8 @@ import NewProduct from "./components/NewProduct";
 import ProductState from "./context/productContext/ProductState"
 
 // For package.json
-//axios.defaults.baseURL = "https://us-central1-editor-c70eb.cloudfunctions.net/api"
-axios.defaults.baseURL = "http://localhost:5000/editor-c70eb/us-central1/api"
+axios.defaults.baseURL = "https://us-central1-editor-c70eb.cloudfunctions.net/api"
+//axios.defaults.baseURL = "http://localhost:5000/editor-c70eb/us-central1/api"
 
 
 class App extends Component {

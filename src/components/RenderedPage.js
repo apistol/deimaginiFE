@@ -64,6 +64,7 @@ const RenderedPage = ({ layoutSpecs }) => {
         margin: "auto",
         border: "1px solid #000000",
         padding: `${layoutPadding}px`,
+        paddingBottom: `${paddingBetweenImages * (layoutHeight / 100)}px`,
         transform: "scale(" + zoom + ")"
     }
 
