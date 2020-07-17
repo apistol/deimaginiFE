@@ -3,12 +3,13 @@ import Grid from "@material-ui/core/Grid";
 import Paper from '@material-ui/core/Paper';
 
 
-const RenderedPage = ({ layoutSpecs }) => {
+const RenderedPage = ({ layoutSpecs, layoutHeightProp, layoutWidthProp, background, recurentBackground }) => {
 
     const {
-        background,
+
         tipLayout,
         coverThemeImage,
+        paddingBetweenImages,
         layoutHeight,
         layoutWidth,
         layoutPadding,
@@ -51,17 +52,20 @@ const RenderedPage = ({ layoutSpecs }) => {
     // console.log(layoutHeight * (paddingBetweenImages / 100))
 
     const layoutStyle = {
-        backgroundImage: `url(${background})`,
+        backgroundImage: `url(${background ? background : recurentBackground})`,
         backgroundSize: "100%",
         backgroundRepeat: "no-repeat",
         backgroundPosition: "center",
         display: `${tipLayout === "" ? "none" : "block"}`,
         boxShadow: "0px 0px 5px 0px rgba(0,0,0,0.75)",
-        width: `${layoutWidth}`,
-        height: `${layoutHeight}`,
+        width: `${(layoutHeightProp ? layoutHeightProp : layoutWidth) - 2 * layoutPadding - 15}px`,
+        height: `${(layoutWidthProp ? layoutWidthProp : layoutHeight) - 2 * layoutPadding}px`,
+        // width: `${layoutWidth}`,
+        // height: `${layoutHeight}`,
         margin: "auto",
         border: "1px solid #000000",
         padding: `${layoutPadding}px`,
+        paddingBottom: `${paddingBetweenImages * (layoutHeight / 100)}px`,
         // transform: "scale(" + zoom + ")"
     }
 

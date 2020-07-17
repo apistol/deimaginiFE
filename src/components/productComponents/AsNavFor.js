@@ -56,14 +56,19 @@ export default class AsNavFor extends Component {
 
                   {prod.tipLayout !== "Pagina" && <RenderedCover key={prod.id} layoutSpecs={{ ...prod }} />}
 
+                  {prod.tipLayout === "Pagina" && <div
 
-                  {prod.tipLayout === "Pagina" && <div style={prod.opening === true ? backgroundImageConfig : null}>
+                    style={{
+                      backgroundImage: `url(${prod.opening === true ? (prod.background ? prod.background : this.props.recursiveBackground) : null})`, backgroundSize: "cover",
+                      backgroundRepeat: "no-repeat",
+                      backgroundPosition: "center",
+                    }}>
                     <RenderedPageForProducts
                       key={prod.id} layoutSpecs={{ ...prod }}
                       width={prod.opening === true ? "50%" : "inherit"}
                       display={prod.opening === true ? "inline-block" : "block"}
-                      background={prod.background}
-                      recurentBackground={this.props.recursiveBackground} />
+                      background={prod.opening ? null : prod.background}
+                      recurentBackground={prod.opening ? null : this.props.recursiveBackground} />
                     {prod.opening &&
                       <RenderedSecondaryPageForProducts
                         key={prod.id}
