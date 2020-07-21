@@ -39,8 +39,12 @@ const RenderedPage = ({ layoutSpecs }) => {
         coverThemeImage
     } = layoutSpecs;
 
-    const columnHeight = (layoutHeight - 2 * layoutPadding) / rowsLayout;
-    const innerColumnHeight = columnHeight - 2 * borderWidth - paddingBetweenImages * (layoutHeight / 100);
+
+    const columnHeight = `${(layoutHeight - 2 * layoutPadding) / rowsLayout}`;
+
+
+    const innerColumnHeight = columnHeight - (2 * borderWidth);
+    const layoutStyleHeight = `${layoutHeight - 2 * layoutPadding}px`
 
     console.log("================================================")
     console.log("columnHeight : " + columnHeight)
@@ -60,32 +64,55 @@ const RenderedPage = ({ layoutSpecs }) => {
         display: `${tipLayout === "" ? "none" : "inherit"}`,
         boxShadow: "0px 0px 5px 0px rgba(0,0,0,0.75)",
         width: `${layoutWidth - 2 * layoutPadding}px`,
-        height: `${layoutHeight - 2 * layoutPadding}px`,
+        height: layoutStyleHeight,
         margin: "auto",
         border: "1px solid #000000",
         padding: `${layoutPadding}px`,
-        paddingBottom: `${paddingBetweenImages * (layoutHeight / 100)}px`,
         transform: "scale(" + zoom + ")"
     }
 
+
+    // Row 
+
     const fixWrapping = {
         flexWrap: "inherit",
-        height: `${layoutHeight / rowsLayout}px`
+        height: `${columnHeight}px`,
+        margin: "2px 0px 0px 0px"
     }
 
-    const column = {
-        width: "100%",
-        height: `${columnHeight}px`,
-        padding: `${layoutHeight * (paddingBetweenImages / 100)}px ${layoutHeight * (paddingBetweenImages / 100)}px 0px  ${layoutHeight * (paddingBetweenImages / 100)}px `
+
+    // Latimea coloanei din row layoutWidth - 2 * layoutPadding 
+
+    const row1StyleColumn = {
+        width: `${((layoutWidth - ((2 * layoutPadding) / row1) + (2 * (layoutWidth * (paddingBetweenImages / 100)))) / row1)}px`,
+        height: `${((layoutHeight - 2 * layoutPadding) / rowsLayout)}px`,
+        padding: `${layoutHeight * (paddingBetweenImages / 100)}px  ${layoutWidth * (paddingBetweenImages / 100)}px`
+    }
+    const row2StyleColumn = {
+        width: `${((layoutWidth - ((2 * layoutPadding) / row2) + (2 * (layoutWidth * (paddingBetweenImages / 100)))) / row2)}px`,
+        height: `${((layoutHeight - 2 * layoutPadding) / rowsLayout)}px`,
+        padding: `${layoutHeight * (paddingBetweenImages / 100)}px  ${layoutWidth * (paddingBetweenImages / 100)}px`
+    }
+    const row3StyleColumn = {
+        width: `${((layoutWidth - ((2 * layoutPadding) / row3) + (2 * (layoutWidth * (paddingBetweenImages / 100)))) / row3)}px`,
+        height: `${((layoutHeight - 2 * layoutPadding) / rowsLayout)}px`,
+        padding: `${layoutHeight * (paddingBetweenImages / 100)}px  ${layoutWidth * (paddingBetweenImages / 100)}px`
+    }
+    const row4StyleColumn = {
+        width: `${((layoutWidth - ((2 * layoutPadding) / row4) + (2 * (layoutWidth * (paddingBetweenImages / 100)))) / row4)}px`,
+        height: `${((layoutHeight - 2 * layoutPadding) / rowsLayout)}px`,
+        padding: `${layoutHeight * (paddingBetweenImages / 100)}px  ${layoutWidth * (paddingBetweenImages / 100)}px`
     }
 
     const innerColumn = {
         background: "none",
         borderRadius: "0px",
-        height: `${innerColumnHeight}px`,
+        height: `${(((layoutHeight - 2 * layoutPadding) / rowsLayout - 2 * layoutHeight * (paddingBetweenImages / 100)) - 2 * borderWidth)}px`,
         border: `${borderWidth}px solid #FFFFFF`,
         boxShadow: `0px 0px ${dropShadow}px 0px rgba(0,0,0,0.75)`,
         marginTop: "0px",
+        // width: `${((layoutWidth - 2 * layoutPadding) / row1) - 2 * borderWidth}px`,
+
     }
 
 
@@ -100,35 +127,37 @@ const RenderedPage = ({ layoutSpecs }) => {
             <div id="layoutStyle" style={layoutStyle}>
                 {/* row 1 */}
                 {(rowsLayout >= 1) &&
-                    <Grid container
+                    <Grid
+                        id="firstContainer"
+                        container
                         direction="row"
                         justify="space-around"
                         alignItems="center"
                         style={fixWrapping}>
 
                         {(row1 >= 1) &&
-                            <Grid item xs={row1Col1} style={column}>
-                                <div style={innerColumn} width={`${((layoutWidth - 2 * layoutPadding) / row1) - 2 * borderWidth}px`}>
+                            <Grid item xs={row1Col1} style={row1StyleColumn} id="firstRow" >
+                                <div style={innerColumn} id="firstColumn">
 
                                 </div>
                             </Grid>}
 
                         {(row1 >= 2) &&
-                            <Grid item xs={row1Col2} style={column}>
+                            <Grid item xs={row1Col2} style={row1StyleColumn}>
                                 <div style={innerColumn}>
 
                                 </div>
                             </Grid>}
 
                         {(row1 >= 3) &&
-                            <Grid item xs={row1Col3} style={column}>
+                            <Grid item xs={row1Col3} style={row1StyleColumn}>
                                 <div style={innerColumn}>
 
                                 </div>
                             </Grid>}
 
                         {(row1 >= 4) &&
-                            <Grid item xs={row1Col4} style={column}>
+                            <Grid item xs={row1Col4} style={row1StyleColumn}>
                                 <div style={innerColumn}>
 
                                 </div>
@@ -138,36 +167,36 @@ const RenderedPage = ({ layoutSpecs }) => {
 
                 {/* row 2 */}
                 {(rowsLayout >= 2) &&
-                    <Grid container
+                    <Grid
+                        container
                         direction="row"
-                        justify="center"
+                        justify="space-around"
                         alignItems="center"
-                        spacing={1}
                         style={fixWrapping}>
 
                         {(row2 >= 1) &&
-                            <Grid item xs={row2Col1} style={column}>
+                            <Grid item xs={row2Col1} style={row2StyleColumn}>
                                 <div style={innerColumn}>
 
                                 </div>
                             </Grid>}
 
                         {(row2 >= 2) &&
-                            <Grid item xs={row2Col2} style={column}>
+                            <Grid item xs={row2Col2} style={row2StyleColumn}>
                                 <div style={innerColumn}>
 
                                 </div>
                             </Grid>}
 
                         {(row2 >= 3) &&
-                            <Grid item xs={row2Col3} style={column}>
+                            <Grid item xs={row2Col3} style={row2StyleColumn}>
                                 <div style={innerColumn}>
 
                                 </div>
                             </Grid>}
 
                         {(row2 >= 4) &&
-                            <Grid item xs={row2Col4} style={column}>
+                            <Grid item xs={row2Col4} style={row2StyleColumn}>
                                 <div style={innerColumn}>
 
                                 </div>
@@ -177,34 +206,34 @@ const RenderedPage = ({ layoutSpecs }) => {
 
                 {/* row 3 */}
                 {(rowsLayout >= 3) &&
-                    <Grid container
+                    <Grid
+                        container
                         direction="row"
-                        justify="center"
+                        justify="space-around"
                         alignItems="center"
-                        spacing={1}
                         style={fixWrapping}>
 
 
                         {(row3 >= 1) &&
-                            <Grid item xs={row3Col1} style={column}>
+                            <Grid item xs={row3Col1} style={row3StyleColumn}>
                                 <div style={innerColumn}>
                                 </div>
                             </Grid>}
 
                         {(row3 >= 2) &&
-                            <Grid item xs={row3Col2} style={column}>
+                            <Grid item xs={row3Col2} style={row3StyleColumn}>
                                 <div style={innerColumn}>
                                 </div>
                             </Grid>}
 
                         {(row3 >= 3) &&
-                            <Grid item xs={row3Col3} style={column}>
+                            <Grid item xs={row3Col3} style={row3StyleColumn}>
                                 <div style={innerColumn}>
                                 </div>
                             </Grid>}
 
                         {(row3 >= 4) &&
-                            <Grid item xs={row3Col4} style={column}>
+                            <Grid item xs={row3Col4} style={row3StyleColumn}>
                                 <div style={innerColumn}>
                                 </div>
                             </Grid>}
@@ -214,33 +243,33 @@ const RenderedPage = ({ layoutSpecs }) => {
                 {/* row 4 */}
                 {(rowsLayout >= 4) &&
                     <Grid
+                        container
                         direction="row"
-                        justify="center"
+                        justify="space-around"
                         alignItems="center"
-                        spacing={1}
                         style={fixWrapping}>
 
 
                         {(row4 >= 1) &&
-                            <Grid item xs={row4Col1} style={column}>
+                            <Grid item xs={row4Col1} style={row4StyleColumn}>
                                 <div style={innerColumn}>
                                 </div>
                             </Grid>}
 
                         {(row4 >= 2) &&
-                            <Grid item xs={row4Col2} style={column}>
+                            <Grid item xs={row4Col2} style={row4StyleColumn}>
                                 <div style={innerColumn}>
                                 </div>
                             </Grid>}
 
                         {(row4 >= 3) &&
-                            <Grid item xs={row4Col3} style={column}>
+                            <Grid item xs={row4Col3} style={row4StyleColumn}>
                                 <div style={innerColumn}>
                                 </div>
                             </Grid>}
 
                         {(row4 >= 4) &&
-                            <Grid item xs={row4Col4} style={column}>
+                            <Grid item xs={row4Col4} style={row4StyleColumn}>
                                 <div style={innerColumn}>
                                 </div>
                             </Grid>}
