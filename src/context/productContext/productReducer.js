@@ -24,7 +24,7 @@ export default (state, action) => {
       return {
         ...state,
         recursiveBackground: { ...action.payload },
-        message: { type: "success", message: "Produs actualizat cu succes, va rugam faceti refresh." },
+        message: { type: "success", message: "Produs actualizat cu succes." },
       };
     case GET_PRODUCT_BY_ID:
       return {
@@ -48,17 +48,17 @@ export default (state, action) => {
     case UPDATE_SLIDES:
       return {
         ...state,
-        message: { type: "success", message: "Slide-ul a fost actualizat, va rugam faceti refresh." },
+        message: { type: "success", message: "Slide-ul a fost actualizat." },
       };
     case UPDATE_SLIDES_BACKGROUND:
       return {
         ...state,
-        message: { type: "success", message: "Background-ul Slide-ului a fost actualizat, va rugam faceti refresh." },
+        message: { type: "success", message: "Background-ul Slide-ului a fost actualizat." },
       };
     case REMOVE_SLIDE_FOR_PRODUCT:
       return {
         ...state,
-        message: { type: "success", message: "Slide-ul a fost sters cu succes, va rugam faceti refresh paginii." },
+        message: { type: "success", message: "Slide-ul a fost sters cu succesx." },
 
       };
     case MSG_PRODUCTS:

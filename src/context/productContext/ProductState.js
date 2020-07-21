@@ -93,7 +93,6 @@ const ProductState = props => {
       });
   };
 
-
   const updateProduct = (slidesIdsList, productUid) => {
     console.log("updateProduct started")
     console.log(slidesIdsList)
@@ -125,16 +124,16 @@ const ProductState = props => {
       .then((res) => {
         console.log("updateProductBackground was successfull")
         dispatch({ type: UPDATE_PRODUCT, payload: res.data });
+        getProductForId(id)
+
       })
       .catch((err) => {
         dispatch({ type: MSG_PRODUCTS, payload: err })
         console.log("updateProductBackground was unsuccessfull")
       });
+    getProductForId(id)
+
   };
-
-
-
-
 
   const updateProductBackgroundSlide = (picture, productId, slideNumber) => {
     console.log("updateProductBackgroundSlide started")
@@ -149,17 +148,16 @@ const ProductState = props => {
       .then((res) => {
         dispatch({ type: MSG_PRODUCTS, payload: "Background-ul Slide-ului a fost actualizat, va rugam faceti refresh." });
         console.log("updateProductBackgroundSlide was successfull")
+        getProductForId(productId)
+
       })
       .catch((err) => {
         dispatch({ type: MSG_PRODUCTS, payload: err })
         console.log("updateProductBackgroundSlide was unsuccessfull")
       });
+    getProductForId(productId)
+
   }
-
-
-
-
-
 
   const removeProductBackground = (productId) => {
     console.log("removeProductBackground started")
@@ -170,13 +168,15 @@ const ProductState = props => {
       .then((res) => {
         console.log("removeProductBackground was successfull")
         dispatch({ type: MSG_PRODUCTS, payload: "Background-ul recurent a fost sters cu succes, va rugam faceti refresh paginii." });
+        getProductForId(productId)
+
       })
       .catch((err) => {
         dispatch({ type: MSG_PRODUCTS, payload: err })
         console.log("removeProductBackground was unsuccessfull")
       });
+    getProductForId(productId)
   }
-
 
   const getProductForId = (productId) => {
     console.log("getProductForId started")
@@ -195,8 +195,6 @@ const ProductState = props => {
     console.log(productsInitialState)
   };
 
-
-
   const getProductForProjectsDisplay = (projectId) => {
     console.log("getProductForProjectsDisplay started")
     if (projectId === null) { return console.error("Missing project id"); }
@@ -211,9 +209,9 @@ const ProductState = props => {
         console.log("getProductForId runned unsuccessfull")
         dispatch({ type: MSG_PRODUCTS, payload: err })
       });
+    getProductForId(projectId)
+
   };
-
-
 
   const removeBackgroundForSlide = (productId, slider) => {
     console.log("removeBackgroundForSlide started")
@@ -223,15 +221,15 @@ const ProductState = props => {
     axios
       .post(`/product/${productId}/${slider}/removeBackgroundForSlide`)
       .then((res) => {
-        return dispatch({ type: MSG_PRODUCTS, payload: "Background pentru slide a fost sters cu succes, va rugam faceti refresh paginii." })
+        dispatch({ type: MSG_PRODUCTS, payload: "Background pentru slide a fost sters cu succes." })
       })
       .catch((err) => {
         dispatch({ type: MSG_PRODUCTS, payload: err })
         console.log("removeBackgroundForSlide runned unsuccessfull")
       });
+    getProductForId(productId)
+
   }
-
-
 
   const removeSlideForProduct = (productId, slider) => {
     console.log("removeSlideForProduct started")
@@ -241,13 +239,16 @@ const ProductState = props => {
     axios
       .post(`/product/${productId}/${slider}/removeSlideForProduct`)
       .then((res) => {
-        dispatch({ type: REMOVE_SLIDE_FOR_PRODUCT, payload: "Slide-ul a fost sters cu succes, va rugam faceti refresh paginii." })
+        dispatch({ type: REMOVE_SLIDE_FOR_PRODUCT, payload: "Slide-ul a fost sters cu succes." })
         console.log("removeSlideForProduct runned successfull")
       })
       .catch((err) => {
         dispatch({ type: MSG_PRODUCTS, payload: err })
         console.log("removeSlideForProduct runned unsuccessfull")
       });
+
+    getProductForId(productId)
+
   }
 
 

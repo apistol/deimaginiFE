@@ -53,9 +53,14 @@ const LayoutState = props => {
     };
 
     const deleteLayoutsForId = (layoutId) => {
+        console.log("deleteLayoutsForId started")
+        console.log("layoutId : " + layoutId)
         axios
-            .get(`/layout/${layoutId}/delete`)
-            .then((res) => (dispatch({ type: DELETE_LAYOUT_BY_ID, payload: res.data })))
+            .delete(`/layout/${layoutId}`)
+            .then((res) => {
+                dispatch({ type: DELETE_LAYOUT_BY_ID, payload: res.data })
+                getLayouts();
+            })
             .catch((err) => dispatch({ type: MSG_LAYOUT, payload: err }));
 
     };
@@ -79,6 +84,7 @@ const LayoutState = props => {
             .put(`/layout/${layoutId}`, fd)
             .then((res) => {
                 dispatch({ type: MSG_LAYOUT, payload: "Background-ul layout-ului a fost actualizat, va rugam faceti refresh." });
+                getLayouts();
                 console.log("updateLayoutBackground was successfull")
             })
             .catch((err) => {

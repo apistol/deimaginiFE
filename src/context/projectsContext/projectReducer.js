@@ -21,12 +21,12 @@ export default (state, action) => {
             return {
                 ...state,
                 projectsList: [...state.projectsList, action.payload],
-                msgProjects: { type: "success", message: "Proiect creeat cu succes, va rugam faceti refresh paginii." },
+                msgProjects: { type: "success", message: "Proiect creeat cu succes." },
             }
         case ADD_IMAGE_TO_PROJECT:
             return {
                 ...state,
-                msgProjects: { type: "success", message: "Imagine adaugata cu succes, va rugam faceti refresh paginii." },
+                msgProjects: { type: "success", message: "Imagine adaugata cu succes." },
             }
         case GET_PROJECT_BY_ID:
             return {
@@ -36,7 +36,7 @@ export default (state, action) => {
         case DELETE_PROJECT_BY_ID:
             return {
                 ...state,
-                msgProjects: { type: "success", message: "Proiect sters cu succes, va rugam faceti refresh paginii." },
+                msgProjects: { type: "success", message: "Proiect sters cu succes." },
             }
         case DUPLICATE_PROJECT_BY_ID:
             return {
@@ -46,7 +46,7 @@ export default (state, action) => {
         case UPDATE_PROJECT:
             return {
                 ...state,
-                msgProjects: { type: "success", message: "Proiectul a fost actualizats cu succes, va rugam faceti refresh paginii." },
+                msgProjects: { type: "success", message: "Proiectul a fost actualizats cu succes." },
             }
         case MSG_PROJECTS:
             return {

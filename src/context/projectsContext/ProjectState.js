@@ -32,6 +32,7 @@ const ProjectState = props => {
     }, [])
 
     const getProjects = () => {
+        console.log("getProjects started")
         axios
             .get("/project")
             .then((res) => dispatch({ type: GET_PROJECTS, payload: res.data }))
@@ -71,7 +72,7 @@ const ProjectState = props => {
         axios.post(url, fd)
             .then((res) => {
                 (dispatch({ type: ADD_IMAGE_TO_PROJECT, payload: res.data }))
-                //getProjects();
+                getProjects();
                 console.log("addImageToProject finished succesfully")
             })
             .catch((err) => {
@@ -98,15 +99,22 @@ const ProjectState = props => {
                 axios
                     .get(`/deleteProductByProjectId/${projectId}`)
             })
-            .then((res) => (console.log("Success")))
+            .then((res) => {
+                getProjects();
+                (console.log("Success"))
+            })
             .catch((err) => dispatch({ type: MSG_PROJECTS, payload: err }));
     };
 
     const duplicateProjectForId = (projectId) => {
         axios
             .post(`/project/${projectId}/duplicate`)
-            .then((res) => (dispatch({ type: DUPLICATE_PROJECT_BY_ID, payload: res.data })))
+            .then((res) => {
+                dispatch({ type: DUPLICATE_PROJECT_BY_ID, payload: res.data })
+                getProjects();
+            })
             .catch((err) => dispatch({ type: MSG_PROJECTS, payload: err }));
+
     };
 
     const updateProject = (projectId, projectProperties, productHandlerId) => {
