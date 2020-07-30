@@ -3,7 +3,7 @@ import Grid from "@material-ui/core/Grid";
 import Paper from '@material-ui/core/Paper';
 
 
-const RenderedPage = ({ layoutSpecs }) => {
+const RenderedPageOne = ({ layoutSpecs }) => {
 
     const {
         rowsLayout,
@@ -283,5 +283,5 @@ const RenderedPage = ({ layoutSpecs }) => {
 }
 
 
-export default RenderedPage
+export default RenderedPageOne
 

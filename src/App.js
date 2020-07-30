@@ -9,12 +9,11 @@ import "./App.css";
 
 import Navigation from "./components/Navigation";
 
-import Project from "./components/Project";
+import NewProject from "./components/NewProject";
 import NewTheme from "./components/NewTheme";
 import NewLayout from "./components/NewLayout";
 import NewProduct from "./components/NewProduct";
 
-import ProductState from "./context/productContext/ProductState"
 
 // For package.json
 axios.defaults.baseURL = "https://us-central1-editor-c70eb.cloudfunctions.net/api"
@@ -35,7 +34,7 @@ class App extends Component {
           <Switch>
 
             <Route exact path="/">
-              <Project />
+              <NewProject />
             </Route>
 
             <Route exact path="/creeazaLayout">

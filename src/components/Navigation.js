@@ -5,7 +5,6 @@ import Container from "@material-ui/core/Container";
 import logo from "../assets/logo.svg";
 import m1 from "../assets/cardMenu/m1.png";
 import m2 from "../assets/cardMenu/m2.png";
-import m3 from "../assets/cardMenu/m3.png";
 import m4 from "../assets/cardMenu/m4.png";
 import Paper from "@material-ui/core/Paper";
 import {
@@ -56,10 +55,6 @@ class Navigation extends React.Component {
           </Grid>
         </Grid>
 
-
-
-
-
         <Grid container className="cardMenu" spacing={2}>
           <Grid item xs={12} md={4}>
             <Link to="/">
@@ -77,14 +72,6 @@ class Navigation extends React.Component {
               </Paper>
             </Link>
           </Grid>
-          {/* <Grid item xs={12} md={3}>
-            <Link to="/creeazaTematica">
-              <Paper style={card} className="menuCard">
-                <img src={m3} style={image} alt="creeaza tematica" />
-                <h3 style={textCenter}>Creeaza tematica</h3>
-              </Paper>
-            </Link>
-          </Grid> */}
           <Grid item xs={12} md={4}>
             <Link to="/creeazaProdusComplet">
               <Paper style={card} className="menuCard">

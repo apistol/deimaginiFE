@@ -2,8 +2,8 @@ import React, { useState, useEffect, useContext } from 'react'
 import Draggable from 'react-draggable';
 import Button from "@material-ui/core/Button";
 
-import RenderedPage from "./RenderedPage";
-import RenderedSecondaryPage from "./RenderedSecondaryPage";
+import RenderedPageOne from "./RenderedPageOne";
+import RenderedPageTwo from "./RenderedPageTwo";
 import RenderedCover from "./RenderedCover";
 
 
@@ -11,6 +11,8 @@ import RenderedCover from "./RenderedCover";
 
 const Renderer = (props) => {
 
+
+    
     const {
         rendererWidth,
         rendererHeight,
@@ -94,7 +96,7 @@ const Renderer = (props) => {
                             {showOnlyForCategory(["Pagina"]) &&
 
                                 <div>
-                                    <RenderedPage layoutSpecs={{ ...props }} />
+                                    <RenderedPageOne layoutSpecs={{ ...props }} />
                                 </div>}
 
 
@@ -121,7 +123,7 @@ const Renderer = (props) => {
                             {showOnlyForCategory(["Pagina"]) &&
 
                                 <div>
-                                    <RenderedSecondaryPage layoutSpecs={{ ...props }} />
+                                    <RenderedPageTwo layoutSpecs={{ ...props }} />
                                 </div>}
 
 

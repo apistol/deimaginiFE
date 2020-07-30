@@ -11,7 +11,7 @@ import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 import DropDownLayouts from "../lowLeveComponents/DropDownLayouts";
-import RenderedPage from "../RenderedPage"
+import RenderedPageOne from "../RenderedPageOne"
 import RenderedCover from "../RenderedCover";
 import Draggable from 'react-draggable';
 
